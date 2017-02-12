@@ -1,0 +1,114 @@
+#!/usr/local/bin/tclsh
+
+lappend auto_path tcl
+package require astro
+namespace import ::astro::*
+package require Gdtclft
+
+array set config {
+    max 8
+    r 9
+    n 32
+    w 60
+    sx 2
+    h 120
+    sy 2
+    edbs /usr/X11R6/lib/xephem/edb/YBS.edb
+    zodiac {0 30 60 90 120 150 180 210 240 270 300 330}
+}
+
+proc init-stars {} {
+    global config color
+    set gs {}
+    set config(maxy) [expr $config(h)/$config(sy)/2]
+    foreach face $config(zodiac) {
+	set g [gd create $config(w) $config(h)]
+	set color(0) [gd color new $g 0 0 51]
+	gd color transparent $g $color(0)
+	for {set i 1} {$i < 256} {incr i} {
+	    set color($i) [gd color new $g $i $i $i]
+	}
+	lappend gs $g
+    }
+    set g $gs
+    return $g
+}
+
+proc dot {u v} {
+    foreach {ux uy uz} $u break
+    foreach {vx vy vz} $v break
+    expr {$ux*$vx+$uy*$vy+$uz*$vz}
+}
+
+proc project {g l b} {
+    global config
+    set i [expr int($l/30)]
+    list [lindex $g $i] [expr round($config(sx)*(30-($l-$i*30)))] [expr round($config(sy)*($config(maxy)-$b))]
+}
+
+proc write-stars {g} {
+    global config
+    foreach gd $g f $config(zodiac) {
+	set fp [open "| giftopnm | ppmtogif > Star$f.gif 2>/dev/null" w]
+	gd writeGIF $gd $fp
+	close $fp
+	puts "images.Star$f = new Myimage($config(w), $config(h), 'images/Star$f.gif');"
+    }
+}
+
+proc star {g lambda beta mag} {
+    global color config
+    foreach {g x y} [project $g $lambda $beta] break
+    #puts "star $g $x $y"
+    if {$x >= 0 && $x < $config(w) && $y >= 0 && $y < $config(h)} {
+	set col [expr 255-int(196*($mag+1.46)/7.5)]
+	gd set $g $color($col) $x $y
+    }
+}
+
+##
+##
+##
+
+foreach arg $argv {
+    if {[regexp {^([a-zA-Z0-9]+)=(.*)$} $arg all name value]} {
+	set config($name) $value
+    } else {
+	error "unrecognized option: $arg"
+    }
+}
+
+set mjd [cal_mjd 1999 3 1]
+
+set g [init-stars]
+
+set instar 0
+foreach edb $config(edbs) {
+    set f [open $edb r]
+    while {[gets $f line] >= 0} {
+	set data [split $line ,]
+	if {[llength $data] >= 6} {
+	    foreach {name type ra dec mag epoch} $data break
+	    incr instar
+	    if {$mag < $config(max)} {
+		foreach {lambda beta} [eq_ecl $mjd [hrrad [sexhr $ra]] [degrad [sexdeg $dec]]] break
+		set lambda [raddeg $lambda]
+		set beta [raddeg $beta]
+		lappend star($mag) [list $lambda $beta]
+	    }
+	}
+    }
+}
+
+set nstar 0
+foreach mag [lsort -decreasing -real [array names star]] {
+    foreach s $star($mag) {
+	foreach {lambda beta} $s break
+	star $g $lambda $beta $mag
+	incr nstar
+    }
+}
+
+# puts "$nstar/$instar processed"
+
+write-stars $g

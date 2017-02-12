@@ -1,0 +1,50 @@
+#!/usr/local/bin/tclsh
+
+set pts 13
+
+# The unicode range for these characters
+# is 0x263c - 0x2653 and 0x2604 - 0x260d
+foreach {c name keep} {
+    # Box 0
+    $ Ascending 0
+    % Descending 0
+    & Conjunction 0
+    ' Opposition 0
+    (  Sun 1
+    )  Mercury 1
+    * Venus 1
+    + Earth 1
+    , Mars 1
+    - Jupiter 1
+    . Saturn 1
+    / Uranus 1
+    0 Neptune 1
+    1 Pluto 1
+    2 Newmoon 0
+    3 Oldmoon 0
+    4 Sharp 0
+    5 Flat 0
+    6 Natural 0
+    7 Fingers 0
+    8 Aries 1
+    9 Taurus 1
+    : Gemini 1
+    ; Cancer 1
+    < Leo 1
+    = Virgo 1
+    > Libra 1
+    ? Scorpio 1
+    @ Saggitarius 1
+    A Capricorn 1
+    B Aquarius 1
+    C Pisces 1
+    D Rx 0
+} {
+    if { ! $keep } continue
+    exec ftstrpnm -p $pts  /dos/windows/fonts/bssym3.ttf \"$c\" | pnminvert 2>/dev/null > tmp.pnm
+    # isun.pnm:	PGM raw, 13 by 20  maxval 4
+    foreach {filename type style width by height maxval val} [exec pnmfile tmp.pnm] break
+    exec ppmtogif -transparent black tmp.pnm > $name.gif 2>&1
+    puts "images.$name = new Myimage($width, $height, 'images/$name.gif');"
+}
+file delete tmp.pnm

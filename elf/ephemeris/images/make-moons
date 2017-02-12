@@ -1,0 +1,55 @@
+#!/usr/local/bin/tclsh
+
+package require Gdtclft
+source tcl/moon-phase.tcl
+
+array set config {
+    r 9
+    n 32
+    w 20
+    h 20
+    file m20
+    bg {  0   0  51}
+    bm {  0   0 102}
+    fm {255 255 255}
+}
+
+foreach arg $argv {
+    if {[regexp {^([a-z0-9A-Z]+)=([^ ]*)$} $arg all name value]} {
+	set config($name) $value
+    } else {
+	error "unrecognized option format: $arg"
+    }
+}
+
+proc image {name width height gif} {
+    set out [open $name.gif w]
+    gd writeGIF $gif $out
+    close $out
+    puts "images.$name = new Myimage($width, $height, 'images/$name.gif');"
+}
+
+proc moon {p} {
+    global config
+    set xy {}
+    foreach {x y} [moon-phase $p $config(r) $config(n)] {
+	lappend xy [expr {$config(w)/2-round($x)}]  [expr {round($y)+$config(h)/2}]
+    }
+    return $xy
+}
+
+set back [moon 1/2]
+for {set i 0} {$i < 28} {incr i} {
+    set g [gd create $config(w) $config(h)]
+    set bg [eval gd color new $g $config(bg)]
+    set bm [eval gd color new $g $config(bm)]
+    set fm [eval gd color new $g $config(fm)]
+    gd color transparent $g $bg
+    gd fillpolygon $g $bm $back
+    if {$i != 0} {
+	gd fillpolygon $g $fm [moon $i/28]
+    }
+    image [format Moon%d $i] $config(w) $config(h) $g
+}
+
+exit
