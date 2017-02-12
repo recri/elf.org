@@ -1,0 +1,17 @@
+#!/bin/bash
+find . -name '*.html' -exec grep -q -s elf.js \{} \; -print | while read file; do echo $file; ed $file <<EOF
+g;elf\.js;s;;elf/;
+w
+q
+EOF
+done
+exit
+find . -name '*.html' -exec grep -q -s /.css%3FL.css/  \{} \; -print | while read file; do ed $file <<EOF
+g/.css%3FL.css/s//.css/
+g/.js%3FL/s//.js/
+w
+q
+EOF
+done
+exit
+
