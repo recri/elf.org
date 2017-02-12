@@ -1,4 +1,18 @@
 #!/bin/bash
+find . -name '*.html' -exec grep -q -s 'link type="text\.css"' \{} \; -print | while read file; do echo $file; ed $file <<EOF
+g;type="text\.css";s;;type="text/css";
+w
+q
+EOF
+done
+exit
+find . -name '*.html' -exec grep -q -s themes/elf// \{} \; -print | while read file; do echo $file; ed $file <<EOF
+g;themes/elf//;s;;themes/elf/js/;
+w
+q
+EOF
+done
+exit
 find . -name '*.html' -exec grep -q -s elf.js \{} \; -print | while read file; do echo $file; ed $file <<EOF
 g;elf\.js;s;;elf/;
 w
