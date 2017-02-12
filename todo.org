@@ -3,12 +3,13 @@
 	did none of the recommended drupal revisions
 [x] Use find -name "*.*\?*" | while read filename; do mv "$filename" "${filename%%\?*}"; done
 	to eliminate query strings
-[ ] fix calls to query strings in sources
+[x] fix calls to query strings in sources
 	s/%3FL.css//
 	s/.js%3FL/.js/
+[x] other fixes in ./fixup
 [x] index.html clean up formatting
-[ ] rustic font in banner is gone everywhere
-[ ] ephemeris/index.html images gone
+[x] rustic font in banner is gone everywhere
+[x] ephemeris/index.html images gone
 [ ] mankala/ applet is dead (oracle did it years ago)
 [ ] oindex.html no left navigation
 [ ] etc/subtile.html no left navigation
@@ -16,3 +17,5 @@
 [ ] processing/mudcrack.html processing applet is dead
 [ ] puzzle.html puzzle applet is dead
 [ ] clock is calling weird urls
+	some were rewritten weird and are fixed
+	but there are still some issues in the svg code
