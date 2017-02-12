@@ -1,0 +1,118 @@
+#!/usr/local/bin/tclsh
+
+##
+## tclshar - create a self extracting archive of directories and text files
+##
+## Placed into the public domain by rec@elf.org, January 1999.
+##
+## tclshar is a simplified version of the beloved shar utility. It uses
+## tclsh to create directories and recreate files in a system independent
+## manner so that tcl programs, and other computer texts, with directory
+## tree structure can traverse system boundaries.
+##
+## tclshar version 2 inserts conditional wish code into the tclshar
+## so that a wish executing the archive collects the information
+## messages into a scrollable text widget and enables a done button
+## when the extraction is finished.  August 1999.
+##
+proc find {command local restore} {
+    set flocal [eval file join $local];
+    if { ! [file exists $flocal]} {
+	error "pathname: $flocal does not exist"
+    } else {
+	$command $local $restore
+    }
+    if {[file isdirectory $flocal]} {
+	set glocal [eval file join $local *]
+	foreach path [glob $glocal] {
+	    set llocal [file split $path]
+	    set lfile [lindex $llocal end]
+	    set lrestore [concat $restore $lfile]
+	    if {"$lfile" == {.} || "$lfile" == {..}} continue
+	    find $command $llocal $lrestore
+	}
+    }
+}
+
+proc shar {local restore} {
+    global done
+    if { ! [info exists done($restore)]} {
+	set flocal [eval file join $local]
+	puts "set restore \[file join $restore]"
+	if {[file isdirectory $flocal]} {
+	    puts {msg "creating directory $restore"}
+	    puts {if {[catch {file mkdir $restore} error]} { msg "failed to create directory $restore" } }
+	} else {
+	    set fp [open $flocal r]
+	    puts {msg "restoring file $restore"}
+	    puts {if {[catch {open $restore w} fp]} { msg "failed to create file $restore" } }
+	    set lines [split [read $fp] \n]
+	    set lastline [lindex $lines end]
+	    set lines 
+	    close $fp
+	    foreach line [lrange $lines 0 [expr {[llength $lines]-2}]] {
+		puts "puts \$fp [list $line]"
+	    }
+	    if {[string length $lastline] != 0} {
+		puts "puts -nonewline \$fp [list $lastline]"
+	    }
+	    puts {close $fp}
+	}
+	set done($restore) 1
+    }
+}
+
+set locals {}
+set restores {}
+
+proc collect {local restore} {
+    global locals restores
+    if {[lsearch $locals $local] < 0} {
+	lappend locals $local
+	lappend restores $restore
+    }
+}
+
+puts "#!/usr/local/bin/wish"
+puts "# This is a tclshar created [clock format [clock seconds]]."
+puts "# Source this file into wish or tclsh to extract the directories"
+puts "# and files from this archive."
+set home [file split [pwd]]
+foreach arg $argv {
+    find collect [concat $home [list $arg]] $arg
+}
+puts "# Files included in this archive:"
+set line {}
+foreach restore $restores {
+    set restore [eval file join $restore]
+    if {[string length $line] == 0 || [string length "$line $restore"] < 80} {
+	;
+    } else {
+	puts "# $line"
+	set line {}
+    }
+    append line { } $restore
+}
+if {[string length $line] != 0} {
+    puts "# $line"
+}
+puts "#"
+puts {
+    if { ! [catch {winfo exists .}]} {
+	pack [frame .f] -side top -fill both -expand true
+	pack [text .t -yscrollcommand {.y set}] -in .f -side left -fill both -expand true
+	pack [scrollbar .y -orient vertical -command {.t yview}] -in .f -side left -fill y
+	pack [button .b -text Done -command {destroy .} -state disabled] -side top
+	proc msg {str} { .t insert end $str\n; update }
+    } else {
+	proc msg {str} { puts $str }
+    }
+}
+foreach local $locals restore $restores {
+    shar $local $restore
+}
+puts {
+    if { ! [catch {winfo exists .}]} {
+	.b configure -state normal
+    }
+}

@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <LINK REV=MADE HREF="mailto:info@elf.org">
+    <meta name="GENERATOR" content="Roger E Critchlow Jr">
+    <meta name="DESCRIPTION" content="Quantum Classical Clock">
+    <meta name="KEYWORDS" content="Quantum Mechanics, Classical Mechanics, Reversible Logic, Clock, Graphical Timepiece">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+    <link rel="stylesheet" type="text/css" href="../style/elf.css" media="all"/>
+    <title>The Quantum Classical Clock</title>
+	<!-- note that the meta content-script-type sets the default for these -->
+	<script src="js/color.js" ></script>
+	<script src="js/canvas.js" ></script>
+	<script src="js/complex.js" ></script>
+	<script src="js/parse-search.js" ></script>
+	<script src="js/clock.js" ></script>
+	<script>
+	  function submit_form() {
+	    // alert("submit_form called");
+	    var args = { impl:'canvas'
+	  /* , mag_cut: '0.02', dial: '3ring', hand_shape: 'circle', hand_style: 'dwindle,phase', kind: 'quantum', width: '300', height: '300' */
+		};
+		for (var i in args) {
+		  var input = document.getElementById(i);
+		  if (input.type == 'select-one') {
+	        args[i] = input.options[input.selectedIndex].value;
+	      } else if (input.type == 'text') {
+	        args[i] = input.value;
+	      } else {
+	        args[i] = i+' unknown input.type = '+input.type
+	      }
+		}
+	    if (args.impl == 'canvas') {
+	      document.forms.rollit.action = 'clock.html';
+        } else {
+	      document.forms.rollit.action = 'clock.svg';
+        }
+	    document.forms.rollit.submit();
+	  }
+	</script>
+	<style type="text/css">
+	  .form {
+		font-family: verdana, geneva, arial, helvetica, sans-serif; 
+		font-size: 11px; 
+		text-decoration: none; 
+		font-weight: normal; 
+		line-height: normal; 
+	  }
+	</style>
+  </head>
+  <body text="#000" bgcolor="#ffffff" background="../images/el_bg.gif" link="#993333" vlink="#333399" alink="#cc3333" onload="start_clock()">
+	<div id="header">
+      <img src="../images/cloud-banner.jpg" width="500" height="50" vspace="25" hspace="25" alt="clouds"><br>
+	</div>
+
+	<div class="container">
+	  <div class="left">
+		<div class="menu">
+		  <br/>
+
+		  <b>Canvas Clocks</b><br/>
+		  <div class="menu">
+			<b>Quantum</b><br/>
+			<a href="clock.html%3Fhand_style=phase,dwindle&amp;hand_shape=circle.html">No. 1</a><br/>
+			<a href="clock.html%3Fhand_shape=lozenge&amp;hand_style=fade&amp;dial=face.html">Lozenge hands</a><br/>
+			<a href="clock.html%3Fhand_shape=bar&amp;hand_style=fade&amp;dial=face.html">Bar hands</a><br/>
+			<a href="clock.html%3Fhand_style=phase,dwindle&amp;hand_shape=lozenge&amp;dial=face&amp;mag_cut=0.0.html">Firebird</a><br/>
+		  </div>
+		  <div class="menu">
+			<b>Discrete</b><br/>
+			<a href="clock.html%3Fkind=discrete&amp;hand_shape=circle.html">No. 1</a><br/>
+			<a href="clock.html%3Fkind=discrete&amp;hand_shape=lozenge&amp;dial=face.html">Lozenge hands</a><br/>
+			<a href="clock.html%3Fkind=discrete&amp;hand_shape=bar&amp;dial=face.html">Bar hands</a><br/>
+		  </div>
+		  <div class="menu">
+			<b>Continuous</b><br/>
+			<a href="clock.html%3Fkind=continuous&amp;hand_shape=circle.html">No. 1</a><br/>
+			<a href="clock.html%3Fkind=continuous&amp;hand_shape=lozenge&amp;dial=face.html">Lozenge hands</a><br/>
+			<a href="clock.html%3Fkind=continuous&amp;hand_shape=bar&amp;dial=face.html">Bar hands</a><br/>
+		  </div>
+		  <br/>
+		  <b>SVG Clocks</b><br/>
+		  <div class="menu">
+			<b>Quantum</b><br/>
+			<a href="clock.svg%3Fimpl=svg&amp;hand_style=phase,dwindle&amp;hand_shape=circle">No. 1</a><br/>
+			<a href="clock.svg%3Fimpl=svg&amp;hand_style=fade&amp;hand_shape=lozenge&amp;dial=face">Lozenge hands</a><br/>
+			<a href="clock.svg%3Fimpl=svg&amp;hand_style=fade&amp;hand_shape=bar&amp;dial=face">Bar hands</a><br/>
+			<a href="clock.svg%3Fimpl=svg&amp;hand_style=phase,dwindle&amp;hand_shape=lozenge&amp;dial=face&amp;mag_cut=0.0">Firebird</a><br/>
+		  </div>
+		  <div class="menu">
+			<b>Discrete</b><br/>
+			<a href="clock.svg%3Fimpl=svg&amp;kind=discrete&amp;hand_shape=circle">No. 1</a><br/>
+			<a href="clock.svg%3Fimpl=svg&amp;kind=discrete&amp;hand_shape=lozenge&amp;dial=face">Lozenge hands</a><br/>
+			<a href="clock.svg%3Fimpl=svg&amp;kind=discrete&amp;hand_shape=bar&amp;dial=face">Bar hands</a><br/>
+		  </div>
+		  <div class="menu">
+			<b>Continuous</b><br/>
+			<a href="clock.svg%3Fimpl=svg&amp;kind=continuous&amp;hand_shape=circle">No. 1</a><br/>
+			<a href="clock.svg%3Fimpl=svg&amp;kind=continuous&amp;hand_shape=lozenge&amp;dial=face">Lozenge hands</a><br/>
+			<a href="clock.svg%3Fimpl=svg&amp;kind=continuous&amp;hand_shape=bar&amp;dial=face">Bar hands</a><br/>
+		  </div>
+		  <br/>
+		  <b>Clock Roller</b><br/>
+		  <form name="rollit" action="http://elf.org/quantum-classical-clock/clock.html" method="get">
+			<select class="form" name="kind" id="kind">
+			  <option class="form">discrete</option>
+			  <option class="form">continuous</option>
+			  <option class="form" selected="">quantum</option>
+			</select>
+			<br/>
+			<select class="form" name="dial" id="dial">
+			  <option class="form" selected="">3ring</option>
+			  <option class="form">face</option>
+			</select>
+			<br/>
+			<select class="form" name="hand_shape" id="hand_shape">
+			  <option class="form" selected="">circle</option>
+			  <option class="form">square</option>
+			  <option class="form">diamond</option>
+			  <option class="form">triangle</option>
+			  <option class="form">lozenge</option>
+			  <option class="form">bar</option>
+			</select>
+			<br/>
+			<select class="form" name="impl" id="impl">
+			  <option class="form" selected="">canvas</option>
+			  <option class="form">svg</option>
+			</select>
+			<br/>
+			<label for="mag_cut:"/>Cutoff</label>
+			<select class="form" name="mag_cut" id="mag_cut">
+			  <option class="form">0.2</option>
+			  <option class="form">0.1</option>
+			  <option class="form">0.07</option>
+			  <option class="form">0.04</option>
+			  <option class="form" selected="">0.02</option>
+			  <option class="form">0.01</option>
+			  <option class="form">0.007</option>
+			  <option class="form">0.004</option>
+			  <option class="form">0.002</option>
+			  <option class="form">0.001</option>
+			</select>*
+			<br/>
+			<select class="form" name="hand_style" id="hand_style">
+			  <option class="form">fade</option>
+			  <option class="form">dwindle</option>
+			  <option class="form">thin</option>
+			  <option class="form">phase</option>
+			  <option class="form">fade,dwindle</option>
+			  <option class="form">fade,thin</option>
+			  <option class="form">fade,phase</option>
+			  <option class="form" selected="">dwindle,phase</option>
+			  <option class="form">thin,phase</option>
+			  <!-- <option class="form">fade,dwindle,phase</option> 
+			  <option class="form">fade,thin,phase</option> -->
+			</select>*
+			<br/>
+			<label for="width">Width:</label><input class="form" type="text" name="width" id="width" size="3" value="300" />
+			<br/>
+			<label for="height">Height:</label><input class="form" type="text" name="height" id="height" size="3" value="300" />
+			<br/>
+			<button class="form" type="button" onclick="javascript:submit_form()">roll it</button><br/>
+			<b>*</b> - only for quantum
+		  </form>
+		  <br/>
+		  <a href="colophon/colophon.html">Details</a><br/>
+		</div>
+	  </div>
+	  
+	  <div class="main">
+		<b>The Quantum Classical Clock</b>
+		<p>
+		  <canvas id="clock">
+			The clock rendered in a canvas using an html5 browser.
+		  </canvas>
+		</p><p>
+		  This clock simulates three quantum classical shift
+		  registers.  The position of each clock hand corresponds to a
+		  single moving 1-bit in one of the three shift registers.  In
+		  the quantum description the 1-bit is in a superposition of
+		  integer positions.  This is indicated by the color of each
+		  dot (wavefunction phase) and its size (wavefunction
+		  magnitude). The integer-position values can be considered
+		  discrete samples of a uniformly moving continuous
+		  wavefunction with a bandlimited  Fourier spectrum, which can
+		  be exactly reconstructed from just the integer-position
+		  values.
+		</p><p>
+		  Quantum classical shift registers are described by Norman
+		  Margolus in <a href="http://arxiv.org/abs/0805.3357">
+			Mechanical Systems that are both Classical and
+		  Quantum</a>.  Here is an <a href="quantum-classical-shift-register.html">illustration
+		  of discrete, continuous, and quantum shift registers</a>
+		  clocking at the same rate, with some discussion.
+		</p><p>
+		  The physics of these devices is interesting because it
+		  provides an abstraction of computation at the level of bits
+		  that can be analyzed as a classical system or a quantum
+		  system.  One normally thinks of classical and quantum
+		  mechanics as existing on opposite sides of a great divide,
+		  each being true under its own set of conditions, and never
+		  the two shall meet.  However, here they meet, and they must
+		  both be true.
+		</p><p>
+		  The clocks are implemented using javascript running in your
+		  browser to draw and animate the images.  The "canvas"
+		  versions use the html5 &lt;canvas&gt; element.  They will,
+		  eventually, run on all modern, standards compliant browsers,
+		  even smartphones.  The "SVG" versions use Structured Vector
+		  Graphics and will, eventually, run on all modern, standards
+		  compliant browsers, too, but they run on fewer at the moment
+		  for no good reason. 
+		</p><p>
+		  The visual design of the clocks is being driven by the
+		  software problems of making two different rendering
+		  techniques produce the same animated images.  This forces
+		  the visual design into easily parameterized code.  But this
+		  does not necessarily produce the most visually interesting
+		  designs.  
+		</p><p>
+	      The Quantum Classical Clock is Copyright &#169; 2009 by Roger E Critchlow Jr,
+          Santa Fe, New Mexico, USA.
+          All rights reserved.
+          Permission granted for reproduction for personal or educational use.
+		</p>
+	  </div>
+	</div>
+	
+	<div id="footer">
+      <div class="left"></div>
+      <div class="main">
+        <center>
+          &copy; Copyright 2009 by <address><a href="mailto:info@elf.org">Roger E Critchlow Jr</a></address>
+          Santa Fe, NM, USA<br/>
+		  <!-- hhmts start -->Last modified: Tue Feb 10 2009<!-- hhmts end -->
+		  <address><a href="http://www.elf.org">elf.org</a></address>
+        </center>
+      </div>
+	</div>
+  </body>
+</html>

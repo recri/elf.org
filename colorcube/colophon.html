@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <LINK REV=MADE HREF="mailto:info@elf.org">
+    <meta name="GENERATOR" CONTENT="Roger E Critchlow Jr">
+    <meta name="DESCRIPTION" CONTENT="javascript colorcube implementation details.  Author: Roger E Critchlow Jr">
+    <meta name="KEYWORDS" CONTENT="javascript, inline web images, browser safe palette">
+    <title>Colorcube Colophon @ Elf.Org</title>
+  </head>
+  <body text="#000" bgcolor="#ffffff" background="../images/el_bg.gif" link="#993333" vlink="#333399" alink="#cc3333">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+	<td width="5"><img src="../images/pixel.gif" width="5" height="1" alt=""></td>
+	<td width="125" valign="TOP"><img src="../images/pixel.gif" width="125" height="1" alt="" vspace="17"><br>
+	  <a href="index.html">Colorcube</a><br>
+	  <a href="index.html">Use giflets</a><br>
+	  <a href="index.html%3Ftrue.html">Use gifs</a><br>
+	  <a href="http://www.lynda.com">Browser safe palette</a><br>
+	  <a href="ftp://ietf.cnri.reston.va.us/internet-drafts/draft-masinter-url-data-03.txt">
+	Data urls</a>
+	  <a href="http://www.irt.org/">irt.org</a>
+	  <a href="http://www.elf.org">elf.org</a>
+	</td>
+	<td width="25"><img src="../images/pixel.gif" width="25" height="1" alt=""></td>
+	<td width="365" valign="TOP"><img src="../images/pixel.gif" width="365" height="1" alt="" vspace="3"><br>
+	  <b>Colorcube Colophon</b>
+	  <hr>
+	  <p>
+	    <a href="index.html">Colorcube</a> presents the slice of a plane
+	    through the
+	    <a href="http://www.lynda.com">browser safe palette</a>,
+	    a 6x6x6 colorcube which the major browsers support on 8
+	    bit color displays.  When the plane exits the cube before
+	    a complete 6x6 slice is completed, it is wrapped back
+	    through for another pass. Pressing on a frame button
+	    alters the plane.  There may be some bugs yet to be worked
+	    out.  Looking at it, I'm not sure that I believe my own
+	    explanation of how it works just now, but it does generate
+	    some interesting combinations of colors to look at.
+	  <p>
+	    By default, colorcube uses
+	    <code>src=&quot;javascript:gifdata&quot;</code>
+	    urls to display images. This means that images are
+	    downloaded in javascript source rather than as image
+	    files.  The archive of images downloaded by colorcube
+	    contains all the 1 by 1 gifs in any color specified by 24
+	    bits of RGB, the (always fashionable) 1 by 1 transparent
+	    gif image, and a single image for our frame.  The 2^24
+	    color gifs are, obviously, synthesized on the fly rather
+	    than enumerated in the source file which is only 2455
+	    bytes large.
+	  <p>
+	    An alternative implementation of colorcube is available
+	    through the <a href="index.html%3Ftrue.html">Use Gifs</a> link.
+	    In this case the page will download the necessary gifs
+	    from my server rather than synthesizing them inline.  This
+	    should allow a comparison between inline and individually
+	    served images.
+	  <p>
+	    In principle this method of encoding images could be used
+	    to convert whole collections of images into javascript
+	    source, which could then archived and compressed into a
+	    jar file with the rest of a site's javascript, and all
+	    delivered with a single http transfer.  Then rather than
+	    waiting and wondering when, or if, the rest of images
+	    required for rendering a page would be coughed up by the
+	    server, one would know that they were all present as soon
+	    as the archive arrived. 
+	  <p>
+	    Support for these constructs appears to be in the version 4
+	    browsers.  Thus far I've verified the following:
+	  <center><table border="0">
+	      <tr><th>Browser</th><th>Version</th><th>Platform</th><th>Support</th></tr>
+	      <tr><td>Netscape</td><td>4.07</td><td>Linux</td><td>yes</td></tr>
+	      <tr><td>Netscape</td><td>4.07</td><td>Mac</td><td>yes</td></tr>
+	      <tr><td>Netscape</td><td>4.51</td><td>Linux</td><td>yes</td></tr>
+	      <tr><td>Netscape</td><td>4.51</td><td>Win95</td><td>yes</td></tr>
+	      <tr><td>Netscape</td><td>4.51</td><td>Mac</td><td>yes</td></tr>
+	      <tr><td>IExplorer</td><td>4.01</td><td>Win95</td><td>?</td></tr>
+	      <tr><td>IExplorer</td><td>5.0</td><td>Win95</td><td>?</td></tr>
+	      <tr><td>Opera</td><td>3.51</td><td>Win95</td><td>?</td></tr>
+	    </table></center>
+	  Explorer worked with the page I used yesterday, but both
+	  4.01 and 5.0 fail today, so there must be some borderline
+	  portable code in my javascript. Please
+	  <a href="mailto:info@elf.org">send me</a> any examples of
+	  support or non support which alter or extend this table, or
+	  corrections to the code which allow it to run on more
+	  platforms.  Opera doesn't display either the giflet or the
+	  gif version of the colorcube page.
+	  <p>
+	    My original goal was to find any way that a JavaScript
+	    program could compute graphics and insert the computed
+	    graphics into a web page.  One possibility was to use
+	  <pre><code>
+document.open('image/gif');
+document.write(image_gif_data);</code></pre>
+	  to write gif images into selected documents.  It turns out,
+	  after much fruitless effort on my part, that while
+	  <code>document.open()</code> will open documents with mime
+	  type 'image/gif' <code>document.write()</code> cannot write
+	  the character with value 0, which makes it very difficult to
+	  write gif file data.
+	  <p>
+	    A second possibility was to use
+      <a href="ftp://ietf.cnri.reston.va.us/internet-drafts/draft-masinter-url-data-03.txt">
+	      data urls</a> in which the value of a small object can
+	    be encoded inline as base64 content.  Since the data in a
+	    tag is limited, in worst case, to 1024 bytes, only fairly
+	    small images could be displayed this way.
+	  <p>
+	    As luck would have it, I asked for help on the
+	    comp.lang.javascript newsgroup, and
+	    <a href="http://www.irt.org/">Martin Webb</a> came up with
+	    a third solution to the problem.  This uses a javascript
+	    url to supply the data for the <code>src=</code> field of
+	    an image. The data is neither written nor encoded, it is
+	    simply supplied as the result of a javascript expression.
+	    Thus we may write a url as:
+	    <code><pre>javascript:'GIF89a\1\0\1\0\200[...]\1\0;'</pre></code>
+	  which specifies the 1 pixel square transparent gif as a
+	  javascript literal string.  Or we might store that data into
+	  a global variable:
+	  <code><pre>var trans = 'GIF89a\1\0\1\0\200[...]\1\0;'</pre></code>
+	  and then write the url as:
+	  <code><pre>javascript:transparent</pre></code>
+	  <hr>
+	  <center>
+	    <address><a href="mailto:info@elf.org">Roger E Critchlow Jr</a></address>
+	    <address><a href="http://www.elf.org">elf.org</a></address>
+<!-- Created: Sun Mar  7 11:20:05 MST 1999 -->
+<!-- hhmts start -->
+Last modified: Fri May 16 19:46:40 MDT 2003
+<!-- hhmts end -->
+    </center>
+	</td>
+      </tr>
+    </table>
+  </body>
+</html>

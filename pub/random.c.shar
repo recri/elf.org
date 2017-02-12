@@ -1,0 +1,472 @@
+#! /bin/sh
+# This is a shell archive.  Remove anything before this line, then unpack
+# it by saving it into a file and typing "sh file".  To overwrite existing
+# files, type "sh file -c".  You can also feed this as standard input via
+# unshar, or by typing "sh <file", e.g..  If this archive is complete, you
+# will see the following message at the end:
+#		"End of shell archive."
+# Contents:  random.h random.c mother.c
+# Wrapped by rec@elf115.elf.org on Sat Sep 30 13:51:25 1995
+PATH=/bin:/usr/bin:/usr/ucb ; export PATH
+if test -f 'random.h' -a "${1}" != "-c" ; then 
+  echo shar: Will not clobber existing file \"'random.h'\"
+else
+echo shar: Extracting \"'random.h'\" \(175 characters\)
+sed "s/^X//" >'random.h' <<'END_OF_FILE'
+X#define RAND16_MAX	((unsigned)0xFFFF)
+X#define RAND32_MAX	((unsigned)0xFFFFFFFF)
+X
+Xunsigned rand16(void);
+Xvoid srand16(unsigned);
+Xunsigned rand32(void);
+Xvoid srand32(unsigned);
+END_OF_FILE
+if test 175 -ne `wc -c <'random.h'`; then
+    echo shar: \"'random.h'\" unpacked with wrong size!
+fi
+# end of 'random.h'
+fi
+if test -f 'random.c' -a "${1}" != "-c" ; then 
+  echo shar: Will not clobber existing file \"'random.c'\"
+else
+echo shar: Extracting \"'random.c'\" \(3460 characters\)
+sed "s/^X//" >'random.c' <<'END_OF_FILE'
+X/*
+X** random, srandom, rand, srand - George Marsaglia's Mother of All Random
+X** Number Generators.
+X**
+X** Copyright 1995, Roger E Critchlow Jr., San Francisco, California.
+X** All rights reserved.  Fair use permitted.  Caveat emptor.  No warranty.
+X*/
+X
+X#include <_random.h>
+X
+X/*
+X** This code is derived from code written and distributed by Bob Wheeler.
+X*/
+X
+X/* Mother **************************************************************
+X|	George Marsaglia's The mother of all random number generators
+X|	producing uniformly distributed pseudo random 32 bit values with
+X|	period about 2^250.
+X|
+X|	The arrays mother1 and mother2 store carry values in their
+X|	first element, and random 16 bit numbers in elements 1 to 8.
+X|	These random numbers are moved to elements 2 to 9 and a new
+X|	carry and number are generated and placed in elements 0 and 1.
+X|	The arrays mother1 and mother2 are filled with random 16 bit values
+X|	on first call of Mother by another generator.  mStart is the switch.
+X|
+X|	Returns:
+X|	A 32 bit random number is obtained by combining the output of the
+X|	two generators and returned in *pSeed.  It is also scaled by
+X|	2^32-1 and returned as a double between 0 and 1
+X|
+X|	SEED:
+X|	The inital value of *pSeed may be any long value
+X|
+X|	Bob Wheeler 8/8/94
+X*/
+X
+Xtypedef struct {
+X  unsigned short mother[10];
+X  unsigned short coeff[8];
+X} randstate;
+X
+Xstatic randstate m1 = { { }, { 1941, 1860, 1812, 1776, 1492, 1215, 1066, 12013 } };
+Xstatic randstate m2 = { { }, { 1111, 2222, 3333, 4444, 5555, 6666, 7777,  9272 } };
+Xstatic randstate m3 = { { }, { 1941, 1860, 1812, 1776, 1492, 1215, 1066, 12013 } };
+X
+Xstatic void srand(unsigned long seed, randstate *m)
+X{
+X  unsigned short half = seed & 0xFFFF;				/* The low 16 bits */
+X  unsigned long whole = seed & 0x7FFFFFFF;			/* Only want 31 bits */
+X
+X  m->mother[0] = half = 0xFFFF & (whole = 30903 * half + (whole >> 16));
+X  m->mother[1] = half = 0xFFFF & (whole = 30903 * half + (whole >> 16));
+X  m->mother[2] = half = 0xFFFF & (whole = 30903 * half + (whole >> 16));
+X  m->mother[3] = half = 0xFFFF & (whole = 30903 * half + (whole >> 16));
+X  m->mother[4] = half = 0xFFFF & (whole = 30903 * half + (whole >> 16));
+X  m->mother[5] = half = 0xFFFF & (whole = 30903 * half + (whole >> 16));
+X  m->mother[6] = half = 0xFFFF & (whole = 30903 * half + (whole >> 16));
+X  m->mother[7] = half = 0xFFFF & (whole = 30903 * half + (whole >> 16));
+X  m->mother[0] &= 0x7FFF;
+X}
+X  
+Xstatic unsigned rand(randstate *m)
+X{
+X  unsigned long number;
+X
+X  /* Move elements 1 to 8 to 2 to 9 */
+X  m->mother[9] = m->mother[8];
+X  m->mother[8] = m->mother[7];
+X  m->mother[7] = m->mother[6];
+X  m->mother[6] = m->mother[5];
+X  m->mother[5] = m->mother[4];
+X  m->mother[4] = m->mother[3];
+X  m->mother[3] = m->mother[2];
+X  m->mother[2] = m->mother[1];
+X
+X  /* Form the linear combinations */
+X  number = (m->mother[0] +
+X	    m->coeff[0] * m->mother[2] + m->coeff[1] * m->mother[3] + m->coeff[2] * m->mother[4] + m->coeff[3] * m->mother[5] +
+X	    m->coeff[4] * m->mother[6] + m->coeff[5] * m->mother[7] + m->coeff[6] * m->mother[8] + m->coeff[7] * m->mother[9]);
+X
+X  /* Save the high bits as the new carry */
+X  m->mother[0] = number >> 16;
+X
+X  /* Save the low bits into mother[1], and return them */
+X  return m->mother[1] = number;
+X
+X}
+X
+Xvoid srand16(unsigned seed)
+X{
+X  srand(seed, &m3);
+X}
+X
+Xunsigned rand16(void)
+X{
+X  return rand(&m3);
+X}
+X
+Xvoid srand32(unsigned seed)
+X{
+X  srand(seed, &m1);
+X  srand(seed, &m2);
+X}
+X
+Xunsigned rand32()
+X{
+X  return (rand(&m1) << 16) | rand(&m2);
+X}
+END_OF_FILE
+if test 3460 -ne `wc -c <'random.c'`; then
+    echo shar: \"'random.c'\" unpacked with wrong size!
+fi
+# end of 'random.c'
+fi
+if test -f 'mother.c' -a "${1}" != "-c" ; then 
+  echo shar: Will not clobber existing file \"'mother.c'\"
+else
+echo shar: Extracting \"'mother.c'\" \(9853 characters\)
+sed "s/^X//" >'mother.c' <<'END_OF_FILE'
+X#include <string.h>
+Xstatic unsigned short mother1[10];
+Xstatic unsigned short mother2[10];
+Xstatic short mStart=1;
+X
+X#define m16Long 65536L				/* 2^16 */
+X#define m16Mask 0xFFFF          /* mask for lower 16 bits */
+X#define m15Mask 0x7FFF			/* mask for lower 15 bits */
+X#define m31Mask 0x7FFFFFFF     /* mask for 31 bits */
+X#define m32Double  4294967295.0  /* 2^32-1 */
+X
+X/* Mother **************************************************************
+X|	George Marsaglia's The mother of all random number generators
+X|	producing uniformly distributed pseudo random 32 bit values with
+X|	period about 2^250.
+X|	The text of Marsaglia's posting is appended at the end of the function.
+X|
+X|	The arrays mother1 and mother2 store carry values in their
+X|	first element, and random 16 bit numbers in elements 1 to 8.
+X|	These random numbers are moved to elements 2 to 9 and a new
+X|	carry and number are generated and placed in elements 0 and 1.
+X|	The arrays mother1 and mother2 are filled with random 16 bit values
+X|	on first call of Mother by another generator.  mStart is the switch.
+X|
+X|	Returns:
+X|	A 32 bit random number is obtained by combining the output of the
+X|	two generators and returned in *pSeed.  It is also scaled by
+X|	2^32-1 and returned as a double between 0 and 1
+X|
+X|	SEED:
+X|	The inital value of *pSeed may be any long value
+X|
+X|	Bob Wheeler 8/8/94
+X*/
+X
+X
+Xunsigned IntMother(unsigned long *pSeed)
+X{
+X  unsigned long  number,  number1,  number2;
+X  short n,  *p;
+X  unsigned short sNumber;
+X
+X  /* Initialize motheri with 9 random values the first time */
+X  if (mStart) {
+X    sNumber=*pSeed&m16Mask;					/* The low 16 bits */
+X    number=*pSeed&m31Mask;					/* Only want 31 bits */
+X
+X    p=mother1;
+X    for (n=18;n--;) {
+X      number=30903*sNumber+(number>>16);			/* One line multiply-with-cary */
+X      *p++=sNumber=number&m16Mask;
+X      if (n==9)
+X	p=mother2;
+X    }
+X    /* make cary 15 bits */
+X    mother1[0]&=m15Mask;
+X    mother2[0]&=m15Mask;
+X    mStart=0;
+X  }
+X
+X  /* Move elements 1 to 8 to 2 to 9 */
+X  memmove(mother1+2,mother1+1,8*sizeof(short));
+X  memmove(mother2+2,mother2+1,8*sizeof(short));
+X
+X  /* Put the carry values in numberi */
+X  number1=mother1[0];
+X  number2=mother2[0];
+X
+X  /* Form the linear combinations */
+X	
+X  number1+=1941*mother1[2]+1860*mother1[3]+1812*mother1[4]+1776*mother1[5]+
+X				
+X    1492*mother1[6]+1215*mother1[7]+1066*mother1[8]+12013*mother1[9];
+X	
+X  number2+=1111*mother2[2]+2222*mother2[3]+3333*mother2[4]+4444*mother2[5]+
+X				
+X    5555*mother2[6]+6666*mother2[7]+7777*mother2[8]+9272*mother2[9];
+X
+X  /* Save the high bits of numberi as the new carry */
+X  mother1[0]=number1/m16Long;
+X  mother2[0]=number2/m16Long;
+X  /* Put the low bits of numberi into motheri[1] */
+X  mother1[1]=m16Mask&number1;
+X  mother2[1]=m16Mask&number2;
+X
+X  /* Combine the two 16 bit random numbers into one 32 bit */
+X  return *pSeed=(((long)mother1[1])<<16)+(long)mother2[1];
+X
+X}
+X
+Xdouble Mother(unsigned long *pSeed)
+X{
+X  /* Return a double value between 0 and 1 */
+X  return IntMother(pSeed)/m32Double;
+X}
+X
+X/*********************
+XMarsaglia's comments
+X*/
+X/*
+X		 Yet another RNG
+XRandom number generators are frequently posted on
+Xthe network; my colleagues and I posted ULTRA in
+X1992 and, from the number of requests for releases
+Xto use it in software packages, it seems to be
+Xwidely used.
+X
+XI have long been interested in RNG's and several
+Xof my early ones are used as system generators or
+Xin statistical packages.
+X
+XSo why another one?  And why here?
+X
+XBecause I want to describe a generator, or
+Xrather, a class of generators, so promising
+XI am inclined to call it
+X
+X	The Mother of All Random Number Generators
+X
+Xand because the generator seems promising enough
+Xto justify shortcutting the many months, even
+Xyears, before new developments are widely
+Xknown through publication in a journal.
+X
+XThis new class leads to simple, fast programs that
+Xproduce sequences with very long periods.  They
+Xuse multiplication, which experience has shown
+Xdoes a better job of mixing bits than do +,- or
+Xexclusive-or, and they do it with easily-
+Ximplemented arithmetic modulo a power of 2, unlike
+Xarithmetic modulo a prime.  The latter, while
+Xsatisfactory, is difficult to implement.  But the
+Xarithmetic here modulo 2^16 or 2^32 does not suffer
+Xthe flaws of ordinary congruential generators for
+Xthose moduli: trailing bits too regular.  On the
+Xcontrary, all bits of the integers produced by
+Xthis new method, whether leading or trailing, have
+Xpassed extensive tests of randomness.
+X
+XHere is an idea of how it works, using, say, integers
+Xof six decimal digits from which we return random 3-
+Xdigit integers.  Start with n=123456, the seed.
+X
+XThen form a new n=672*456+123=306555 and return 555.
+XThen form a new n=672*555+306=373266 and return 266.
+XThen form a new n=672*266+373=179125 and return 125,
+X
+Xand so on.  Got it?  This is a multiply-with-carry
+Xsequence x(n)=672*x(n-1)+ carry mod b=1000, where
+Xthe carry is the number of b's dropped in the
+Xmodular reduction. The resulting sequence of 3-
+Xdigit x's has period 335,999.  Try it.
+X
+XNo big deal, but that's just an example to give
+Xthe idea. Now consider the sequence of 16-bit
+Xintegers produced by the two C statements:
+X
+Xk=30903*(k&65535)+(k>>16); return(k&65535);
+X
+XNotice that it is doing just what we did in the
+Xexample: multiply the bottom half (by 30903,
+Xcarefully chosen), add the top half and return the
+Xnew bottom.
+X
+XThat will produce a sequence of 16-bit integers
+Xwith period > 2^29, and if we concatenate two
+Xsuch:
+X	  k=30903*(k&65535)+(k>>16);
+X	  j=18000*(j&65535)+(j>>16);
+X	  return((k<<16)+j);
+Xwe get a sequence of more than 2^59 32-bit integers
+Xbefore cycling.
+X
+XThe following segment in a (properly initialized)
+XC procedure will generate more than 2^118
+X32-bit random integers from six random seed values
+Xi,j,k,l,m,n:
+X		  k=30903*(k&65535)+(k>>16);
+X		  j=18000*(j&65535)+(j>>16);
+X		  i=29013*(i&65535)+(i>>16);
+X		  l=30345*(l&65535)+(l>>16);
+X		  m=30903*(m&65535)+(m>>16);
+X		  n=31083*(n&65535)+(n>>16);
+X		  return((k+i+m)>>16)+j+l+n);
+X
+XAnd it will do it much faster than any of several
+Xwidely used generators designed to use 16-bit
+Xinteger arithmetic, such as that of Wichman-Hill
+Xthat combines congruential sequences for three
+X15-bit primes (Applied Statistics, v31, p188-190,
+X1982), period about 2^42.
+X
+XI call these multiply-with-carry generators. Here
+Xis an extravagant 16-bit example that is easily
+Ximplemented in C or Fortran. It does such a
+Xthorough job of mixing the bits of the previous
+Xeight values that it is difficult to imagine a
+Xtest of randomness it could not pass:
+X
+Xx[n]=12013x[n-8]+1066x[n-7]+1215x[n-6]+1492x[n-5]+1776x[n-4]
+X +1812x[n-3]+1860x[n-2]+1941x[n-1]+carry mod 2^16.
+X
+XThe linear combination occupies at most 31 bits of
+Xa 32-bit integer. The bottom 16 is the output, the
+Xtop 15 the next carry. It is probably best to
+Ximplement with 8 case segments. It takes 8
+Xmicroseconds on my PC. Of course it just provides
+X16-bit random integers, but awfully good ones. For
+X32 bits you would have to combine it with another,
+Xsuch as
+X
+Xx[n]=9272x[n-8]+7777x[n-7]+6666x[n-6]+5555x[n-5]+4444x[n-4]
+X	 +3333x[n-3]+2222x[n-2]+1111x[n-1]+carry mod 2^16.
+X
+XConcatenating those two gives a sequence of 32-bit
+Xrandom integers (from 16 random 16-bit seeds),
+Xperiod about 2^250. It is so awesome it may merit
+Xthe Mother of All RNG's title.
+X
+XThe coefficients in those two linear combinations
+Xsuggest that it is easy to get long-period
+Xsequences, and that is true.  The result is due to
+XCemal Kac, who extended the theory we gave for
+Xadd-with-carry sequences: Choose a base b and give
+Xr seed values x[1],...,x[r] and an initial 'carry'
+Xc. Then the multiply-with-carry sequence
+X
+X x[n]=a1*x[n-1]+a2*x[n-2]+...+ar*x[n-r]+carry mod b,
+X
+Xwhere the new carry is the number of b's dropped
+Xin the modular reduction, will have period the
+Xorder of b in the group of residues relatively
+Xprime to m=ar*b^r+...+a1b^1-1.  Furthermore, the
+Xx's are, in reverse order, the digits in the
+Xexpansion of k/m to the base b, for some 0<k<m.
+X
+XIn practice b=2^16 or b=2^32 allows the new
+Xinteger and the new carry to be the bottom and top
+Xhalf of a 32- or 64-bit linear combination of  16-
+Xor 32-bit integers.  And it is easy to find
+Xsuitable m's if you have a primality test:  just
+Xsearch through candidate coefficients until you
+Xget an m that is a safeprime---both m and (m-1)/2
+Xare prime.  Then the period of the multiply-with-
+Xcarry sequence will be the prime (m-1)/2. (It
+Xcan't be m-1 because b=2^16 or 2^32 is a square.)
+X
+XHere is an interesting simple MWC generator with
+Xperiod> 2^92, for 32-bit arithmetic:
+X
+Xx[n]=1111111464*(x[n-1]+x[n-2]) + carry mod 2^32.
+X
+XSuppose you have functions, say top() and bot(),
+Xthat give the top and bottom halves of a 64-bit
+Xresult.  Then, with initial 32-bit x, y and carry
+Xc,  simple statements such as
+X	  y=bot(1111111464*(x+y)+c)
+X	  x=y
+X	  c=top(y)
+Xwill, repeated, give over 2^92 random 32-bit y's.
+X
+XNot many machines have 64 bit integers yet.  But
+Xmost assemblers for modern CPU's permit access to
+Xthe top and bottom halves of a 64-bit product.
+X
+XI don't know how to readily access the top half of
+Xa 64-bit product in C.  Can anyone suggest how it
+Xmight be done? (in integer arithmetic)
+X
+XGeorge Marsaglia geo@stat.fsu.edu
+X*/
+X
+X#if 0
+Xmain(int argc, char *argv[])
+X{
+X  int n, m;
+X  unsigned long seed;
+X  n = 128;
+X  m = 16;
+X  seed = 12345678;
+X  if (argv[1]) {
+X    n = atoi(argv[1]);
+X    if (argv[2]) {
+X      m = atoi(argv[2]);
+X      if (argv[3])
+X	seed = atoi(argv[3]);
+X    }
+X  }
+X  while (--n >= 0)
+X    printf("%d\n", IntMother(&seed) % m);
+X}
+X#endif
+X#if 0
+X#include <math.h>
+Xmain(int argc, char *argv[])
+X{
+X  int i;
+X  unsigned r;
+X  unsigned long seed = 12345678;
+X  double r0, dr0;
+X
+X  for (i = 1; i != 0; i += 1) {
+X    r = IntMother(&seed);
+X    r0 = r / m32Double;
+X    dr0 = r0 * m32Double - r;
+X    if (fabs(dr0) > 1e-6)
+X      printf("error at iteration %d: %d / %f = %f off by %g\n", i, r, m32Double, r0, dr0);
+X  }
+X  return 0;
+X}
+X#endif
+END_OF_FILE
+if test 9853 -ne `wc -c <'mother.c'`; then
+    echo shar: \"'mother.c'\" unpacked with wrong size!
+fi
+# end of 'mother.c'
+fi
+echo shar: End of shell archive.
+exit 0

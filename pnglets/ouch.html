@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <LINK REV=MADE HREF="mailto:info@elf.org">
+    <meta name="GENERATOR" content="Roger E Critchlow Jr">
+    <meta name="DESCRIPTION" content="Pnglet creation timings.">
+    <title>Ouch, Pnglet Creation Timings</title>
+  </head>
+  <body text="#000" bgcolor="#ffffff" background="../images/el_bg.gif" link="#993333" vlink="#333399" alink="#cc3333">
+    <img src="../images/cloud-banner.jpg" width="500" height="50" vspace="25" hspace="25" alt="clouds">
+    <br>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr><td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<td width="125" valign="top"><img height="1" width="125" vspace="20" src="../images/pixel.gif" alt=""><br>
+	  <!-- left column content here -->
+	</td><td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <b>Ouch, Pnglet Creation Timings</b>
+	  <p>
+	    The creation of a Pnglet has a variable cost which
+	    depends on the details of the  content drawn, and a
+	    fixed cost which depends only on the size of the image.
+	  <p>
+	    The costs which depend on the size of the image are the
+	    two levels of checksums and the cost of assembling the
+	    image contents into the final image format.  In the
+	    following table, the two levels of checksum are itemized
+	    as <b>Adler32</b> and <b>CRC32</b>, the assembly of the
+	    image is itemized as <b>Join</b>, and the overhead which
+	    the checksums introduce is itemized as <b>Overhead</b>,
+	    which is simply computed as: <b>(Adler32+CRC32+Join)/Join</b>.
+	  <p>
+	  <table>
+	    <tr><th>Image Size</th><th>Adler32</th><th>CRC32</th><th>Join</th><th>Overhead</th></tr>
+	    <tr><th>(pixels)</th><th>(ms)</th><th>(ms)</th><th>(ms)</th><th>(x)</th></tr>
+	    <tr><td align="right">32<sup>2</sup></td><td align="right">155</td><td align="right">194</td><td align="right">7</td><td align="center">50</td></tr>
+	    <tr><td align="right">64<sup>2</sup></td><td align="right">758</td><td align="right">611</td><td align="right">23</td><td align="center">60</td></tr>
+	    <tr><td align="right">64<sup>2</sup></td><td align="right">669</td><td align="right">602</td><td align="right">29</td><td align="center">44</td></tr>
+	    <tr><td align="right">64<sup>2</sup></td><td align="right">699</td><td align="right">545</td><td align="right">23</td><td align="center">55</td></tr>
+	    <tr><td align="right">96<sup>2</sup></td><td align="right">2077</td><td align="right">1933</td><td align="right">81</td><td align="center">50</td></tr>
+	    <tr><td align="right">128<sup>2</sup></td><td align="right">2899</td><td align="right">2209</td><td align="right">96</td><td align="center">54</td></tr>
+	    <tr><td align="right">256<sup>2</sup></td><td align="right">19925</td><td align="right">12937</td><td align="right">493</td><td align="center">67</td></tr>
+	  </table>
+	  <p>
+	    Thus a 256 pixel square image which could be assembled
+	    in half a second actually takes 67 times as long, half
+	    a minute, because of the cost of the checksums.
+	  <p>
+	    The best solution to this would be if the PNG format
+	    allowed a variation in which checksums were omitted.
+	    Any browser manufacturer who wanted Pnglets to work
+	    a lot better than they do could implement an extension
+	    to PNG which supported this.
+	</td></tr></table>
+    <img src="../images/pixel.gif" height="10" width="500" alt="">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr><td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<td width="125" valign="top"><img height="1" width="125" src="../images/pixel.gif" alt=""><br>
+	  <!-- left column content here -->
+	</td><td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <!-- right column content here -->
+	  <center>
+	    <address><a href="mailto:info@elf.org">Roger E Critchlow Jr</a></address>
+	    <!-- Created: Sun Mar 14 22:54:17 MST 1999 -->
+	    <!-- hhmts start -->
+Last modified: Fri May 16 19:45:55 MDT 2003
+<!-- hhmts end -->
+	    <address><a href="http://www.elf.org">elf.org</a></address>
+	  </center>
+	</td>
+      </tr>
+    </table>
+  </body>
+</html>

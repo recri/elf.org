@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+          "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     id="view" width="4in" height="6in" viewBox="0 0 800 1200"
+     onload="draw_sinc()">
+  <script type="text/javascript" xlink:href="../js/svg.js" />
+  <script type="text/javascript" xlink:href="../js/complex.js" />
+  <script type="text/javascript" xlink:href="../js/misc.js" />
+  <title>Sinus Cardinals</title>
+  <svg id="root" width="800px" height="1200px">
+  </svg>
+</svg>

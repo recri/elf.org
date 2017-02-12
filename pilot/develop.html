@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <LINK REV=MADE HREF="mailto:info@elf.org">
+    <meta name="GENERATOR" content="Roger E Critchlow Jr">
+    <meta name="DESCRIPTION" content="Free tools for PalmOS development.">
+    <title>Free PalmOS Development Tools</title>
+  </head>
+  <body text="#000" bgcolor="#ffffff" background="../images/el_bg.gif" link="#993333" vlink="#333399" alink="#cc3333">
+    <img src="../images/cloud-banner.jpg" width="500" height="50" vspace="25" hspace="25" alt="clouds">
+    <br>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr><td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<td width="125" valign="top"><img height="1" width="125" vspace="20" src="../images/pixel.gif" alt=""><br>
+	  <!-- left column content here -->
+	</td><td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <!-- right column content here -->
+	  <b>Free PalmOS Development Tools</b>
+	  <p>
+	    These instructions are quite dated.  My last use of the
+	    tools was in the middle of 1997.  None the less, they
+	    appear to still be helpful to people, so here they are.
+	  <p>
+	  <b>Sources for stuff</b>
+	  <p>
+	    My platform for developing Pilot applications is a PC
+	    running Linux, which I bought from
+	    <a href="http://www.varesearch.com">VAResearch</a>
+	    back when they were still called Fintronic.  The tools
+	    which I use to build <a href="../doodle/index.html">doodle</a> are: 
+	  <dl>
+	    <dt><a name="pilot-link">pilot-link</a></dt>
+	    <dd>Routines and programs for talking to the Pilot and
+	      manipulating Pilot databases.  Available from Jeff
+	      Dionne's <a href="develop.html#dionne">archives</a>.
+	    </dd>
+	    <dt><a name="prc-tools">prc-tools</a></dt>
+	    <dd>Patches to gcc and programs for assembling Pilot
+	      applications. Available from Jeff Dionne's
+	      <a href="develop.html#dionne">archives</a>.
+	    </dd>
+	    <dt><a name="gcc">gcc</a></dt>
+	    <dd>The GNU C compiler.  Available from
+	      <a href="ftp://prep.ai.mit.edu/pub/gnu">prep.ai.mit.edu</a>.
+	    </dd>
+	    <dt><a name="binutils">binutils</a></dt>
+	    <dd>The GNU binary object utilities.  Available from
+	      <a href="ftp://prep.ai.mit.edu/pub/gnu">prep.ai.mit.edu.</a>
+	    </dd>
+	    <dt><a name="libgr">libgr</a></dt>
+	    <dd>A collation of the free graphics image processing
+	      tools available for Unix.  Available from
+	      <a href="ftp://ftp.ctd.comsat.com/pub/linux/ELF">ftp.ctd.comsat.com</a>.
+	    </dd>
+	    <dt><a name="palmosdocs">Palmos Documents</a></dt>
+	    <dd>The documentation for PalmOS is available in Acrobat
+	      format at
+	      <a href="http://palm.3com.com/devzone/index.html">palm.3com.com</a>.
+	    </dd>
+	    <dt><a name="dionne">Jeff Dionne's archives</a></dt>
+	    <dd>The primary resources for developing pilot
+	      applications under Linux and other Unix systems are
+	      collected on Jeff Dionne's PalmOS archive, which is now
+	      mirrored in two additional locations:
+	      <ul>
+		<li><A HREF="ftp://ns1.pfnet.com/pub/PalmOS/">Dionne's archive</A>
+		<li><A HREF="http://www.daveltd.com/pilot/PalmOS/">Daveltd mirror</A>
+		<li><A HREF="ftp://uiarchive.uiuc.edu/pub/systems/PalmOS/">Uiuc mirror</A>
+	      </ul>
+	    </dd>
+	  </dl>
+	  <p>
+	    <b>Compiling with gcc under Linux, version 2</b>
+	  <p>
+	    Here is <a href="mailto:bwinton@tor.dhs.org">Blake Winton</a>'s
+	    most recent summary of how to build the Linux based
+	    development tools for the Pilot:
+	  <ol>
+	    <li>Get:
+	      <ul>
+		<li>prc-tools-0.5.0.tar.gz
+		<li>binutils-2.7.tar.gz
+		<li>gcc-2.7.2.2.tar.gz
+		<li>optionally, gdb-4.16.tar.gz
+	      </ul>
+	    <li>Edit the makefile,
+	      <ul>
+		<li>change "PREFIX" to reflect where you plan to
+		  install,
+		<li>change "GNUARCH" to reflect where you put the gcc, 
+		  binutils, and gdb archives,
+	      </ul>
+	    <li>As root, if your PREFIX requires root privilege for
+	      install, type "make doeverything" 
+	    <li>You're done!  :) (well, modulo some chmod's anyways,
+	      but those should be easy enough to figure out.)
+	  </ol>
+	  Blake hopes that his instructions may soon be obsolete. :)
+	  Yea! I think they nearly are, but one never knows, do one?
+	  <p>
+	    <b>Compiling with gcc under Linux, version 1</b>
+	  <p>
+	    Here is <a href="mailto:bwinton@tor.dhs.org">Blake Winton</a>'s
+	    original summary of how to build the Linux based
+	    development tools for the Pilot:
+	  <ol>
+	    <li>Get:
+	      <ul>
+		<li>prc-tools.0.4.2.tar.gz
+		<li>binutils-2.7.tar.gz
+		<li>gcc-2.7.2.2.tar.gz
+	      </ul>
+	    <li>tar xvzf prc-tools.0.4.2.tar.gz
+	      <ul>
+		<li>cd prc-tools-0.4.2
+		<li>vi gcc-2.7.2.2.palmos.diff
+		<li>:%s/Lenght/Length/g
+		<li>:wq
+		<li>cd ..
+	      </ul>
+	    <li>tar xvzf binutils-2.7.tar.gz
+	      <ul>
+		<li>cd binutils-2.7
+		<li>./configure --prefix=/usr/local --target=m68k-palmos-coff
+		<li>su
+		<li>make all; make install
+		<li>exit
+		<li>cd ..
+	      </ul>
+	    <li>tar xvzf gcc-2.7.2.2.tar.gz
+	      <ul>
+		<li>patch -p &lt; prc-tools-0.4.2/gcc-2.7.2.2.palmos.diff
+		<li>cd gcc-2.7.2.2
+		<li>./configure --prefix=/usr/local --target=m68k-palmos-coff
+		<li>su
+		<li>make LANGUAGES=c install
+		<li>cd /usr/local/lib
+		<li>chmod -R a+rX .
+		<li>exit
+	      </ul>
+	    <li>cd prc-tools-0.4.2
+	      <ul>
+		<li>vi 'find . -name "Makefile" -print'
+		<li>remove all gdb hooks.
+		<li>su
+		<li>cd /usr/local/m68k-palmos-coff/lib
+		<li>cp /pilot/prc-tools-0.4.2/lib* .
+		<li>chmod a+r *
+		<li>cd /pilot/prc-tools-0.4.2
+		<li>make install
+		<li>exit
+	      </ul>
+	    <li>You're done!!!  :)
+	  </ol>
+	  <p>
+	    The last three steps of number 5 should, in theory, be
+	    enough, but I've found that for one reason or another,
+	    they didn't work for me, and I needed to copy over the lib
+	    files myself.
+	  <p>
+	</td></tr></table>
+    <img src="../images/pixel.gif" height="10" width="500" alt="">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr><td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<td width="125" valign="top"><img height="1" width="125" src="../images/pixel.gif" alt=""><br>
+	  <!-- left column content here -->
+	</td><td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <!-- right column content here -->
+	  <center>
+	    <address><a href="mailto:info@elf.org">Roger E Critchlow Jr</a></address>
+	    <!-- Created: Sun Mar 14 22:54:17 MST 1999 -->
+	    <!-- hhmts start -->
+Last modified: Fri May 16 19:47:16 MDT 2003
+<!-- hhmts end -->
+	    <address><a href="http://www.elf.org">elf.org</a></address>
+	  </center>
+	</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+          "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     id="clock_view" onload="start_clock()">
+  <script type="text/javascript" xlink:href="js/color.js"/>
+  <script type="text/javascript" xlink:href="js/svg.js"/>
+  <script type="text/javascript" xlink:href="js/complex.js"/>
+  <script type="text/javascript" xlink:href="js/parse-search.js"/>
+  <script type="text/javascript" xlink:href="js/clock.js"/>
+  <defs id="defs"/>
+  <title>Quantum Classical Clock</title>
+  <svg id="clock"/>
+</svg>

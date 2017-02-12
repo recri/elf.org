@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <LINK REV=MADE HREF="mailto:info@elf.org">
+    <meta name="GENERATOR" content="Roger E Critchlow Jr">
+    <meta name="DESCRIPTION" content="A very short Tclet which passes source code as embedded arguments.">
+    <title>Short Tclet</title>
+  </head>
+  <body text="#000" bgcolor="#ffffff" background="../images/el_bg.gif" link="#993333" vlink="#333399" alink="#cc3333">
+    <img src="../images/cloud-banner.jpg" width="500" height="50" vspace="25" hspace="25" alt="clouds">
+    <br>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+	<!-- ======== left gutter ====================================== -->
+	<td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<!-- ======== left column ====================================== -->
+	<td width="125" valign="top"><img height="1" width="125" vspace="20" src="../images/pixel.gif" alt=""><br>
+	</td>
+	<!-- ======== middle gutter ==================================== -->
+	<td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<!-- ======== right column ===================================== -->
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	</td>
+      </tr>
+    </table>
+    <img src="../images/pixel.gif" height="10" width="500" alt="">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+	<td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<td width="125" valign="top"><img height="1" width="125" src="../images/pixel.gif" alt=""><br>
+	</td>
+	<td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <embed align="center" src="short.tcl" width="100" height="100"
+	    program="
+	    proc say-hello {} {
+		.l configure -text {Hello world}
+		after 5000 .l configure -text {}
+	    }
+	    pack [button .b -text hello -command say-hello] -side top
+	    pack [label .l -text {}] -side top
+	    "></embed>
+	  <p><b>Short Tclet</b>
+	  <p>
+	    This is an experiment to see how small the tclet source can be.
+	    This tclet has the source, <b>short.tcl</b>, which contains the
+	    single Tcl command:
+<pre>
+   eval $embed_args(program)
+</pre>
+	  So we write the entire program into an attribute, named program,
+	  in the embed tag.  Which looks like this:
+<pre>
+    &lt;embed align=center src=short.tcl width=100 height=100
+      program=&quot;
+      proc say-hello {} {
+        .l configure -text {Hello world}
+        after 5000 .l configure -text {}
+      }
+      pack [button .b -text hello -command say-hello] -side top
+      pack [label .l -text {}] -side top
+      &quot;&gt;
+</pre>
+	  So <b>http://www.elf.org/tclplugin/short.tcl</b> may be the only tcl source
+	  file you need.
+	  <p>
+	    Attribute values are limited to 1024 bytes in length.  They
+	    should be enclosed in single or double quotes with the chosen
+	    quote and the ampersand rewritten into an entity reference
+	    within the string.
+	  <p>
+	  <center>
+	    <address><a href="mailto:info@elf.org">Roger E Critchlow Jr</a></address>
+	    <!-- Created: September 11, 1996 -->
+	    <!-- hhmts start -->
+Last modified: Fri May 16 19:39:05 MDT 2003
+<!-- hhmts end -->
+	    <address><a href="http://www.elf.org">elf.org</a></address>
+	  </center>
+	</td>
+      </tr>
+    </table>
+  </body>
+</html>
+

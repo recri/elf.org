@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <LINK REV=MADE HREF="mailto:info@elf.org">
+    <meta name="GENERATOR" content="Roger E Critchlow Jr">
+    <meta name="DESCRIPTION" content="Quantum Classical Clock">
+    <meta name="KEYWORDS" content="Quantum Mechanics, Classical Mechanics, Reversible Logic, Clock, Graphical Timepiece">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+    <link rel="stylesheet" type="text/css" href="../style/elf.css" media="all"/>
+    <title>The Quantum Classical Shift Registers</title>
+	<!-- note that the meta content-script-type sets the default for these -->
+	<script src="js/color.js" ></script>
+	<script src="js/canvas.js" ></script>
+	<script src="js/complex.js" ></script>
+	<script src="js/parse-search.js" ></script>
+	<script src="js/clock.js" ></script>
+	<script src="js/qcsr.js" ></script>
+  </head>
+  <body text="#000" bgcolor="#ffffff" background="../images/el_bg.gif" link="#993333" vlink="#333399" alink="#cc3333" onload="start_clock()">
+	<div id="header">
+      <img src="../images/cloud-banner.jpg" width="500" height="50" vspace="25" hspace="25" alt="clouds"><br>
+	</div>
+
+	<div class="container">
+	  <div class="left">
+		<div class="menu">
+		  <br/>
+		</div>
+	  </div>
+	  
+	  <div class="main">
+		<b>Quantum Classical Shift Registers</b>
+		<p>
+		  <canvas id="clock">
+			A shift register in three forms rendered in a canvas using an html5 browser.
+		  </canvas>
+		</p><p>
+		  Three shift registers are illustrated above.  The outermost
+		  moves by discrete jumps, it is in one state for an entire
+		  second before jumping into the next state.  The middle
+		  register moves continously from second to second, occupying
+		  fractional second states.  The innermost shift register is a
+		  quantum shift register. It is a representation of the
+		  continuous motion by a combination of orthonormal basis
+		  functions located at the integer second points.  The areas
+		  of the circles in the quantum shift register show the
+		  magnitude of the basis contribution, and the colors of the
+		  circles show the relative magnitude of the real (red) and
+		  imaginary (blue) basis contributions.
+		</p><p>
+	      The Quantum Classical Shift Register is Copyright &#169; 2009 by Roger E Critchlow Jr,
+          Santa Fe, New Mexico, USA.
+          All rights reserved.
+          Permission granted for reproduction for personal or educational use.
+		</p>
+	  </div>
+	</div>
+	
+	<div id="footer">
+      <div class="left"></div>
+      <div class="main">
+        <center>
+          &copy; Copyright 2009 by <address><a href="mailto:info@elf.org">Roger E Critchlow Jr</a></address>
+          Santa Fe, NM, USA<br/>
+		  <!-- hhmts start -->Last modified: Tue Feb 10 2009<!-- hhmts end -->
+		  <address><a href="http://www.elf.org">elf.org</a></address>
+        </center>
+      </div>
+	</div>
+  </body>
+</html>

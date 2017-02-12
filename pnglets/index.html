@@ -1,0 +1,477 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <LINK REV=MADE HREF="mailto:info@elf.org">
+    <meta name="GENERATOR" content="Roger E Critchlow Jr">
+    <meta name="DESCRIPTION" content="Pnglets, the client side JavaScript graphics package, home and documentation page.">
+    <title>Pnglets</title>
+    <script type="text/javascript" language="javascript1.2" src="../js/Array.js"></script>
+    <script type="text/javascript" language="javascript1.2" src="../js/dataUrl.js"></script>
+    <script type="text/javascript" language="javascript1.2" src="../js/Pnglet.js"></script>
+    <script type="text/javascript" language="javascript1.2" src="examples.js"></script>
+  </head>
+  <body text="#000" bgcolor="#ffffff" background="../images/el_bg.gif" link="#993333" vlink="#333399" alink="#cc3333"
+    onload="javascript:loadimages(0)">
+    <img src="../images/cloud-banner.jpg" width="500" height="50" vspace="25" hspace="25" alt="clouds">
+    <br>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+	<td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<td width="125" valign="top"><img height="1" width="125" vspace="20" src="../images/pixel.gif" alt=""><br>
+	  <a href="index.html#Creation">Creation</a><br>
+	  &nbsp;&nbsp;<a href="index.html#Pnglet">Pnglet</a><br>
+	  <a href="index.html#Drawing">Drawing</a><br>
+	  &nbsp;&nbsp;<a href="index.html#color">color</a><br>
+	  &nbsp;&nbsp;<a href="index.html#point">point</a><br>
+	  &nbsp;&nbsp;<a href="index.html#line">line</a><br>
+	  &nbsp;&nbsp;<a href="index.html#polygon">polygon</a><br>
+	  &nbsp;&nbsp;<a href="index.html#rectangle">rectangle</a><br>
+	  &nbsp;&nbsp;<a href="index.html#oval">oval</a><br>
+	  &nbsp;&nbsp;<a href="index.html#arc">arc</a><br>
+	  &nbsp;&nbsp;<a href="index.html#chord">chord</a><br>
+	  &nbsp;&nbsp;<a href="index.html#pieslice">pieslice</a><br>
+	  &nbsp;&nbsp;<a href="index.html#fill">fill</a><br>
+	  &nbsp;&nbsp;<a href="index.html#smoothpoint">smoothPoint</a><br>
+	  &nbsp;&nbsp;<a href="index.html#smoothline">smoothLine</a><br>
+	  &nbsp;&nbsp;<a href="index.html#smoothpolygon">smoothPolygon</a><br>
+	  <a href="index.html#Display">Display</a><br>
+	  &nbsp;&nbsp;<a href="index.html#output">output</a><br>
+	  <a href="index.html#Information">Information</a><br>
+	  &nbsp;&nbsp;<a href="index.html#width">width</a><br>
+	  &nbsp;&nbsp;<a href="index.html#height">height</a><br>
+	  &nbsp;&nbsp;<a href="index.html#depth">depth</a><br>
+	  &nbsp;&nbsp;<a href="index.html#getPoint">getPoint</a><br>
+	  &nbsp;&nbsp;<a href="index.html#red">red</a><br>
+	  &nbsp;&nbsp;<a href="index.html#green">green</a><br>
+	  &nbsp;&nbsp;<a href="index.html#blue">blue</a><br>
+	  &nbsp;&nbsp;<a href="index.html#alpha">alpha</a><br>
+	  <a href="index.html#Plans">Plans</a><br>
+	  <a href="index.html#Bugs">Bugs</a><br>
+	  <a href="index.html#Credits">Source</a><br>
+	  <a href="index.html#Credits">Credits</a><br>
+	</td>
+	<td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+          <b>Pnglets</b>
+          <p>
+            Pnglets allow client side JavaScript to create graphics
+            inside a web page.  It only works with Netscape 4.06+, and
+            it only works one image at a time, but it works.  All the
+            example images below, assuming they show up, are Pnglets.
+          </p><p>
+            <b>This page demonstrates a method of drawing images using
+              JavaScript, without JavaScript enabled you won't see any
+              pictures.</b>
+          </p><p>
+            There are <a href="../essay/inline-image.html">three
+              possible ways</a> of inserting JavaScript generated
+            graphic data into a web page, none of which work with
+            Internet Explorer. Navigator 4.05 has problems executing
+            the JavaScript (a local variable value is overwritten by a
+            function call), and displaying the result (the images
+            converted to plain text). This page is best viewed with
+            some Netscape Navigators 4.06+, but it works with Netscape
+            7 so it may work on the many browsers based on Mozilla.
+            <p>
+            
+	  <p><a name="Creation"><b>Creation</b></a>
+	  <p><a name="Pnglet"><b>Pnglet</b>(<i>width</i>, <i>height</i>, <i>depth</i>)</a>
+	    - <b>Pnglet</b> creates a new Pnglet of specified
+	    <i>width</i> and <i>height</i> with <i>depth</i> colors.
+	  <p>Note that depth usually means the number of bits per
+	    pixel, but it doesn't mean that here.
+	  <p><script type="text/javascript">embedimage('pnglet',0)</script><pre>
+// a 32 pixel, 8 color image.
+var p = new Pnglet(32, 32, 8);
+</pre>
+	  <p><a name="Drawing"><b>Drawing</b></a>
+	  <p><a name="color"><b>color</b>(<i>red</i>, <i>green</i>, <i>blue</i>, <i>alpha</i>)</a>
+	    - <b>color</b> returns a pixel value for drawing 
+	    with the specified <i>red</i>, <i>green</i>, <i>blue</i>, 
+	    and <i>alpha</i> values.  The values vary from 0 to 255.
+	    The <i>alpha</i> value may be omitted in which case it
+	    defaults to 255 or opaque.
+	    Absent any other arrangements, an empty image is filled
+	    with the first color allocated.
+	    The treatment of <b>alpha</b> by browsers is flawed.
+	    <p>
+	      <pre>
+// some opaque colors
+var black =   p.color(  0,  0,  0);
+var red =     p.color(255,  0,  0);
+var yellow =  p.color(255,255,  0)
+var green =   p.color(  0,255,  0);
+var cyan =    p.color(  0,255,255);
+var blue =    p.color(  0,  0,255);
+var magenta = p.color(255,  0,255);
+var white =   p.color(255,255,255);
+</pre>
+
+	  <p><a name="point"><b>point</b>(<i>pointColor</i>, <i>x</i>, <i>y</i>, <i>...</i>)</a>
+	    - <b>point</b> draws a pixel of color <i>pointColor</i> at coordinate <i>x</i>, <i>y</i>.
+	    Coordinates are measured from the upper left corner of the image, <i>x</i> increasing
+	    rightward, <i>y</i> increasing downward.  If additional point coordinates are supplied,
+	    they will also be drawn.
+	  <p><script type="text/javascript">embedimage("point1",0)</script><pre>
+// set a red pixel
+p.point(red,16,16);
+</pre>
+	  <p><script type="text/javascript">embedimage("point2",0)</script><pre>
+// set several red pixels
+p.point(red,16,16,8,16,16,8);
+</pre>
+
+	  <p><a name="line"><b>line</b>(<i>lineColor</i>, <i>x1</i>, <i>y1</i>, <i>x2</i>, <i>y2</i>, <i>...</i>)</a>
+	    - <b>line</b> draws a line of color <i>lineColor</i> from coordinates
+	    <i>x1</i>, <i>y1</i> to coordinates <i>x2</i>, <i>y2</i>.
+	    If additional coordinates are supplied then a polyline
+	    will be drawn.
+	  <p><script type="text/javascript">embedimage("line1",0)</script><pre>
+// draw a green line
+p.line(green, 2,2, 32,16);
+</pre>
+	  <p><script type="text/javascript">embedimage("line2",0)</script><pre>
+// draw a green polyline
+p.line(green, 2,2, 32,16, 16,32, 4,7);
+</pre>
+
+	  <p><a name="polygon"><b>polygon</b>(<i>outlineColor</i>, <i>fillColor</i>, <i>x</i>, <i>y</i>, <i>...</i>)</a>
+	    - <b>polygon</b> draws a closed polygon with outline color
+	    <i>outlineColor</i> and fill color <i>fillColor</i>
+	    starting at <i>x</i>, <i>y</i> and continuing through all
+	    coordinates supplied. There must be at least three sets of
+	    coordinates supplied.
+	  <p><script type="text/javascript">embedimage("poly1",0)</script><pre>
+// draw a blue triangle outline
+p.polygon(blue, null, 16,8, 8,16, 24,16);
+</pre>
+	  <p><script type="text/javascript">embedimage("poly2",0)</script><pre>
+// draw a filled red triangle
+p.polygon(null, red, 16,8, 8,16, 24,16);
+</pre>
+	  <p><script type="text/javascript">embedimage("poly3",0)</script><pre>
+// outline and fill
+p.polygon(blue, red, 16,8, 8,16, 24,16);
+</pre>
+
+ 	  <p><a name="rectangle"><b>rectangle</b>(<i>outlineColor</i>,
+	      <i>fillColor</i><i>x0</i>, <i>y0</i>, <i>x1</i>,
+	      <i>y1</i>)</a> - <b>rectangle</b> draws a rectangle with
+	    outline color <i>outlineColor</i> and fill color
+	    <i>fillColor</i> with the corners specified by the
+	    coordinates <i>x0</i>, <i>y0</i> and <i>x1</i>, <i>y1</i>.
+	    The rectangle includes <i>x0</i> and <i>y0</i> but
+	    excludes <i>x1</i> and <i>y1</i>.
+	  <p><script type="text/javascript">embedimage("rect1",0)</script><pre>
+// draw a white rectangle
+p.rectangle(white, null, 2,2, 30,30);
+</pre>
+	  <p><script type="text/javascript">embedimage("rect2",0)</script><pre>
+// draw a filled red rectangle
+p.rectangle(null, red, 2,2, 30,30);
+</pre>
+	  <p><script type="text/javascript">embedimage("rect3",0)</script><pre>
+// outline and fill
+p.rectangle(white, red, 2,2, 30,30);
+</pre>
+
+	  <p><a name="oval"><b>oval</b>(<i>outlineColor</i>, <i>fillColor</i>, <i>x</i>, <i>y</i>, <i>w</i>, <i>h</i>)</a>
+	    - <b>oval</b> draws an oval with outline color
+	    <i>outlineColor</i> and fill color <i>fillColor</i> centered at <i>x</i>, <i>y</i>, with width
+	    <i>w</i> and height <i>h</i>.
+	  <p><script type="text/javascript">embedimage("oval1",0)</script><pre>
+// draw a green outlined oval
+p.oval(green, null, 16,16, 20,20);
+</pre>
+	  <p><script type="text/javascript">embedimage("oval2",0)</script><pre>
+// draw a blue filled oval
+p.oval(null, blue, 16,16, 20,20);
+</pre>
+	  <p><script type="text/javascript">embedimage("oval3",0)</script><pre>
+// outline and fill
+p.oval(green, blue, 16,16, 20,20);
+</pre>
+
+	  <p><a name="arc"><b>arc</b>(<i>color</i>, <i>x</i>, <i>y</i>, <i>w</i>, <i>h</i>, <i>s</i>, <i>e</i>)</a>
+	    - <b>arc</b> draws an arc of an ellipse of color
+	    <i>color</i> centered at <i>x</i>, <i>y</i>, with width
+	    <i>w</i> and height <i>h</i>, from starting angle <i>s</i> 
+	    with angular extent <i>e</i>.  Angles are measured in degrees
+	    anticlockwise starting from 3 o'clock.
+	  <p><script type="text/javascript">embedimage("arc1",0)</script><pre>
+// draw a green arc
+p.arc(green, 16,16, 20,20, 0,270);
+</pre>
+
+	  <p><a name="chord"><b>chord</b>(<i>outlineColor</i>, <i>fillColor</i>, <i>x</i>, <i>y</i>, <i>w</i>, <i>h</i>, <i>s</i>, <i>e</i>)</a>
+	    - <b>chord</b> draws an chord of an oval with outline color
+	    <i>outlineColor</i> and fill color <i>fillColor</i> centered at <i>x</i>, <i>y</i>,
+	    with width <i>w</i> and height <i>h</i>, from starting angle <i>s</i>,
+	    and with angular extent <i>e</i>.  Angles are measured in degrees
+	    anticlockwise starting from 3 o'clock.
+	  <p><script type="text/javascript">embedimage("chord1",0)</script><pre>
+// draw a green outlined chord
+p.chord(green, null, 16,16, 20,20, 0,270);
+</pre>
+	  <p><script type="text/javascript">embedimage("chord2",0)</script><pre>
+// draw a blue filled chord
+p.chord(null, blue, 16,16, 20,20, 0,270);
+</pre>
+	  <p><script type="text/javascript">embedimage("chord3",0)</script><pre>
+// outline and fill
+p.chord(green, blue, 16,16, 20,20, 0,270);
+</pre>
+
+	  <p><a name="pieslice"><b>pieslice</b>(<i>outlineColor</i>, <i>fillColor</i>, <i>x</i>, <i>y</i>, <i>w</i>, <i>h</i>, <i>s</i>, <i>e</i>)</a>
+	    - <b>pieslice</b> draws an pieslice shape with outline color
+	    <i>outlineColor</i> and fill color <i>fillColor</i> centered
+	    at <i>x</i>, <i>y</i>, with width <i>w</i> and height <i>h</i>,
+	    from starting angle <i>s</i> and with angular extent <i>e</i>.
+	    Angles are measured in degrees anticlockwise starting from 3 o'clock.
+	  <p><script type="text/javascript">embedimage("pieslice1",0)</script><pre>
+// draw a green outlined pie slice
+p.pieslice(green, null, 16,16, 20,20, 0,270);
+</pre>
+	  <p><script type="text/javascript">embedimage("pieslice2",0)</script><pre>
+// draw a blue filled pie slice
+p.pieslice(null, blue, 16,16, 20,20, 0,270);
+</pre>
+	  <p><script type="text/javascript">embedimage("pieslice3",0)</script><pre>
+// outline and fill
+p.pieslice(green, blue, 16,16, 20,20, 0,270);
+</pre>
+
+	  <p><a name="fill"><b>fill</b>(<i>outlineColor</i>, <i>fillColor</i>, <i>x</i>, <i>y</i>)</a>
+	    - <b>fill</b> fills a region with color <i>fillColor</i> starting from <i>x</i>, <i>y</i>
+	    and bounded by the color <i>outlineColor</i>.  If <i>outlineColor</i> is <b>null</b>,
+	    then <b>fill</b> flood fills a region with color <i>fillColor</i> starting from
+	    <i>x</i>, <i>y</i> and covering the contiguous region with the color originally
+	    found at <i>x</i>, <i>y</i>.
+	    <p><script type="text/javascript">embedimage("outlfill",16)</script><pre>
+// fill to a green border
+p.oval(blue, null, 11,11, 10,10);
+p.oval(green, null, 16,16, 15,15);
+p.fill(green, blue, 16,16);
+</pre>
+ 	  <p><script type="text/javascript">embedimage("fillfill",16)</script><pre>
+// fill the region at 16,16
+p.oval(blue, null, 11,11, 10,10);
+p.oval(green, null, 16,16, 15,15);
+p.fill(null, blue, 16,16);
+</pre >
+	  <p><a name="smoothpoint"><b>smoothPoint</b>(<i>smoothSteps</i>, <i>pointColor</i>, <i>x</i>, <i>y</i>, <i>...</i>)</a>
+	    - <b>smoothPoint</b> draws pixels of color
+	    <i>pointColor</i> at <i>smoothSteps</i> smoothed
+	    coordinates for each consecutive pair of input
+	    coordinates.  If the first and last coordinates match,
+	    then the smoothing will form a closed curve.
+	  <p><script type="text/javascript">embedimage("point3",0)</script><pre>
+// draw smoothed red pixels
+p.smoothPoint(5, red,16,16,8,16,16,8);
+</pre>
+
+	  <p><a name="smoothline"><b>smoothLine</b>(<i>smoothSteps</i>, <i>lineColor</i>, <i>x1</i>, <i>y1</i>, <i>...</i>)</a>
+	    - <b>line</b> draws a smoothed lines of color
+	    <i>lineColor</i> with <i>smoothSteps</i> points replacing
+	    each input line.  If the first and last coordinates match, 
+	    then the smoothed line will form a closed curve.
+	  <p><script type="text/javascript">embedimage("line3",0)</script><pre>
+// draw a smoothed green polyline
+p.smoothLine(5, green, 2,2, 32,16, 16,32, 4,7);
+</pre>
+
+	  <p><a name="smoothpolygon"><b>smoothPolygon</b>(<i>smoothSteps</i>, <i>outlineColor</i>, <i>fillColor</i>, <i>x</i>, <i>y</i>, <i>...</i>)</a>
+	    - <b>smoothPolygon</b> draws a smoothed closed polygon with outline color
+	    <i>outlineColor</i> and fill color <i>fillColor</i> with
+	    <i>smoothSteps</i> points replacing each polygonal edge.
+	  <p><script type="text/javascript">embedimage("poly4",0)</script><pre>
+// draw a smoothed blue triangle outline
+p.smoothPolygon(5, blue, null, 16,8, 8,16, 24,16);
+</pre>
+	  <p><script type="text/javascript">embedimage("poly5",0)</script><pre>
+// draw a filled red triangle
+p.smoothPolygon(5, null, red, 16,8, 8,16, 24,16);
+</pre>
+	  <p><script type="text/javascript">embedimage("poly6",0)</script><pre>
+// outline and fill
+p.smoothPolygon(5, blue, red, 16,8, 8,16, 24,16);
+</pre>
+
+	  <p><a name="Display"><b>Display</b></a>
+	  <p><a name="output"><b>output</b>()</a>
+	    - <b>output</b> converts the results of previous drawing
+	    commands into a PNG format image and returns the binary
+	    string representing that image.  In Netscape, an image
+	    source URL of the form "javascript:p.output()" will
+	    display the image drawn in the Pnglet <i>p</i>.
+<pre>
+// set an image source
+document.image.foo.src = "javascript:p.output()";
+</pre>
+
+	  <p><a name="Information"><b>Information</b></a>
+	  <p><a name="width"><b>width</b></a>
+	    - <b>width</b> is the Pnglet width.
+<pre>
+// fetch the width
+p.width;
+</pre>
+	  <p><a name="height"><b>height</b></a>
+	    - <b>height</b> is the Pnglet height.
+<pre>
+// fetch the height
+p.height;
+</pre>
+	  <p><a name="depth"><b>depth</b></a>
+	    - <b>depth</b> is the number of colors in the Pnglet.
+<pre>
+// fetch the depth
+p.depth;
+</pre>
+	  <p><a name="getPoint"><b>getPoint</b>(<i>x</i>, <i>y</i>)</a>
+	    - <b>getPoint</b> retrieves the color of the pixel at
+	    coordinate <i>x</i>, <i>y</i>.
+<pre>
+// fetch a pixel
+p.getPoint(0,0);
+</pre>
+	  <p><a name="red"><b>red</b>(<i>color</i>)</a>
+	    - <b>red</b> retrieves the red value from the color
+	    <i>color</i>.
+<pre>
+// the pixel's red 
+p.red(p.getPoint(0,0))
+</pre>
+	  <p><a name="green"><b>green</b>(<i>color</i>)</a>
+	    - <b>green</b> retrieves the green value from the color
+	    <i>color</i>.
+<pre>
+// the pixel's green
+p.green(p.getPoint(0,0))
+</pre>
+	  <p><a name="blue"><b>blue</b>(<i>color</i>)</a>
+	    - <b>blue</b> retrieves the blue value from the color
+	    <i>color</i>.
+<pre>
+// the pixel's blue
+p.blue(p.getPoint(0,0))
+</pre>
+	  <p><a name="alpha"><b>alpha</b>(<i>color</i>)</a>
+	    - <b>alpha</b> retrieves the alpha value from the color
+	    <i>color</i>.
+<pre>
+// the pixel's alpha
+p.alpha(p.getPoint(0,0))
+</pre>
+	  <p><a name="Plans"><b>Plans</b></a>
+	  <p>It would be easy to allow Pnglet's to appear anywhere
+	    that a color currently appears.  This would allow
+	    arbitrary brush shapes to be used for points, lines, and
+	    outlines, and for arbitrary images to be used as fill
+	    patterns.  This would require thinking out how to combine
+	    color tables with alpha channels, unless we switched to a
+	    full RGBA image format.
+	  <p><a name="Bugs"><b>Bugs</b></a>
+	  <p>Internet Explorer doesn't display javascript generated
+	    images.  See the <a href="examples.js">examples.js</a>
+	    source for the variations attempted.
+	  <p>Netscape Navigator ignores the <b>alpha</b> values of
+	    colors, all are treated as opaque.  If you start trying to 
+	    figure out what you're supposed to do with arbitrary alpha 
+	    values in a finite color map, you can almost sympathize
+	    with the slackers who punted on this.  But, then again,
+	    they were getting paid for this and they also got a pile
+	    of Netscape/AOL stock.  Boyd says they earned it even if
+	    they did punt the PNG's.
+	  <p>Netscape gets confused if the same
+	    "javascript:expression" URL returns different images.
+	    That is, if you write a simple animation:
+<pre>
+var p = new Pnglet(64, 64, 8);
+var black = p.color(0,0,0,0);
+var white = p.color(255,255,255);
+p.line(white, 0,0, 64,64);
+document.images.myImage.src =
+   "javascript:p.output()";
+p.line(white, 64,64, 0,32);
+document.images.myImage.src =
+   "javascript:p.output()";
+</pre>	    
+	  then it might happen that Netscape won't redisplay the image 
+	  after the crucial second line segment is drawn, because it
+	  appears to be identical to the first URL.  I think you can
+	  avoid this problem by simply assigning
+	  <code>p.output()</code> to a unique variable name or array
+	  element, but I haven't tried it.
+	  <p>Netscape gets confused if more than one
+	    "javascript:expression" is being computed at once, as when
+	    several &lt;IMG SRC="javascript:..."&gt; tags appear on
+	    the same page and Netscape dispatches them to load in
+	    parallel. This nearly killed me as I tried to debug this
+	    web page, because every time I added a new image or
+	    altered the layout something new would appear to break.
+	    For days I thought that I was tickling some class of obscure
+	    Netscape JavaScript bugs, but it turns out to be exactly
+	    one obscure Netscape JavaScript bug:  that JavaScript is
+	    not safely reentrant.  You can avoid this problem in
+	    several ways, none of which are any fun.  This page sequences
+	    the image generation with <b>setTimeout()</b> because a
+	    daisychain through the onload handlers of the images went into
+	    lala-land when loading over the Internet.
+	  <p>Netscape gets confused if more than one computed image
+	    gets assigned to the same <b>Image.src</b>.  It continues
+	    to display the original computed image even while saving
+	    the newer computed image through the right mouse button
+	    "Save Image As ..." menu item.
+	  <p>Netscape 4.05 has problems both in evaluating the
+	    javascript and in displaying Png format from javascript
+	    urls.
+	  <p>Computing Pnglets is hideously expensive largely because
+	    of the <a href="ouch.html">checksums</a> which are
+	    required by the Png format and the Zlib compression
+	    library.  A browser could reduce the cost of Pnglets by a
+	    factor of 40 to 70 by eliminating the checksums.
+	  <p><a name="Credits"><b>Source and Credits</b></a>
+	  <p><a href="../js/Pnglet.js">Pnglet.js</a> was written by and is Copyright &copy; 1999 by
+	    <a href="mailto:info@elf.org">Roger E Critchlow Jr</a>, Santa Fe, New Mexico, USA, and
+		licensed under the <a href="http://www.opensource.org/licenses/afl-2.1.php">
+						Academic Free License version 2.1</a>.
+	  <p>Pnglets were directly inspired by Tom Boutell's <a
+	      href="http://www.boutell.com/gd">gd</a> library for
+	    drawing GIFs, and much of the Pnglet code started out as a 
+	    direct translation from the C of gd into JavaScript.
+	  <p>But along the way, parts of <a
+	      href="http://www.scriptics.com">Tk</a> crept into the design,
+	    including all the code for smoothing, the oval drawing was
+	    replaced by code from Foley & van Dam, the polygon fill
+	    was replaced by Paul Heckbert's code from Graphics Gems,
+	    and any remaining bugs must certainly be mine.
+      <p>Thanks to Alex Vincent for pointing the costs of code which
+              contains strict javascript warning errors and helping me
+              eliminate the problems.
+	</td>
+      </tr>
+    </table>
+    <img src="../images/pixel.gif" height="10" width="500" alt=""><br>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+	<td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<td width="125" valign="top"><img height="1" width="125" src="../images/pixel.gif" alt=""><br>
+	</td>
+	<td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <center>
+	    Copyright &copy; 1999,
+	    <address><a href="mailto:info@elf.org">Roger E Critchlow Jr</a></address>
+	    <!-- Created: Sun Mar 14 22:54:17 MST 1999 -->
+	    <!-- hhmts start -->
+Last modified: Mon Jul  7 15:05:24 MDT 2003
+<!-- hhmts end -->
+	    <br>Santa Fe, New Mexico, USA
+	    <address><a href="http://www.elf.org">elf.org</a></address>
+	  </center>
+	</td>
+      </tr>
+    </table>
+  </body>
+</html>

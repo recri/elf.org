@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <LINK REV=MADE HREF="mailto:info@elf.org">
+    <meta name="GENERATOR" content="Roger E Critchlow Jr">
+    <meta name="DESCRIPTION" content="Mankala Tclet.">
+    <title>Mankala</title>
+  </head>
+  <body text="#000" bgcolor="#ffffff" background="../images/el_bg.gif" link="#993333" vlink="#333399" alink="#cc3333">
+    <embed src="mankala.tcl" width="500" height="160" vspace="25" hspace="25"
+      stones="6" stone-colors="poly"
+      s-strategy="player" n-strategy="FindGreedy FindLast">
+    </embed>
+    <br>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+	<!-- ======== left gutter ====================================== -->
+	<td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<!-- ======== left column ====================================== -->
+	<td width="125" valign="top"><img height="1" width="125" vspace="20" src="../images/pixel.gif" alt=""><br>
+	</td>
+	<!-- ======== middle gutter ==================================== -->
+	<td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<!-- ======== right column ===================================== -->
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <b>Mankala</b>
+	  <p><b>To Play</b>
+	  <p>The mankala game above let's you play south against a Tcl
+	    program playing north.  You play by clicking on one of the
+	    stones in one of the six round pits along the bottom of
+	    the board.
+	  <p>
+	    Mankala is a game played with stones or seeds on a board
+	    with fourteen pits.  The south player plays from the six
+	    small pits along the bottom of the board and scores stones
+	    played into the larger home pit at the right edge of the
+	    board.  The north player plays from the six small pits
+	    along the top of the board and scores stones played into
+	    the larger home pit at the left edge of the board.
+	  <p>
+	    A play consists of picking up the stones from one of your
+	    play pits and sowing them one at a time counterclockwise
+	    into your own play pits, your home pit, and your opponents
+	    play pits.  If the last stone played in a turn lands in
+	    your home pit, then you get to play again.  If the last
+	    stone played lands in an empty play pit on your side of
+	    the board, then you capture any stones in the play pit
+	    opposite by moving them across the board into your play
+	    pit.
+	  <p>
+	    The game ends when either player cannot take a turn.  You
+	    score all stones in your pits.  The player with the most
+	    stones wins.
+	  <p>
+	    Many variations of mankala exist.  The rules implemented
+	    above incorporate a mutation in the rules that came with
+	    the first mankala board I bought, a mutation which
+	    lengthens the game.
+	  <p><b>The Tcl Program</b>
+	  <p>The <a href="mankala.tcl">
+	      source for Mankala
+	    </a>
+	    is 571 lines or 15Kbytes of code.
+	    The program was originally written as a
+	    <a href="../pub/mankala.tk">
+	      standalone Tcl/Tk application,
+	    </a>
+	    and also exists as a
+	    <a href="../mankala/Mankala.html">
+	      Java applet
+	    </a>.
+	  <p>
+	    The <b>embed_args</b> accepted by the Tcl Plugin are:
+	  <table>
+	    <tr><td>width</td><td>the width of the board.</td></tr>
+	    <tr><td>height</td><td>the height of the board.</td></tr> 
+	    <tr><td>stones</td><td>the number of stones, which may be
+		3, 4, 5, or 6.</td></tr>
+	    <tr><td>stone-colors</td><td>the stone coloring, which may
+		be poly or mono.</td></tr> 
+	    <tr><td>s-strategy</td><td>the strategy pursued by the
+		south player.</td></tr> 
+	    <tr><td>n-strategy</td><td>the strategy pursued by the
+		north player.</td></tr> 
+	  </table>
+	  <p>
+	    The available <b>strategies</b> for s-strategy and n-strategy are:
+	  <table>
+	    <tr><td>player</td><td>play under interactive control.</td></tr>
+	    <tr><td>FindRandom</td><td>choose a random play.</td></tr>
+	    <tr><td>FindFirst</td><td>choose the first legal play.</td></tr>
+	    <tr><td>FindLast</td><td>choose the last legal play.</td></tr>
+	    <tr><td>FindFirstLargest</td><td>choose the first pit with
+		the largest number of stones.</td></tr>
+	    <tr><td>FindLastLargest</td><td>choose the last pit with
+		the largest number of stones.</td></tr>
+	    <tr><td>FindFirstSmallest</td><td>first pit with the
+		smallest number of stones.</td></tr>
+	    <tr><td>FindLastSmallest</td><td>last pit with the
+		smallest number of stones.</td></tr> 
+	    <tr><td>FindGreedy ...</td><td>play the most continuation
+		moves, ie moves which end by playing into your own
+		home pit, then play the largest capture move, ie moves
+		which end by playing into empty play pit of your own
+		opposite a filled play pit of your opponent's, then
+		play the strategy described by ....</td></tr>
+	  </table>
+	  <p>
+	    The game above was specified with the markup:
+<pre>
+  &lt;embed src=mankala.tcl
+    width=&quot;500&quot; height=&quot;160&quot;
+    vspace=&quot;25&quot; hspace=&quot;25&quot;
+    stones=&quot;3&quot; stone-colors=&quot;poly&quot;
+    s-strategy=&quot;player&quot;
+    n-strategy=&quot;FindGreedy FindLast&quot;&gt;	
+</pre>
+	</td>
+      </tr>
+    </table>
+    <img src="../images/pixel.gif" height="10" width="500" alt="">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+	<td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<td width="125" valign="top"><img height="1" width="125" src="../images/pixel.gif" alt=""><br>
+	</td>
+	<td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <center>
+	    <address><a href="mailto:info@elf.org">Roger E Critchlow Jr</a></address>
+	    <!-- Created: September 2, 1996 -->
+	    <!-- hhmts start -->
+Last modified: Fri May 16 19:40:01 MDT 2003
+<!-- hhmts end -->
+	    <address><a href="http://www.elf.org">elf.org</a></address>
+	  </center>
+	</td>
+      </tr>
+    </table>
+  </body>
+</html>

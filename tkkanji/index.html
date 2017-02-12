@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <LINK REV=MADE HREF="mailto:info@elf.org">
+    <meta name="GENERATOR" content="Roger E Critchlow Jr">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <meta name="DESCRIPTION" content="Tcl/Tk Kanji dictionary application">
+            <meta name="KEYWORDS" content="tcl, tk, tcl/tk, kanji, japanese, dictionary">
+    <title>tk kanji</title>
+    <link rel="stylesheet" type="text/css" href="../style/elf.css" media="all"/>
+    
+</head>
+<body>
+  <div id="header">
+    <img src="../images/cloud-banner.jpg" width="500" height="50" vspace="25" hspace="25" alt="clouds"><br>
+  </div>
+
+  <div class="container">
+	<div class="left">
+       <div class="menu">
+    <a href="index.html#install">Install</a><br/>
+    <div class="menu">
+        <a href="index.html#tkkanji">Tk Kanji</a><br/>
+        <div class="menu">
+            <a href="../pub/tkkanji01.tar.gz">As Tgz</a><br/>
+            <a href="../pub/tkkanji01.zip">As Zip</a><br/>
+            <a href="../pub/tkkanji01.tcl">As Tclshar</a><br/>
+        </div>
+        <a href="index.html#dictionaries">Dictionaries</a><br/>
+        <div class="menu">
+            <a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/kanjidic.gz">kanjidic.gz</a><br/>
+            <a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/kanjd212.gz">kanjd212.gz</a><br/>
+        </div>
+        <a href="index.html#fonts">Fonts</a><br/>
+        <div class="menu">
+            <a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/00INDEX.html#oth_fil">Windows</a><br/>
+            <a href="ftp://ftp.gnu.org/gnu/intlfonts/intlfonts-1.1-split/">X11</a><br/>
+        </div>
+        <a href="index.html#tcl/tk">Tcl/Tk</a><br/>
+        <div class="menu">
+            <a href="http://www.tcl.tk">Tcl Exchange</a><br/>
+        </div>
+    </div>
+    <a href="index.html#credits">Credits</a><br/>
+    <a href="index.html#copyright">Copyright</a><br/>
+    <br/>
+    <a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/00INDEX.html">Nihongo Archive</a><br/>
+</div>
+
+	</div>
+	<div class="main">
+       	  <b>Tk Kanji</b>
+	  <p>
+	    Tk Kanji is a graphical user interface to the freely
+	    available <a
+	      href="ftp://ftp.cc.monash.edu.au/pub/nihongo/00INDEX.html">Kanji
+	      dictionary</a> files compiled by Jim Breen at Monash
+	    University in Melbourne.  It is a very rough cut at an
+	    application which could do a lot more.  For the time
+	    being, it provides a functional browser to the dictionary, 
+	    a couple of kanji study drills to aid my progress through
+	    James W. Heisig's <i>Remembering the Kanji, I: A complete
+	      course on how not to forget the <b>Meaning</b> and
+	      <b>Writing</b> of Japanese characters</i>, a game to
+	    entertain my 3 year old, an example of an
+	    internationalized application in
+	    <a href="http://www.scriptics.com">Tcl/Tk</a>,
+	    and a, no doubt, large number flawed design decisions and
+	    bugs which I'll correct when I start doing a better job of 
+	    earning a living.
+	  </p><p>
+	    Kanji means "Chinese Character" in Japanese.  It denotes
+	    the set of Chinese pictographs and ideographs adopted for
+	    the purposes of writing Japanese starting in the 4th
+	    century of the common era.  There are 2229 kanji in common
+	    use in Japan, according to the Jouyou/Jinmeiyou lists
+	    compiled by the Japanese government.  The 
+	    JISX-0208-1990 encoding specifies the 6355 kanji which are
+	    most likely to be encountered, which include the
+	    Jouyou/Jinmeiyou lists.  The JISX-0212-1990 encoding
+	    specifies an additional 5801 kanji which are less
+	    frequently encountered.  Tk Kanji allows you to browse
+	    kanjidic and kanjd212, Jim Breen's dictionaries describing
+	    the 12156 kanji covered by the JISX encodings.
+	  </p><p>
+	    Tk Kanji is a
+	    <a href="http://www.scriptics.com">Tcl/Tk</a> application.
+	    Tcl is a scripting language which runs on Unix, Windows
+	    95/98/NT, and Apple MacIntosh computers.  Tk is a
+	    graphical user interface toolkit based on Tcl which runs
+	    on the same platforms.  Tk Kanji illustrates the speed
+	    with which cross-platform applications can be built in
+	    Tcl/Tk, the extent and ease of use of the
+	    internationalization features of Tcl/Tk, and a bug in the
+	    Tcl internationalization support.
+	  </p><p>
+	    It's hard to appreciate how rapidly a Tcl/Tk programmer
+	    can generate useful applications.  My study of Kanji began
+	    when the books which
+	    <a href="http://www.amazon.com">Amazon</a> shipped on July
+	    31, 1999 arrived.  I began building a Kanji study
+	    application sometime after that.  But work on Tk Kanji
+	    could only begin when I finally stumbled onto Jim Breen's
+	    dictionaries on August 13, 1999.  So in Tk Kanji version
+	    0.1 you are seeing the fruits of no more than 7 days
+	    work.
+	  </p><p>
+	    It's also very hard to spot the part of Tk Kanji which
+	    makes it a Japanese competent program, so I'll tell you
+	    where it is.  If you look at the procedures which read
+	    files, you'll find the lines:<br><br>
+<code>
+fconfigure $fp -encoding $encoding<br>
+fconfigure $fp -encoding euc-jp<br>
+</code><br>
+	    These lines tell Tcl the <i>encoding</i> used in the files 
+	    it is reading.  The second line explicitly specifies that
+	    the file uses the <i>Extended Unix Code for Japanese</i>.
+	    Knowing the encoding of a file, Tcl is able to read the
+	    file and translate its contents into
+	    <a href="http://www.unicode.org">Unicode</a>, a character
+	    set which represents all the ways currently used by human
+	    beings to write their languages.  That, and installation
+	    of the appropriate fonts, is all it took to bootstrap
+	    Tcl/Tk to the point where it was displaying error alerts
+	    with kanji embedded in them.
+	  </p><p>
+	    The bug in Tcl/Tk's internationalization that kanjd212
+	    turned up is that only half of the <b>euc-jp</b> encoding
+	    is implemented.  The <b>Extended Unix Code</b> is used in
+	    Chinese, Japanese, and Korean to mix single byte codes for 
+	    the Latin alphabet, double byte codes for kanji, an
+	    alternate single byte code set for hangul and kana, and an 
+	    alternate double byte code for even more kanji.  The
+	    Japanese code is the only one that uses the alternate
+	    double byte coding.  Tcl/Tk doesn't currently support the
+	    alternate double byte coding.  I expect this to be fixed
+	    in a future release of Tcl/Tk.  Tk Kanji uses a work
+	    around to read kanjd212, but other files will display the
+	    string &quot;\x8f&quot; followed by a kanji from
+	    the JISX-0208-1990 character set whenever a JISX-0212-1990
+	    character is encountered.  My apologies for any confusion
+	    this causes.
+	  </p><p>
+	    <b><a name="install">Installation</a></b>
+	  </p><p>
+	    To install Tk Kanji you will need:
+	    <ul>
+	    <li>
+	      <p>
+	      <a name="tcl/tk">Tcl/Tk version 8.1.1 or later.</a>
+	      <a href="http://www.scriptics.com">Scriptics</a> has
+	      Windows and MacIntosh self installing binaries, sources,
+	      and perhaps even a few prebuilt Unix binaries.  I
+	      haven't had time to test against the latest Tcl/Tk
+	      release, 8.2.0, but it almost certainly will work, too.
+	      </p>
+            </li><li>
+	      <p>
+	      <a name="fonts">Japanese fonts.</a>
+	      You may have some Japanese fonts already installed on
+	      your computer.  The configuration page in Tk Kanji will
+	      let you preview the presentation of kanji in all the
+	      available font families at the sizes it uses.
+	      </p><p>
+		There will be some <i>deja vu</i> involved in the 
+		previewing because Tk substitutes a font family if the
+		family selected doesn't contain the kanji characters,
+		so don't be alarmed if the Courier, Helvetica, and
+		Mincho families look suspiciously similar.
+		If all the choices look ragged or boring at large
+		point sizes, then you probably want some nicer fonts.
+	      </p><p>
+		For Windows, you can take Internet Explorer 5 to its
+		"windows update" menu item in the "tools menu" and
+		then select the Japanese Language Support update for
+		download.  This gets you, I believe, the "MS Gothic"
+		font.  The Far-Eastern support kit for Office has
+		a "MS Mincho" font.  You can find an installer for
+		this at the
+		<a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/00INDEX.html#oth_fil">Nihongo Archive</a>.
+	      </p><p>
+		For X11, the best fonts derive from the GNU support
+		for internationalized emacs.  You can find these at
+		the
+		<a href="ftp://ftp.gnu.org/gnu/intlfonts/">
+		  GNU ftp archives</a>, along with instructions for
+		installing them and tricking your Xserver into finding 
+		them.  The
+		<a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/00INDEX.html#oth_fil">Nihongo Archive</a>
+		also has the GNU fonts, and I also found them packaged
+		into rpm format via
+	      <a href="http://rpmfind.net/linux/RPM/X11_fonts.html">RPM finder</a>
+		but they seem to have since disappeared.
+	      </p>
+            </li><li>
+	      <p>
+	      <a name="dictionaries">Kanji dictionaries.</a>
+	      You will need a copy of
+	      <a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/kanjidic.gz">kanjidic.gz</a>.
+	      There are
+	      <a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/00INDEX.html">instructions</a>
+	      for decompressing gzipped files at the Nihongo archive.
+	      You might want a copy of
+	      <a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/kanjd212.gz">kanjd212.gz</a>, 
+	      but you don't need it to use Tk Kanji.
+	      You might also find the documentation files for kanjidic, 
+	      <a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/kanjidic.doc">kanjidic.doc</a>,
+	      and for kanjd212,
+	      <a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/kanjd212.doc">kanjd212.doc</a>,
+	      helpful in explaining some of what TkKanji is showing you.
+	      </p>
+            </li><li>
+	      <p>
+	      <a name="tkkanji">Tk Kanji itself.</a>
+	      You can download either as a
+	      <a href="../pub/tkkanji01.tar.gz">gzipped tar archive (24K)</a>,
+	      or as a
+	      <a href="../pub/tkkanji01.zip">zip archive (35K)</a>,
+ 	      or as a
+	      <a href="../pub/tkkanji01.tcl">tclshar archive (130K)</a>.
+	      Each of these will create a directory named TkKanji in
+	      the current directory and unpack the Tk Kanji sources
+	      into it.  If everything else is set, you should be able
+	      to execute tkkanji.tcl, specify the location of your
+	      dictionaries, and go.
+	      </p><p>
+		The tclshar archive can be unpacked by the copy of
+		Tcl/Tk that you installed in the first step, so it's
+		the best choice of archive if zip and gzipped tar
+		don't ring any bells.
+	      </p>
+            </li>
+	  </ul>
+	  </p><p>
+	    <b><a name="credits">Credit Where Due</a></b>
+	  </p><p>
+	    Thanks are due to several people and organizations.
+	  </p><p>
+	    The work of the <a href="http://www.unicode.org">Unicode
+	      Consortium</a> made all the world's writing systems
+	    available for inclusion in computer programs.
+	  </p><p>
+	    The developers of <a href="http://www.scriptics.com">Tcl/Tk</a>
+	    made Unicode available to programs running on Unix,
+	    Windows, and MacIntosh computers.
+	  </p><p>
+	    <a href="http://www.gnu.org">GNU</a>
+	    and
+	    <a href="http://www.microsoft.com">Microsoft</a>
+	    supplied the fonts to display the Unicode.
+	  </p><p>
+	    Jim Breen and his students and collaborators
+	    at the
+	    <a href="ftp://ftp.cc.monash.edu.au/pub/nihongo/00INDEX.html">Nihongo Archives</a>
+	    compiled and provided the dictionary which make the
+	    program really interesting.
+	  </p><p>
+	    Bruce Gingery, and Larry Virden provided feedback on web
+	    page configuration and installation instruction lapses.
+	  </p><p>
+	    Domo arigato.
+	  </p><p>
+	    <b><a name="copyright">Copyright</a></b>
+	  </p><p>
+	    Tk Kanji is Copyright &copy; 1999 by Roger E Critchlow Jr, 
+	    Santa Fe, New Mexico, USA.
+	  </p><p>
+	    This program is free software; you can redistribute it
+	    and/or modify it under the terms of the
+	    <a href="http://www.gnu.org">GNU General Public License</a>
+	    as published by the Free Software Foundation; either
+	    version 2 of the License, or (at your option) any later
+	    version.
+	  </p><p>
+	    This program is distributed in the hope that it will be
+	    useful, but WITHOUT ANY WARRANTY; without even the implied
+	    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+	    PURPOSE.  See the
+	    <a href="http://www.gnu.org">GNU General Public License</a>
+	    for more details.
+	  </p>
+	</div>
+  </div>
+
+  <div id="footer">
+     <div class="left"></div>
+     <div class="main">
+        <center>
+            &copy; Copyright 1997-2006 by
+            <address><a href="mailto:info@elf.org">Roger E Critchlow Jr</a></address>
+            Santa Fe, NM, USA<br>
+            <!-- hhmts start -->
+Last modified: Tue Jul 06 08:54:01 AM MDT 2004
+<!-- hhmts end -->
+            <address><a href="http://www.elf.org">elf.org</a></address>
+        </center>
+      </div>
+  </div>
+</body>
+</html>
+

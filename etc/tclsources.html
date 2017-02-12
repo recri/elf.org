@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tcl Sources | the entropy liberation front</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="../elf/elf/favicon.ico" type="image/x-icon" />
+    <link type="text/css" rel="stylesheet" media="all" href="../modules/node/node.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="../modules/system/defaults.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="../modules/system/system.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="../modules/system/system-menus.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="../modules/user/user.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="../sites/all/modules/cck/theme/content-module.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="../sites/all/modules/tagadelic/tagadelic.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="../sites/all/modules/cck/modules/fieldgroup/fieldgroup.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="../themes/garland/style.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="../sites/all/themes/elf/elf.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="print" href="../themes/garland/print.css%3FL.css" />
+    <script type="text/javascript" src="../misc/jquery.js%3FL"></script>
+<script type="text/javascript" src="../misc/drupal.js%3FL"></script>
+<script type="text/javascript" src="../sites/all/themes/elf/js/cufon.js%3FL"></script>
+<script type="text/javascript" src="../sites/all/themes/elf/js/CAPITALIS_RUSTICA_400.font.js%3FL"></script>
+<script type="text/javascript" src="../sites/all/themes/elf/js/redraw_header.js%3FL"></script>
+<script type="text/javascript" src="../sites/all/themes/elf/js/banner.js%3FL"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/" });
+//--><!]]>
+</script>
+    <!--[if lt IE 7]>
+      <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/elf/fix-ie.css" />    <![endif]-->
+  </head>
+  <body class="sidebar-left">
+<!-- Layout -->
+
+  <div id="header-region" class="clear-block"></div>
+
+  <div id="wrapper">
+    <div id="container" class="clear-block">
+	  <div id="header">
+
+	    <div id="logo-floater">
+	      <h1><a href="../index.html" title="the entropy liberation front"><span>the entropy liberation front</span></a></h1>		</div> <!-- /#logo-floater -->
+
+                                                    
+      </div> <!-- /#header -->
+
+              <div id="sidebar-left" class="sidebar"><div id="block-menu-primary-links" class="clear-block block block-menu">
+
+  <h2>Stuff</h2>
+
+  <div class="content"><ul class="menu"><li class="leaf first"><a href="../ephemeris/index.html" title="Ephemeris">Ephemeris</a></li>
+<li class="expanded active-trail"><a href="index.html" title="Et Cetera">Et Cetera</a><ul class="menu"><li class="leaf first"><a href="author.html" title="Author">Author</a></li>
+<li class="leaf"><a href="networks.html" title="Messy Networks">Messy Networks</a></li>
+<li class="leaf"><a href="links.html" title="Miscellaneous Links">Miscellaneous</a></li>
+<li class="leaf"><a href="randomnumbers.html" title="Random Numbers">Random Numbers</a></li>
+<li class="leaf"><a href="ricoeur.html" title="Reading Ricoeur">Reading Ricoeur</a></li>
+<li class="leaf"><a href="subtile.html" title="Subtile">Subtile</a></li>
+<li class="leaf"><a href="swindle.html" title="A Hundred Words for Swindle">Swindles</a></li>
+<li class="leaf"><a href="tcl-expr-patch.html" title="Tcl Expr Patch">Tcl Expr Patch</a></li>
+<li class="leaf active-trail"><a href="tclsources.html" title="Tcl Sources" class="active">Tcl Sources</a></li>
+<li class="leaf last"><a href="tcltk-man-html.html" title="Tcl/Tk Man Pages">Tcl/Tk Man Pages</a></li>
+</ul></li>
+<li class="leaf"><a href="../mankala/Mankala.html" title="mankala">Mankala</a></li>
+<li class="leaf"><a href="../oindex.html" title="Old Home Page">Old Home Page</a></li>
+<li class="collapsed"><a href="../processing.html" title="Processing">Processing</a></li>
+<li class="leaf last"><a href="../puzzle.html" title="Puzzle Earth">Puzzle Earth</a></li>
+</ul></div>
+</div>
+ </div>
+      
+      <div id="center">
+		<div id="squeeze"><div class="right-corner"><div class="left-corner">
+        <div class="breadcrumb"><a href="../index.html">Home</a></div>                        <h2>Tcl Sources</h2>                                        <div class="clear-block"><div id="node-7" class="node">
+
+
+
+  
+  <div class="content clear-block">
+    <h3>Tcl/Tk Programs</h3>
+<dl>
+<dt><a href="../pub/tclshar">tclshar</a></dt>
+<dd>An extremely rudimentary version of <b>shar</b>, the unix shell archive maker, which works with tclsh.  A <b>tclshar</b> is a tcl program which when executed extracts itself into the current directory and recreates the directories and files it archives.  This is the obvious way to distribute pure tcl programs so they can be downloaded onto windows and macs as well as unix systems.<br />
+An updated tclshar now produces archives which behave somewhat reasonably when executed by wish, as might happen if one was double clicked on Windoze.</dd>
+<dt><a href="../pub/good-time">good-time</a></dt>
+<dd>A tcl script which fetches the correct time via telnet from time.nist.gov and prints it out in standard format.  Several other time sources on the internet and their formats are also documented in the script.</dd>
+<dt><a href="../pub/mankala.tk">mankala</a></dt>
+<dd>An ancient game of stones in pits programmed in Tcl/Tk.  Play with your friends, play against the computer, or just let the computer play against itself. </dd>
+<dt><a href="../pub/subtile-0.2.shar">subtile 0.2</a></dt>
+<dd>A Tcl/Tk (4.0 or 4.1) program for generating Penrose, Ammann, and other aperiodic tilings through substitution or composition rules, displaying them, taking their fourier transforms, and generating postscript you can print for the kids to color.</dd>
+<dt><a href="../pub/subtile-0.3.tcl">subtile 0.3</a></dt>
+<dd>A Tcl/Tk (8.0 or greater) program for generating Penrose, Ammann, and other aperiodic tilings through substitution or composition rules, displaying them, taking their fourier transforms, and generating postscript you can print for the kids to color.<br />
+Now packaged with tclshar so it can be unpacked onto the Mac or Windows and using the <b>file</b> pathname constructors so it should run there, too.<br />
+Inspired by Marjorie Senechal's <i>Quasicrystals and Geometry</i> (Cambridge UP, Cambridge, 1995), with support from Branko Gr&#252;nbaum<br />
+ and G. C. Shephard, <i>Tilings and Patterns</i>, (WH Freeman, New York, 1987).</dd>
+<dt><a href="../pub/maze.tk">maze</a></dt>
+<dd>The maze screensaver from <a href="ftp://ftp.x.org/contrib/applications">xlockmore</a> converted to a Tk program so you can amuse yourself and your small children by solving the maze instead of pretending to be a potato while your computer does it.  Or you can push the solve button and be an interactive potato.</dd>
+</dl>
+<h3>Tcl/Tk Procedures</h3>
+<dl>
+<dt><a href="../pub/palette.tcl">palette.tcl</a></dt>
+<dd>A reworking of Eric Grosse's <a href="http://netlib.bell-labs.com/netlib/graphics/index.html">rainbow</a> color palette generator from <a href="http://netlib.bell-labs.com/netlib/">netlib</a>. This allows you to generate a variety of color palettes in Tcl.  I happen to like the  &quot;iron&quot; palette which looks like a black body temperature scale.<br />
+A version <a href="../pub/old-palette.tcl">old-palette.tcl</a> for the namespace challenged.</dd>
+<dt><a href="../pub/random.tcl">random.tcl</a></dt>
+<dd>George Marsaglia's mother of all random number generators, written in Tcl.  This is a very long period pseudorandom number generator.<br />
+A version <a href="../pub/old-random.tcl">old-random.tcl</a> without namespaces.</dd>
+<dt><a href="../pub/time.tcl">time.tcl</a></dt>
+<dd>A collection of time and date computations written in Tcl. This solves the problem of converting Unix julian time (seconds since January 1, 1970 0h UT) into calendar date in Tcl-7.4 and earlier.<br />
+Note that the difference between the year 95 and the year 1995 is 19 centuries, and though you may have a vested interest in the current century, the algorithm does not.</dd>
+<dt><a href="../pub/xpm-to-image.tcl">xpm-to-image.tcl</a></dt>
+<dd>A Tcl procedure for converting xpm format pixmaps into Tk photo images.</dd>
+</dl>
+  </div>
+
+  <div class="clear-block">
+    <div class="meta">
+        </div>
+
+      </div>
+
+</div>
+</div>
+                <div id="footer">The history of the universe is a history of entropy liberation.</div>
+        </div></div></div> <!-- /.left-corner, /.right-corner, /#squeeze -->
+	  </div> <!-- /#center -->
+
+      
+    </div> <!-- /#container -->
+  </div> <!-- /#wrapper -->
+
+<!-- /layout -->
+    <script type='text/javascript'>Cufon.now();</script>
+  </body>
+</html>
+

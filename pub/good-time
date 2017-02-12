@@ -1,0 +1,127 @@
+#!/usr/bin/tclsh
+##
+## good-time - for the correct time, ...
+##
+## Placed into the public domain by rec@elf.org, January 1999.
+##
+## usage: good-time [host [port [timezone]]]
+##	host - defaults to time.nist.gov.
+##	port - defaults to 13.
+##	timezone - defaults to nothing, not necessary for NIST format.
+##
+## After wading through a complicated linux time synchronization
+## package, it turned out that the key was to telnet to time.nist.gov
+## on port 13.  You can do that in tcl, so here it is.
+##
+## It also turns out that a lot of machines return some kind of time
+## service on port 13, so I recognize a few variations in the format
+## returned.
+##
+## See http://www.boulder.nist.gov/timefreq/ for more information and
+## links to yet more information.
+##
+
+##
+## choose the host
+##
+set host time.nist.gov
+if {$argc > 0} {
+    set host [lindex $argv 0];
+}
+
+##
+## choose the port
+##
+set port 13
+if {$argc > 1} {
+    set port [lindex $argv 1];
+}
+
+##
+## choose the timezone
+##
+set timezone {}
+if {$argc > 2} {
+    set timezone [lindex $argv 2];
+}
+
+##
+## set a time out
+##
+after [expr 30*1000] {
+    close $sock
+    puts stderr "timed out";
+    if {[info exists lines]} {
+	puts stderr "no time found in:\n$lines"
+    }
+    exit 1;
+}
+
+##
+## open a socket
+##
+if {[catch {socket $host $port} sock]} {
+    puts stderr "socket: $sock"
+    exit 2;
+}
+
+##
+## read what comes back
+##
+while {[gets $sock line] >= 0} {
+
+    #
+    # typical daytime response is unix date format without timezone indication
+    #
+    #	Mon Sep 16 21:59:22 1996
+    #
+    if {[regexp {^... ([A-Z][a-z][a-z]) ([ 0-9][0-9]) ([0-9][0-9]:[0-9][0-9]:[0-9][0-9]) ([0-9][0-9][0-9][0-9])$} \
+	     $line all month mday time year]} {
+	puts [clock format [clock scan "$month $mday, $year $time $timezone"]]
+	close $sock
+	exit 0;
+    }
+
+    #
+    # NIST time service format returned by:
+    #
+    #	time.nist.gov
+    #	time-nw.nist.gov
+    #	time-a.timefreq.bldrdoc.gov
+    #
+    # 50343 96-09-17 05:02:07 50 0 0  50.0 UTC(NIST) * 
+    #
+    if {[regexp {^..... ([0-9][0-9])-([0-9][0-9])-([0-9][0-9]) ([0-9][0-9]:[0-9][0-9]:[0-9][0-9]) .. . . ..... UTC\(NIST\)} \
+	     $line all year month day time]} {
+	puts [clock format [clock scan "$month/$day/$year $time UTC"]]
+	close $sock;
+	exit 0;
+    }
+
+    #
+    # USNO master clock format returned by:
+    #
+    #	tick.usno.navy.mil
+    #	tock.usno.navy.mil
+    #
+    # 50343 261 044932 UTC
+    #
+    if {[regexp {^..... ([ 0-9][ 0-9][0-9]) ([0-9][0-9])([0-9][0-9])([0-9][0-9]) UTC$} \
+	     $line all doy hour minute second]} {
+	puts [clock format [clock scan $hour:$minute:$second -gmt true]]
+	close $sock;
+	exit 0
+    }
+
+    #
+    # save unrecognized stuff for final error message
+    #
+    append lines $line\n
+}
+
+##
+## give up
+##
+close $sock;
+puts stderr "no time found in:\n$lines";
+exit 4

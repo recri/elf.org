@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <LINK REV=MADE HREF="mailto:info@elf.org">
+    <meta name="GENERATOR" content="Roger E Critchlow Jr">
+    <meta name="DESCRIPTION" content="Inline Images on Web Pages.">
+    <meta name="KEYWORDS" content="Web images, JavaScript, inline">
+    <title>Inline Images on Web Pages</title>
+  </head>
+  <body text="#000" bgcolor="#ffffff" background="../images/el_bg.gif" link="#993333" vlink="#333399" alink="#cc3333">
+    <img src="../images/cloud-banner.jpg" width="500" height="50" vspace="25" hspace="25" alt="clouds">
+    <br>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+	<!-- ======== left gutter ====================================== -->
+	<td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<!-- ======== left column ====================================== -->
+	<td width="125" valign="top"><img height="1" width="125" vspace="20" src="../images/pixel.gif" alt=""><br>
+	  <a href="inline-image.html#inline">Inline Images</a><br>
+	  &nbsp; &nbsp; &nbsp; &nbsp;<a href="inline-image.html#document">Document.open()</a><br>
+	  &nbsp; &nbsp; &nbsp; &nbsp;<a href="inline-image.html#data">Data URL</a><br>
+	  &nbsp; &nbsp; &nbsp; &nbsp;<a href="inline-image.html#javascript">JavaScript URL</a><br>
+	  &nbsp; &nbsp; &nbsp; &nbsp;<a href="inline-image.html#notes">Notes</a><br>
+	</td>
+	<!-- ======== middle gutter ==================================== -->
+	<td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<!-- ======== right column ===================================== -->
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <a name="inline">
+	    <b>Inline Images on Web Pages</b>
+	  </a>
+	  <p>It would be really nice if images could be included
+	    inside JavaScript or otherwise inlined into a web page
+	    rather than always being fetched from the web server.
+	  <p>Firstly, it would give us some more control over the
+	    presentation of our ideas.  When I put up a desk
+	    calculator, I want all of the button images to display at
+	    once.  I don't want my users watching an unscripted
+	    animation as the images are one by one stitched over the
+	    skeleton of my page.  I don't want them looking at
+	    skeletons at all, I want them to see the complete 
+	    web page.
+	  <p>Secondly, it would give us more flexibility.  If my
+	    client side script needs a particular image, there's no
+	    reason why I should have to make a roundtrip to Timbuktu
+	    for a precomputed image or so a server side program can
+	    generate the image.  I can draw it on the client side so I 
+	    should be able to insert it into the page.
+	  <p>So, given that a JavaScript could compute or simply store 
+	    an image in some format, how does it get the browser to
+	    display the image? There are three ways, none of which
+	    works as well as I'd like.
+	  <p>I should mention that haven't spent much time exploring
+	    these issues with Internet Explorer.   Most of my
+	    JavaScript seems to give Explorer indigestion, and IE's 
+	    script error reporting is abysmal.   So anyone who can
+	    enlighten me further on IE's capabilities for inline image 
+	    display should do so.
+	  <p>And eventually these issues will go away. The W3 has a 
+	    proposed Scalable Vector Graphics standard, <a
+	      href="http://www.w3.org/Graphics/SVG/">SVG</a>, which will make 
+	    for some very spiffy client side graphics if anyone ever
+	    implements it.
+
+	  <p>
+	    <a name="document">
+	      <b>Document.open()</b>
+	    </a>
+	  <p>The <b>document.open</b>(<i>mimeType</i>) method appears
+	    to support the following way of replacing a document with
+	    a computed image.<pre><code
+>document.open("image/gif");
+document.write(gifImageData);
+document.close();</code></pre
+>
+	  Both Goodman <a href="inline-image.html#bible">[1]</a> and Flanagan <a
+	    href="inline-image.html#definitive">[2]</a> discuss this as if it works.
+	  Unfortunately, the <b>document.write()</b> method in NN4+
+	  truncates its data at the first ascii NUL character.  It's
+	  reported that this worked in NN3, but I haven't confirmed
+	  that.
+	  <p>And even if it did work, it would be a less than ideal
+	    solution since it would require inline images to exist in
+	    layers which could be written into.  This would limit its
+	    use to browsers with DHTML support and its usefulness to
+	    pages which were written in a particular way.
+
+	  <p>
+	    <a name="data">
+	      <b>Data URL</b>
+	    </a>
+	  <p>The
+	    <a href="ftp://ietf.cnri.reston.va.us/internet-drafts/draft-masinter-url-data-03.txt">
+	      data url</a> format allows the value of a small object to be
+	    encoded inline as base64 content.  This looks like
+	    this:<pre><code
+>&lt;IMG SRC=&quot;data:image/gif;base64,[...]&quot;&gt;</code></pre
+>
+	  where the [...] is replaced with the base64 encoded image
+	  data. Since the content of an html element is limited, in
+	  worst case, to 1024 bytes, only fairly small images could be
+	  displayed this way.  (I'm not sure where my memory of this
+	  limit comes from.)
+	  <p>Another annoyance is that NN4+ only partially supports
+	    data URLs.  A data URL may appear in HTML source, but if
+	    you use one in JavaScript to update an Image.src you will get 
+	    the message: <code>illegal URL method 'data:'</code>.
+	    Thus it works only if the image data is written into the
+	    web page, not in the general case.
+
+	  <p>
+	    <a name="javascript">
+	      <b>JavaScript URL</b>
+	    </a>
+	  <p>The <code>javascript:imageData</code> method was offered
+	    by <a href="http://www.irt.org/">Martin Webb</a> on the
+	    comp.lang.javascript newsgroup when I asked for help.
+	    This uses a javascript url to supply the value for the
+	    <code>src=</code> attribute of an <code>IMG</code>
+	    element, or for the <code>.src</code> property of an
+	    <code>Image</code> object. The data is neither written nor
+	    encoded, it is simply supplied as the result of a
+	    javascript expression.  Thus we may write a url as:
+	    <code><pre>javascript:'GIF89a\1\0\1\0\200[...]\1\0;'</pre></code>
+	  which specifies a gif as a javascript literal string.  Or we
+	  might store that data into a global variable:
+	  <code><pre>var imageDataVar = 'GIF89a\1\0\1\0\200[...]\1\0;'</pre></code>
+	  and then write the url as:
+	  <code><pre>javascript:imageDataVar</pre></code>
+	  which references the value of the variable.
+	  Or we might write a function which returns the image data
+	  string and write the url as:
+	  <code><pre>javascript:functionReturningImage()</pre></code>
+	  which calls the function to supply the image data.
+	  <p>The drawbacks of this method are that it is browser
+	    specific;  that it doesn't cache well; that it cannot be
+	    used for multiple images on the same page unless special
+	    efforts are made to keep Netscape from running multiple
+	    threads in the JavaScript interpreter.
+
+	  <p><b>Notes</b>
+	  <p><a name="bible">[1]</a> Goodman, Danny, <i>JavaScript
+	      Bible</i>, 3rd Edition, IDG Books, Foster City, CA,
+	    1998.
+	  <p><a name="definitive">[2]</a> Flanagan, David,
+	    <i>JavaScript : The Definitive Guide</i>, 3rd Edition,
+	    O'Reilly, Cambridge, 1998.
+	</td>
+      </tr>
+    </table>
+    <img src="../images/pixel.gif" height="10" width="500" alt="">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr>
+	<td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<td width="125" valign="top"><img height="1" width="125" src="../images/pixel.gif" alt=""><br>
+	</td>
+	<td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <center>
+	    <address><a href="mailto:info@elf.org">Roger E Critchlow Jr</a></address>
+	    <!-- Created: Sun Mar 14 22:54:17 MST 1999 -->
+	    <!-- hhmts start -->
+Last modified: Sun Oct 30 22:51:55 MST 2005
+<!-- hhmts end -->
+	    <address><a href="http://www.elf.org">elf.org</a></address>
+	  </center>
+	</td>
+      </tr>
+    </table>
+  </body>
+</html>

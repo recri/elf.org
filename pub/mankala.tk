@@ -1,0 +1,698 @@
+#!/usr/local/bin/wish4.1
+
+##
+## Mankala - an ancient game played with pits with stones.
+## Copyright 1994 by Roger E. Critchlow Jr, San Francisco, CA
+## rec@elf.org
+##
+set mankala(about-mankala) {
+  Mankala is played by two players.
+
+  The board has two large home pits at the east and west edges and
+  twelve smaller playing on pits the north and south edges.  The
+  eastern home pit and the southern playing pits belong to the
+  southern layer, the western home pit and the northern playing pits
+  belong to the northern player.
+
+  The game starts with N (3, 4, 5, or 6) stones in each of the playing
+  pits.
+
+  You move by picking up all the stones in one of your six playing
+  pits and sowing one into each of the pits counter clockwise around
+  the board.  You sow stones into your own playing pits, your own home
+  pit, and your opponent's playing pits, but you do not sow stones
+  into your opponent's home pit.
+
+  You aren't supposed to mess around with the stones to count them, if
+  you touch then you've chosen the pit to play.
+
+  If the last stone played lands in your own home pit, then you get
+  another turn.
+
+  If the last stone played lands in one of your playing pits which
+  happens to be empty, then it captures all the stones in your
+  opponent''s adjacent playing pit, and the captured stones are moved
+  into the playing pit on your side of the board.
+
+  The game ends when one player has no more stones in his playing
+  pits.
+
+  The object of the game is to have more stones in your pits when the
+  game ends.  You score all the stones in your playing pit and home
+  pit.
+};
+
+set mankala(about-this-mankala) {
+  This implementation of Mankala for the X Window System is written
+  entirely in Tcl/Tk.
+
+  By default you will be engaged, as south, in a game against a greedy
+  but short sighted opponent.
+
+  It is your play when the cursor points up.  Select your move by
+  clicking on a stone.
+
+  There is a menu button under the X in the northwest corner of the
+  board, and a new game button under the X in the southeast corner.
+};
+
+##
+## To do -
+##	Figure out how to write some real strategies in tcl?
+##	Provide annotation in a text window?
+##	Popup the about windows?
+##
+
+##
+## random numbers
+##
+set randomstate 123456789;
+proc random {limit} {
+  global randomstate;
+  return [expr [set randomstate [expr ($randomstate * 1103515245 + 12345) & 0x7FFFFFFF]] / (0x7FFFFFFF / $limit)];
+}
+
+##
+## Parameters under menu control
+##
+set mankala(stones) 3;			# how many stones shall we play?
+set mankala(turn) s;			# whose turn is it?
+set mankala(s-strategy) player;		# how does she play
+set mankala(n-strategy) {FindGreedy FindLast};		# how shall the other play?
+set mankala(stone-colors) mono;		# use dull rocks 
+set mankala(flash) 1;			# use a visual bell
+set mankala(annotate) 0;		# commentary to stderr
+set mankala(tournement) 0;		# just keep on playing.
+
+##
+## Parameters not under menu control
+##
+
+# The bit map used for the menubutton and restart button.
+set mankala(bitmap) /usr/include/X11/bitmaps/xlogo16;
+
+# The cursors used to distinguish play states
+set mankala(n-cursor) sb_down_arrow;	# north to play
+set mankala(s-cursor) sb_up_arrow;	# south to play
+set mankala(x-cursor) X_cursor;		# game over
+
+# The visual bell parameters.
+set mankala(flash-count) 1;		# how many flashes
+set mankala(flash-delay) 150;		# how long they linger
+
+# The nth stone in a pit is always drawn at the same coordinates.
+set mankala(stone-positions) {
+  {0.000000 0.000000} {0.217972 0.218907} {-0.272014 0.162381} {0.179665 0.348788} {-0.094970 -0.240439}
+  {-0.204979 -0.084928} {0.152546 -0.307194} {-0.166098 0.134316} {-0.205408 0.280716} {-0.121325 -0.338215}
+  {0.222250 -0.006898} {-0.082742 0.218746} {0.357686 0.178017} {0.036993 -0.358030} {-0.374114 0.042145}
+  {-0.359701 -0.105253} {0.360943 -0.116144} {-0.252007 -0.216961} {-0.209546 0.028693} {0.174602 -0.113320}
+  {0.131592 0.186656} {0.241262 0.201622} {0.010620 0.308656} {-0.009132 -0.241870} {-0.292464 -0.028814}
+  {-0.143876 -0.155161} {0.289565 0.104592} {0.172069 -0.347786} {0.343502 -0.016615} {0.209288 0.304312}
+  {-0.108582 0.324847} {-0.230293 0.184674} {-0.146060 -0.274423} {-0.304896 0.096659} {-0.035559 0.203095}
+  {0.332053 -0.126663} {0.125088 -0.231938} {-0.003253 -0.348385} {0.237030 -0.015084} {-0.310323 -0.150385}
+  {0.224924 -0.169364} {0.110059 0.382171} {0.193840 0.199084} {0.300160 0.211688} {0.060412 0.254433}
+  {-0.132283 -0.158136} {-0.249805 0.283418} {-0.112328 -0.382632} {0.216677 0.087057} {-0.279635 -0.047968}
+  {0.191277 -0.341519} {-0.101444 0.367966} {-0.213488 -0.294784} {-0.240403 0.138719} {-0.387785 0.062819}
+  {0.304360 -0.092590} {-0.384809 -0.067083} {0.122039 -0.164067} {0.003883 0.352260} {0.049444 -0.266908}
+  {0.283083 -0.198697} {0.378888 0.066668} {0.231558 0.272082} {-0.136343 0.168586} {-0.319331 -0.151880}
+  {-0.060859 -0.256558} {-0.272472 0.285160} {0.148164 0.148633} {0.263064 0.089206} {0.148979 -0.281909}
+  {-0.072583 0.247975} {0.351677 0.165633}
+};
+
+# The nth stone played onto the board at the beginning of the game
+# always has the same color.
+set mankala(mono-stone-colors) {
+  {grey} {white} {black} {grey} {black} {white} {black} {grey} {white} {white}
+  {darkgrey} {lightgrey} {darkgrey} {lightgrey} {white} {white} {white} {darkgrey} {darkgrey} {grey}
+  {lightgrey} {lightgrey} {white} {grey} {white} {grey} {black} {grey} {black} {grey}
+  {grey} {white} {darkgrey} {white} {darkgrey} {darkgrey} {white} {lightgrey} {lightgrey} {lightgrey}
+  {lightgrey} {darkgrey} {grey} {white} {black} {darkgrey} {black} {darkgrey} {white} {darkgrey}
+  {lightgrey} {black} {grey} {black} {grey} {darkgrey} {white} {lightgrey} {black} {white}
+  {black} {white} {black} {lightgrey} {white} {lightgrey} {darkgrey} {black} {grey} {darkgrey}
+  {lightgrey} {black}
+};
+set mankala(poly-stone-colors) {
+  {red} {green} {yellow} {blue} {orange} {violet} {blue} {yellow} {green} {red}
+  {cyan} {cyan} {cyan} {green} {green} {green} {red} {cyan} {yellow} {red}
+  {yellow} {cyan} {blue} {red} {blue} {cyan} {green} {orange} {blue} {green}
+  {blue} {cyan} {violet} {red} {yellow} {orange} {red} {violet} {green} {blue}
+  {red} {orange} {yellow} {violet} {cyan} {cyan} {green} {violet} {green} {violet}
+  {violet} {violet} {blue} {blue} {red} {yellow} {green} {green} {green} {red}
+  {violet} {orange} {cyan} {violet} {yellow} {red} {red} {yellow} {red} {green}
+  {violet} {orange}
+};
+##
+## Make commentary about the game.
+##
+proc Annotate {args} {
+  global mankala;
+  if {$mankala(annotate)} {
+    puts stderr $args;
+  }
+}
+##
+## Draw one of the pits.  It will either be a circle or an oval.
+##
+proc DrawPit {x y rx ry args} {
+  eval ".c create oval [expr $x - $rx] [expr $y - $ry] [expr $x + $rx] [expr $y + $ry] $args";
+}
+##
+## Flash pits so I can see what happens
+##
+proc FlashPits {pits {cycles 1}} {
+  global mankala;
+  if {$mankala(flash)} {
+    while {$cycles > 0} {
+      for {set i 0} {$i < $mankala(flash-count)} {incr i} {
+	foreach pit $pits {
+	  .c itemconfigure $pit -outline white;
+	}
+	update idletasks;
+	after $mankala(flash-delay);
+	foreach pit $pits {
+	  .c itemconfigure $pit -outline black;
+	}
+	update idletasks;
+	after $mankala(flash-delay);
+      }
+      incr cycles -1;
+    }
+  }
+}
+##
+## Draw the board for a given height.
+## Aspect ratio is fixed at 4:1 via wm aspect.
+##
+proc BuildBoard {ht} {
+  global mankala;
+  set mankala(height) $ht;			# board height
+  set mankala(width) [expr 4 * $ht];		# board width
+  set mankala(stone-radius) [expr $ht / 25];	# stone radius
+  set half [expr $ht / 2];
+  set quarter [expr $half / 2];
+  set eighth [expr $quarter / 2];
+  set threequarter [expr 3 * $ht / 4];
+  set threeeighth [expr $threequarter / 2];
+  set space [expr $ht / 20];
+  set ycn $quarter;				# north y center
+  set ycs [expr $ht - $quarter];		# south y center
+  set nr [expr $quarter - $space];
+  set mankala(pit-radius) $nr;			# pit radius
+  set tr [expr $threequarter / 2 - $space];
+  set mankala(tall-pit-radius) $tr;		# tall radius
+  catch {.c delete all};
+  .c create window [expr $mankala(width) - $quarter] [expr $eighth + 2] -window .m -anchor center;
+  .c create window $quarter [expr $mankala(height) - $eighth - 2] -window .s -anchor center;
+  foreach n {1 2 3 4 5 6} {
+    set xc [expr $n * $half + $quarter];
+    set n0 [expr 7 - $n + 6];
+    set n1 $n;
+    set mankala(pit-$n0-x) $xc;
+    set mankala(pit-$n0-y) $ycn;
+    DrawPit $xc $ycn $nr $nr -width 2 -fill brown -tags "pit-$n0";
+    set mankala(pit-$n1-x) $xc;
+    set mankala(pit-$n1-y) $ycs;
+    DrawPit $xc $ycs $nr $nr  -width 2 -fill brown -tags "pit-$n1";
+  }
+  set mankala(pit-13-x) [expr $mankala(width) - $quarter];
+  set mankala(pit-13-y) [expr $mankala(height) - $threeeighth];
+  DrawPit $mankala(pit-13-x) $mankala(pit-13-y) $nr $tr -width 2 -fill brown -tags {pit-13};
+  set mankala(pit-14-x) $quarter;
+  set mankala(pit-14-y) $threeeighth;     
+  DrawPit $mankala(pit-14-x) $mankala(pit-14-y) $nr $tr -width 2 -fill brown -tags {pit-14};
+  foreach pit {pit-1 pit-2 pit-3 pit-4 pit-5 pit-6 pit-7 pit-8 pit-9 pit-10 pit-11 pit-12 pit-13 pit-14} {
+    foreach stone [EmptyPit $pit] {
+      AddStone $pit $stone;
+    }
+  }
+}
+##
+## Draw a stone
+##
+proc DrawStone {x y args} {
+  global mankala;
+  set r $mankala(stone-radius);
+  eval ".c create oval [expr $x - $r] [expr $y - $r] [expr $x + $r] [expr $y + $r] $args";
+}
+##
+## Add a stone to this pit.
+##
+proc AddStone {pit color} {
+  global mankala;
+  set xy [lindex $mankala(stone-positions) $mankala($pit)];
+  set x [expr $mankala($pit-x) + $mankala(pit-radius) * [lindex $xy 0]];
+  if {$pit == {pit-13} || $pit == {pit-14}} {
+    set y [expr $mankala($pit-y) + $mankala(tall-pit-radius) * [lindex $xy 1]];
+  } else {
+    set y [expr $mankala($pit-y) + $mankala(pit-radius) * [lindex $xy 1]];
+  }
+  DrawStone $x $y -fill $color -outline {} -tags "$pit-stone stone";
+  lappend mankala($pit-stones) $color;
+  incr mankala($pit);
+}
+##
+## Empty this pit of stones and return the stones
+##
+proc EmptyPit {pit} {
+  global mankala;
+  if {[info exists mankala($pit-stones)]} {
+    .c delete $pit-stone;
+    set stones $mankala($pit-stones);
+  } else {
+    set stones {};
+  }
+  set mankala($pit) 0;
+  set mankala($pit-stones) {};
+  return $stones;
+}
+##
+## What is the next pit in sequence?
+## Differs depending on who is playing this move.
+##
+set mankala(n-next-pit-1) pit-2;
+set mankala(n-next-pit-2) pit-3;
+set mankala(n-next-pit-3) pit-4;
+set mankala(n-next-pit-4) pit-5;
+set mankala(n-next-pit-5) pit-6;
+set mankala(n-next-pit-6) pit-7;
+set mankala(n-next-pit-7) pit-8;
+set mankala(n-next-pit-8) pit-9;
+set mankala(n-next-pit-9) pit-10;
+set mankala(n-next-pit-10) pit-11;
+set mankala(n-next-pit-11) pit-12;
+set mankala(n-next-pit-12) pit-14;
+set mankala(n-next-pit-14) pit-1;
+set mankala(s-next-pit-1) pit-2;
+set mankala(s-next-pit-2) pit-3;
+set mankala(s-next-pit-3) pit-4;
+set mankala(s-next-pit-4) pit-5;
+set mankala(s-next-pit-5) pit-6;
+set mankala(s-next-pit-6) pit-13;
+set mankala(s-next-pit-13) pit-7;     
+set mankala(s-next-pit-7) pit-8;
+set mankala(s-next-pit-8) pit-9;
+set mankala(s-next-pit-9) pit-10;
+set mankala(s-next-pit-10) pit-11;
+set mankala(s-next-pit-11) pit-12;
+set mankala(s-next-pit-12) pit-1;
+proc NextPit {pit {step 1}} {
+  global mankala;
+  if {$step == 1} {
+    return $mankala($mankala(turn)-next-$pit);
+  } else {
+    while {$step > 0} {
+      set pit $mankala($mankala(turn)-next-$pit);
+      incr step -1;
+    }
+    return $pit;
+  }
+}
+##
+## Is this my home pit?
+##
+set mankala(s-home) pit-13;
+set mankala(n-home) pit-14;
+for {set i 1} {$i <= 14} {incr i} {
+  set mankala(s-home-pit-$i) [expr {"pit-$i" == "$mankala(s-home)"}];
+  set mankala(n-home-pit-$i) [expr {"pit-$i" == "$mankala(n-home)"}];
+}
+proc HomePitP {pit} {
+  global mankala;
+  return $mankala($mankala(turn)-home-$pit);
+}
+##
+## Which pit is opposite this pit?
+##
+for {set i 1} {$i <= 12} {incr i} {
+  set mankala(opp-pit-$i) pit-[expr 13 - $i];
+}
+proc OpposePit {pit} {
+  global mankala;
+  return $mankala(opp-$pit);
+}
+##
+## Is this pit one of my playing pits?
+##
+set mankala(s-pits) {pit-1 pit-2 pit-3 pit-4 pit-5 pit-6};
+set mankala(n-pits) {pit-7 pit-8 pit-9 pit-10 pit-11 pit-12};     
+foreach pit $mankala(s-pits) {
+  set mankala(s-$pit) 1;
+  set mankala(n-$pit) 0;
+}
+foreach pit $mankala(n-pits) {
+  set mankala(s-$pit) 0;
+  set mankala(n-$pit) 1;
+}
+foreach pit "$mankala(n-home) $mankala(s-home)" {
+  set mankala(s-$pit) 0;
+  set mankala(n-$pit) 0;
+}
+proc OwnPitP {pit} {
+  global mankala;
+  return $mankala($mankala(turn)-$pit);
+}
+##
+## Sum the stones in a set of pits
+##
+proc SumPits {pits} {
+  global mankala;
+  set sum 0;
+  foreach pit $pits {
+    incr sum $mankala($pit);
+  }
+  return $sum;
+}
+##
+## Can this pit be played?
+##
+proc PlayPitP {pit} {
+  global mankala;
+  if {$mankala($pit) <= 0} {
+    # cannot move no stones
+    return 0;
+  }
+  if {! [OwnPitP $pit]} {
+    # cannot move opponents stones
+    return 0;
+  }
+  return 1;
+}
+##
+## Play this pit.
+##
+proc PlayPit {pit} {
+  global mankala;
+  # test for legality
+  if {! [PlayPitP $pit]} {
+    error "pit $pit cannot be played by $mankala(turn) side";
+  }
+  # Annotate the move
+  Annotate $mankala(turn) plays $pit with $mankala($pit) stones.;
+  # flash the pit selected
+  FlashPits $pit;
+  # move the stones
+  foreach stone [EmptyPit $pit] {
+    set pit [NextPit $pit];
+    AddStone $pit $stone;
+    # flash the pit
+    FlashPits $pit;
+  }
+  # test for capture
+  if {$mankala($pit) == 1 && [OwnPitP $pit] && $mankala([OpposePit $pit])} {
+    # capture opponent s stones
+    Annotate $mankala(turn) finished in $pit and captured $mankala([OpposePit $pit]) stones from [OpposePit $pit].;
+    foreach stone [EmptyPit [OpposePit $pit]] {
+      AddStone $pit $stone;
+    }
+  }
+  # sync the display
+  update idletasks
+  # test for free turn
+  if {[HomePitP $pit]} {
+    # take another turn
+    Annotate $mankala(turn) finished in $pit and gets a free turn.;
+    return 1;
+  } else {
+    return 0;
+  }
+}
+##
+## Collect all the stones from a list of pits
+##
+proc CollectStones {pits} {
+  global mankala;
+  set stones {};
+  foreach pit $pits {
+    foreach stone [EmptyPit $pit] {
+      lappend stones $stone;
+    }
+  }
+  return $stones;
+}
+##
+## Visual end of game display.
+##
+proc DistributeStones {stones pits home} {
+  global mankala;
+  foreach pit $pits {
+    for {set i 0} {$i < $mankala(stones)} {incr i} {
+      if {$stones != {}} {
+	AddStone $pit [lindex $stones 0];
+	set stones [lrange $stones 1 end];
+      }
+    }
+  }
+  foreach stone $stones {
+    AddStone $home $stone;
+  }
+}
+##
+## End of game, count stones.
+##
+proc GameOver {} {
+  global mankala;
+  .c config -cursor $mankala(x-cursor);
+  set n [CollectStones "$mankala(n-pits) $mankala(n-home)"];
+  set s [CollectStones "$mankala(s-pits) $mankala(s-home)"];
+  DistributeStones $n $mankala(n-pits) $mankala(n-home);
+  DistributeStones $s $mankala(s-pits) $mankala(s-home);
+  if {$mankala(annotate)} {
+    set north [llength $n];
+    set south [llength $s];
+    if {$south > $north} {
+      set outcome "South wins!";
+    } elseif {$north > $south} {
+      set outcome "North wins!";
+    } else {
+      set outcome "Draw!";
+    }
+    Annotate North - $north, South $south, $outcome;
+  }
+  if {$mankala(tournement)} {
+    after 5000 NewGame;
+  }
+}
+##
+## Exchange of play
+##
+proc NextTurn {freeturn} {
+  global mankala;
+  if {[SumPits $mankala(n-pits)] == 0 || [SumPits $mankala(s-pits)] == 0} {
+    GameOver;
+  } elseif {$freeturn} {
+    after 1 "TakeTurn $mankala(turn)";
+  } elseif {$mankala(turn) == {n}} {
+    after 1 "TakeTurn s";
+  } else {
+    after 1 "TakeTurn n";
+  }
+}
+##
+## Play pit event, maybe
+##
+proc PlayPitEvent {pit} {
+  if {[PlayPitP $pit]} {
+    NextTurn [PlayPit $pit];
+  } else {
+    NextTurn 1;
+  }
+}
+##
+## Various non-strategies
+##
+proc FindRandom {} {
+  global mankala;
+  set trials $mankala($mankala(turn)-pits);
+  for {set pit {}} {$pit == {}} {} {
+    set i [random [llength $trials]];
+    set try [lindex $trials $i];
+    set trials [lreplace $trials $i $i];
+    if {$mankala($try)} {
+      return $try;
+    }
+  }
+}
+proc FindFirst {} {
+  global mankala;
+  foreach try $mankala($mankala(turn)-pits) {
+    if {[PlayPitP $try]} {
+      return $try;
+    }
+  }
+}
+proc FindLast {} {
+  global mankala;
+  foreach try $mankala($mankala(turn)-pits) {
+    if {[PlayPitP $try]} {
+      set pit $try;
+    }
+  }
+  return $pit;
+}
+proc FindFirstLargest {} {
+  global mankala;
+  set pit [lindex $mankala($mankala(turn)-pits) 0];
+  foreach try [lrange $mankala($mankala(turn)-pits) 1 end] {
+    if {$mankala($try) > $mankala($pit)} {
+      set pit $try;
+    }
+  }
+  return $pit;
+}
+proc FindLastLargest {} {
+  global mankala;
+  set pit [lindex $mankala($mankala(turn)-pits) 0];
+  foreach try [lrange $mankala($mankala(turn)-pits) 1 end] {
+    if {$mankala($try) >= $mankala($pit)} {
+      set pit $try;
+    }
+  }
+  return $pit;
+}
+proc FindFirstSmallest {} {
+  global mankala;
+  set pit [lindex $mankala($mankala(turn)-pits) 0];
+  foreach try [lrange $mankala($mankala(turn)-pits) 1 end] {
+    if {$mankala($pit) == 0} {
+      set pit $try;
+    } elseif {$mankala($try) > 0 && $mankala($try) < $mankala($pit)} {
+      set pit $try;
+    }
+  }
+  return $pit;
+}
+proc FindLastSmallest {} {
+  global mankala;
+  set pit [lindex $mankala($mankala(turn)-pits) 0];
+  foreach try [lrange $mankala($mankala(turn)-pits) 1 end] {
+    if {$mankala($pit) == 0} {
+      set pit $try;
+    } elseif {$mankala($try) > 0 && $mankala($try) <= $mankala($pit)} {
+      set pit $try;
+    }
+  }
+  return $pit;
+}
+proc FindGreedy {AndThen} {
+  global mankala;
+  # look for a free turn
+  set n 6;
+  set pit {};
+  foreach try $mankala($mankala(turn)-pits) {
+    if {$mankala($try) == $n} {
+      set pit $try;
+    }
+    incr n -1;
+  }
+  if {$pit != {}} {
+    return $pit;
+  }
+  # look for a capture
+  set catch 0;
+  foreach try $mankala($mankala(turn)-pits) {
+    if {$mankala($try)} {
+      set dst [NextPit $try $mankala($try)];
+      if {[OwnPitP $dst] && $mankala($dst) == 0 && $mankala([OpposePit $dst]) > $catch} {
+	set pit $try;
+	set catch $mankala([OpposePit $dst]);
+      }
+    }
+  }
+  if {$pit != {}} {
+    return $pit;
+  }
+  # do something
+  return [$AndThen];
+}
+##
+## Make a move one way or another.
+##
+proc TakeTurn {who} {
+  global mankala;
+  set mankala(turn) $who;
+  .c configure -cursor $mankala($who-cursor);
+  after 250;
+  FlashPits "$mankala($who-home) $mankala($who-pits)" 1;
+  if {"$mankala($who-strategy)" == {player}} {
+    foreach pit $mankala($mankala(turn)-pits) {
+      .c bind $pit-stone <Button-1> "PlayPitEvent $pit";
+    }
+  } else {
+    set pit [eval $mankala($who-strategy)];
+    NextTurn [PlayPit $pit];
+  }
+}
+##
+##
+##
+proc NewGame {} {
+  global mankala;
+  .c delete stone;
+  for {set i 1} {$i <= 14} {incr i} {
+    set mankala(pit-$i) 0;
+    set mankala(pit-$i-stones) {};
+  }
+  set colors $mankala($mankala(stone-colors)-stone-colors)
+  for {set i 1} {$i <= 12} {incr i} {
+    for {set j 0} {$j < $mankala(stones)} {incr j} {
+      AddStone pit-$i [lindex $colors [expr (($i - 1) * $mankala(stones) + $j)]];
+    }
+  }
+  TakeTurn $mankala(turn);
+}
+##
+## Construct the user interface
+##
+pack [canvas .c -width 400 -height 100 -bg brown -relief raised -takefocus 0 -highlightthickness 0] -side bottom -expand true -fill both;
+wm aspect . 4 1 4 1;
+wm minsize . 400 100;
+bind . <Configure> {if {"%W" == {.}} {BuildBoard %h}};
+button .s -bitmap @$mankala(bitmap) -bg brown -relief flat -command NewGame -takefocus 0 -highlightthickness 0;
+menubutton .m -bitmap @$mankala(bitmap) -bg brown -menu .m.m;
+menu .m.m -tearoff no
+.m.m add command -label {New Game} -command {NewGame};
+.m.m add separator;
+.m.m add radiobutton -label {South to play} -variable mankala(turn) -value s -command NewGame;
+.m.m add radiobutton -label {North to play} -variable mankala(turn) -value n -command NewGame;
+.m.m add separator;
+.m.m add radiobutton -label {3 Stones} -variable mankala(stones) -value 3 -command NewGame;
+.m.m add radiobutton -label {4 Stones} -variable mankala(stones) -value 4 -command NewGame;
+.m.m add radiobutton -label {5 Stones} -variable mankala(stones) -value 5 -command NewGame;
+.m.m add radiobutton -label {6 Stones} -variable mankala(stones) -value 6 -command NewGame;
+.m.m add separator
+.m.m add radiobutton -label {Monochrome stones} -variable mankala(stone-colors) -value mono -command NewGame;
+.m.m add radiobutton -label {Polychrome stones} -variable mankala(stone-colors) -value poly -command NewGame;
+.m.m add separator
+.m.m add checkbutton -label {Tournement} -variable mankala(tournement);
+.m.m add checkbutton -label {Commentary} -variable mankala(annotate);
+.m.m add checkbutton -label {Visual bell} -variable mankala(flash);
+.m.m add separator
+.m.m add cascade -label {South Strategy} -menu .m.m.s;
+.m.m add cascade -label {North Strategy} -menu .m.m.n;
+.m.m add separator
+.m.m add command -label {Quit} -command {destroy .}
+proc StrategyMenu {who} {
+  menu .m.m.$who;
+  .m.m.$who add radiobutton -label {Player} -variable mankala($who-strategy) -value player;
+  .m.m.$who add radiobutton -label {Greedy+Random} -variable mankala($who-strategy) -value {FindGreedy FindRandom};
+  .m.m.$who add radiobutton -label {Greedy+First} -variable mankala($who-strategy) -value {FindGreedy FindFirst};
+  .m.m.$who add radiobutton -label {Greedy+Last} -variable mankala($who-strategy) -value {FindGreedy FindLast};
+  .m.m.$who add radiobutton -label {Greedy+First largest} -variable mankala($who-strategy) -value {FindGreedy FindFirstLargest};
+  .m.m.$who add radiobutton -label {Greedy+Last largest} -variable mankala($who-strategy) -value {FindGreedy FindLastLargest};
+  .m.m.$who add radiobutton -label {Greedy+First smallest} -variable mankala($who-strategy) -value {FindGreedy FindFirstSmallest};
+  .m.m.$who add radiobutton -label {Greedy+Last smallest} -variable mankala($who-strategy) -value {FindGreedy FindLastSmallest};
+  .m.m.$who add radiobutton -label {Random} -variable mankala($who-strategy) -value {FindRandom};
+  .m.m.$who add radiobutton -label {First} -variable mankala($who-strategy) -value {FindFirst};
+  .m.m.$who add radiobutton -label {Last} -variable mankala($who-strategy) -value {FindLast};
+  .m.m.$who add radiobutton -label {First largest} -variable mankala($who-strategy) -value {FindFirstLargest};
+  .m.m.$who add radiobutton -label {Last largest} -variable mankala($who-strategy) -value {FindLastLargest};
+  .m.m.$who add radiobutton -label {First smallest} -variable mankala($who-strategy) -value {FindFirstSmallest};
+  .m.m.$who add radiobutton -label {Last smallest} -variable mankala($who-strategy) -value {FindLastSmallest};
+}
+StrategyMenu s;
+StrategyMenu n;
+BuildBoard 100;
+##
+## Start
+##
+NewGame;

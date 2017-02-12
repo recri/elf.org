@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>X200 Tablet Accelerometer | the entropy liberation front</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="elf/elf/favicon.ico" type="image/x-icon" />
+    <link type="text/css" rel="stylesheet" media="all" href="modules/node/node.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="modules/system/defaults.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="modules/system/system.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="modules/system/system-menus.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="modules/user/user.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="sites/all/modules/cck/theme/content-module.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="sites/all/modules/tagadelic/tagadelic.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="sites/all/modules/cck/modules/fieldgroup/fieldgroup.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="themes/garland/style.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="all" href="sites/all/themes/elf/elf.css%3FL.css" />
+<link type="text/css" rel="stylesheet" media="print" href="themes/garland/print.css%3FL.css" />
+    <script type="text/javascript" src="misc/jquery.js%3FL"></script>
+<script type="text/javascript" src="misc/drupal.js%3FL"></script>
+<script type="text/javascript" src="sites/all/themes/elf/js/cufon.js%3FL"></script>
+<script type="text/javascript" src="sites/all/themes/elf/js/CAPITALIS_RUSTICA_400.font.js%3FL"></script>
+<script type="text/javascript" src="sites/all/themes/elf/js/redraw_header.js%3FL"></script>
+<script type="text/javascript" src="sites/all/themes/elf/js/banner.js%3FL"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, { "basePath": "/" });
+//--><!]]>
+</script>
+    <!--[if lt IE 7]>
+      <link type="text/css" rel="stylesheet" media="all" href="/sites/all/themes/elf/fix-ie.css" />    <![endif]-->
+  </head>
+  <body class="sidebar-left">
+<!-- Layout -->
+
+  <div id="header-region" class="clear-block"></div>
+
+  <div id="wrapper">
+    <div id="container" class="clear-block">
+	  <div id="header">
+
+	    <div id="logo-floater">
+	      <h1><a href="index.html" title="the entropy liberation front"><span>the entropy liberation front</span></a></h1>		</div> <!-- /#logo-floater -->
+
+                                                    
+      </div> <!-- /#header -->
+
+              <div id="sidebar-left" class="sidebar"><div id="block-menu-primary-links" class="clear-block block block-menu">
+
+  <h2>Stuff</h2>
+
+  <div class="content"><ul class="menu"><li class="leaf first"><a href="ephemeris/index.html" title="Ephemeris">Ephemeris</a></li>
+<li class="collapsed"><a href="etc/index.html" title="Et Cetera">Et Cetera</a></li>
+<li class="leaf"><a href="mankala/Mankala.html" title="mankala">Mankala</a></li>
+<li class="leaf"><a href="oindex.html" title="Old Home Page">Old Home Page</a></li>
+<li class="collapsed"><a href="processing.html" title="Processing">Processing</a></li>
+<li class="leaf last"><a href="puzzle.html" title="Puzzle Earth">Puzzle Earth</a></li>
+</ul></div>
+</div>
+ </div>
+      
+      <div id="center">
+		<div id="squeeze"><div class="right-corner"><div class="left-corner">
+        <div class="breadcrumb"><a href="index.html">Home</a> › <a href="blog.1.html">Blogs</a> › <a href="blog/1.html">rec&#039;s blog</a></div>                        <h2>X200 Tablet Accelerometer</h2>                                        <div class="clear-block"><div id="node-30" class="node">
+
+
+
+      <span class="submitted">Sat, 11/21/2009 - 17:03 — rec</span>
+  
+  <div class="content clear-block">
+    <div style="margin:15px; border-width:2px;border-style:solid;padding:10px">
+The new scoop is to use <a href="http://code.google.com/p/tp-smapi-dkms-module/">tp-smapi-dkms</a> which will reinstall the accelerometer support each time you install a new kernel.  It's working fine with the standard Karmic kernel but not with the real time kernel.  And there appears to be accelerometer support in F-spot, too, at least I assume that's how it figures out to rotate pictures when I rotate the laptop.
+<br/><br/>
+Note added 2009-11-21 16:03 -0600.
+</div>
+Originally published 2009-03-19 13:03:37 -0600
+<br/><br/>
+Getting the accelerometer to work on my Lenovo Thinkpad X200 Tablet was complicated enough that I've forgotten how to do it more than once.  Here's the scoop.
+<br/><br/>
+The first step is to go into <code>synaptic</code>, find the <code>tp-smapi-source 0.40-1</code> package and install it.  This will leave a source archive in <code>/usr/src</code>.  You will also require the <code>module-assistant</code> package, so check to make sure it's installed, too, before you leave synaptic.
+<br/><br/>
+The second step is to build and install the package.  You'll need to do this for each new version of the system that you install, and they're coming thick and fast these days.  The commands for this are:
+<code>
+cd /usr/src
+sudo module-assistant build tp-smapi
+sudo module-assistant install tp-smapi
+</code>
+<br/><br/>
+That installed three modules into the current system module tree:  <code>thinkpad_ec</code>, <code>tp_smapi</code>, and <code>hdaps</code>.  The new improved modules are installed in different locations than the incorrect modules that shipped with the kernel, so we need to remove the old ones:
+<code>
+sudo rm /lib/modules/`uname -r`/kernel/ubuntu/misc/thinkpad_ec.ko
+sudo rm /lib/modules/`uname -r`/kernel/ubuntu/misc/tp_smapi.ko
+sudo rm /lib/modules/`uname -r`/kernel/drivers/hwmon/hdaps.ko
+</code>
+<br/><br/>
+Finally, we rebuild the system module catalog so it will find the new modules:
+<code>
+/sbin/depmod
+</code>
+<br/><br/>
+All of the above will need to be redone each time you install a new kernel package, so you might put them all into a script in <code>/usr/src/rebuild-tp-smapi</code> so you can find it.
+<br/><br/>
+There are two more steps that you'll need to do only the first time.  Append the following lines to <code>/etc/modules</code>:
+<code>
+sudo ed /etc/modules
+$a
+thinkpad_ec
+tp_smapi
+hdaps
+.
+wq
+</code>
+so the system will load the modules at boot time, and install the following parameters into <code>/etc/modprobe.d/tp_smapi.conf</code>:
+<code>
+sudo ed /etc/modprobe.d/tp_smapi.conf
+a
+options thinkpad_ec force_io=1
+options hdaps invert=5
+.
+wq
+</code>
+The <code>force_io</code> option instructs the <code>thinkpad_ec</code> module to ignore that the memory it wants to use is marked as reserved memory.  Without the option it will complain and abort.  The <code>invert</code> option sets the accelerometer axes correctly for normal laptop configuration, but they'll be wrong if you flip the screen around to tablet configuration, and you'll need different values for portrait and landscape.  But that's another article.
+<br/><br/>
+At this point you should be able to load the modules with:
+<code>
+sudo /sbin/modprobe hdaps
+</code>
+and try it out.  Oh, right, go back to <code>synaptic</code> and install the <code>hdaps-uitls</code> module.  Then you can use <code>hdaps-gl</code> to view the workings of your accelerometer.  The raw interfaces are in <code>/sys/devices/platform/smapi/</code> and you can find out more about this at the ThinkWiki <a href="http://www.thinkwiki.org/wiki/HDAPS">HDAPS</a> page and others at that site.
+<br/><br/>
+Note that this method of installation is possible because the <code>tp-smapi-sources</code> package is available for the Ubuntu Jaunty Jackelope kernels, that's why this method is simpler than the ones described at <a href="http://www.thinkwiki.org/wiki/Tp_smapi">tp_smapi</a> in the ThinkWiki.  One can hope that the improved sources will simply be included in the kernel itself,  consigning this page to the dustbin of history.
+  </div>
+
+  <div class="clear-block">
+    <div class="meta">
+        </div>
+
+          <div class="links"><ul class="links inline"><li class="blog_usernames_blog first last"><a href="blog/1.html" title="Read rec&#039;s latest blog entries.">rec&#039;s blog</a></li>
+</ul></div>
+      </div>
+
+</div>
+</div>
+                <div id="footer">The history of the universe is a history of entropy liberation.</div>
+        </div></div></div> <!-- /.left-corner, /.right-corner, /#squeeze -->
+	  </div> <!-- /#center -->
+
+      
+    </div> <!-- /#container -->
+  </div> <!-- /#wrapper -->
+
+<!-- /layout -->
+    <script type='text/javascript'>Cufon.now();</script>
+  </body>
+</html>
+
