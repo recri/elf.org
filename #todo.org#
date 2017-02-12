@@ -1,0 +1,12 @@
+* To do list for web site conversion to static html.
+[x] Use wget to mirror the existing drupal site
+	did none of the recommended drupal revisions
+[x] index.html clean up formatting
+[ ] rustic font in banner is gone everywhere
+[ ] ephemeris/index.html images gone
+[ ] mankala/ applet is dead (oracle did it years ago)
+[ ] oindex.html no left navigation
+[ ] etc/subtile.html no left navigation
+[ ] etc/swindle.html no left list of swindle synonyms
+[ ] processing/mudcrack.html processing applet is dead
+[ ] puzzle.html puzzle applet is dead
