@@ -1,6 +1,11 @@
 * To do list for web site conversion to static html.
 [x] Use wget to mirror the existing drupal site
 	did none of the recommended drupal revisions
+[x] Use find -name "*.*\?*" | while read filename; do mv "$filename" "${filename%%\?*}"; done
+	to eliminate query strings
+[ ] fix calls to query strings in sources
+	s/%3FL.css//
+	s/.js%3FL/.js/
 [x] index.html clean up formatting
 [ ] rustic font in banner is gone everywhere
 [ ] ephemeris/index.html images gone
@@ -10,3 +15,4 @@
 [ ] etc/swindle.html no left list of swindle synonyms
 [ ] processing/mudcrack.html processing applet is dead
 [ ] puzzle.html puzzle applet is dead
+[ ] clock is calling weird urls
