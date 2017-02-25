@@ -152,7 +152,7 @@ function generateEphemeris(showChart, showTable, showText) {
 
   function generateTable() {
 	// Table
-	var table = '<table align="left" border="0" style="background-color:#000033;color:#fff;margin:0px;width:auto">\n'+
+	var table = '<table align="left" border="0">\n'+
 	  // '<tr><th>Symbol'+
 	  // '</th><th>Name'+
 	  // '</th><th>Longitude'+
@@ -171,8 +171,8 @@ function generateEphemeris(showChart, showTable, showText) {
 	  table +=
 		'<tr class="ephemeris_row '+text+'"><td align="center">'+img+
 		'</td><td>'+text+
-		// '</td><td align="right">'+minutes(lon)+
-		// '</td><td align="right">'+minutes(lat)+
+		'</td><td align="right">'+minutes(lon)+
+		'</td><td align="right">'+minutes(lat)+
 		'</td></tr>\n';
 	  
 	}
