@@ -11,11 +11,12 @@
 [x] rustic font in banner is gone everywhere
 [x] ephemeris/index.html images gone
 [ ] mankala/ applet is dead (oracle did it years ago)
-[ ] oindex.html no left navigation
-[ ] etc/subtile.html no left navigation
-[ ] etc/swindle.html no left list of swindle synonyms
+[x] oindex.html no left navigation
+[x] etc/subtile.html no left navigation
+[x] etc/swindle.html no left list of swindle synonyms
 [ ] processing/mudcrack.html processing applet is dead
 [ ] puzzle.html puzzle applet is dead
 [ ] clock is calling weird urls
 	some were rewritten weird and are fixed
 	but there are still some issues in the svg code
+[x] make oindex.html a collapsed menu item everywhere
