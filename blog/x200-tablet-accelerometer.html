@@ -102,12 +102,11 @@ jQuery.extend(Drupal.settings, { "basePath": "/" });
 		      version of the system that you install, and
 		      they're coming thick and fast these days.  The
 		      commands for this are:  
-		      <code>
-			cd /usr/src
-			sudo module-assistant build tp-smapi
-			sudo module-assistant install tp-smapi
-		      </code>
-		      <br/><br/>
+		      <code><br/><br/>
+			cd /usr/src<br/>
+			sudo module-assistant build tp-smapi<br/>
+			sudo module-assistant install tp-smapi<br/>
+		      </code><br/><br/>
 		      That installed three modules into the current
 		      system module
 		      tree:  <code>thinkpad_ec</code>, <code>tp_smapi</code>,
@@ -115,18 +114,16 @@ jQuery.extend(Drupal.settings, { "basePath": "/" });
 		      modules are installed in different locations
 		      than the incorrect modules that shipped with the
 		      kernel, so we need to remove the old ones: 
-		      <code>
-			sudo rm /lib/modules/`uname -r`/kernel/ubuntu/misc/thinkpad_ec.ko
-			sudo rm /lib/modules/`uname -r`/kernel/ubuntu/misc/tp_smapi.ko
-			sudo rm /lib/modules/`uname -r`/kernel/drivers/hwmon/hdaps.ko
-		      </code>
-		      <br/><br/>
+		      <code><br/><br/>
+			sudo rm /lib/modules/`uname -r`/kernel/ubuntu/misc/thinkpad_ec.ko<br/>
+			sudo rm /lib/modules/`uname -r`/kernel/ubuntu/misc/tp_smapi.ko<br/>
+			sudo rm /lib/modules/`uname -r`/kernel/drivers/hwmon/hdaps.ko<br/>
+		      </code><br/><br/>
 		      Finally, we rebuild the system module catalog so
 		      it will find the new modules: 
-		      <code>
-			/sbin/depmod
-		      </code>
-		      <br/><br/>
+		      <code><br/><br/>
+			/sbin/depmod<br/>
+		      </code><br/><br/>
 		      All of the above will need to be redone each
 		      time you install a new kernel package, so you
 		      might put them all into a script
@@ -136,26 +133,26 @@ jQuery.extend(Drupal.settings, { "basePath": "/" });
 		      There are two more steps that you'll need to do
 		      only the first time.  Append the following lines
 		      to <code>/etc/modules</code>: 
-		      <code>
-			sudo ed /etc/modules
-			$a
-			thinkpad_ec
-			tp_smapi
-			hdaps
-			.
-			wq
-		      </code>
+		      <code><br/><br/>
+			sudo ed /etc/modules<br/>
+			$a<br/>
+			thinkpad_ec<br/>
+			tp_smapi<br/>
+			hdaps<br/>
+			.<br/>
+			wq<br/>
+		      </code><br/><br/>
 		      so the system will load the modules at boot
 		      time, and install the following parameters
 		      into <code>/etc/modprobe.d/tp_smapi.conf</code>: 
-		      <code>
-			sudo ed /etc/modprobe.d/tp_smapi.conf
-			a
-			options thinkpad_ec force_io=1
-			options hdaps invert=5
-			.
-			wq
-		      </code>
+		      <code><br/><br/>
+			sudo ed /etc/modprobe.d/tp_smapi.conf<br/>
+			a<br/>
+			options thinkpad_ec force_io=1<br/>
+			options hdaps invert=5<br/>
+			.<br/>
+			wq<br/>
+		      </code><br/><br/>
 		      The <code>force_io</code> option instructs
 		      the <code>thinkpad_ec</code> module to ignore
 		      that the memory it wants to use is marked as
@@ -170,9 +167,9 @@ jQuery.extend(Drupal.settings, { "basePath": "/" });
 		      <br/><br/>
 		      At this point you should be able to load the
 		      modules with: 
-		      <code>
-			sudo /sbin/modprobe hdaps
-		      </code>
+		      <code><br/><br/>
+			sudo /sbin/modprobe hdaps<br/>
+		      </code><br/><br/>
 		      and try it out.  Oh, right, go back
 		      to <code>synaptic</code> and install
 		      the <code>hdaps-uitls</code> module.  Then you
