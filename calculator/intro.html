@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <LINK REV=MADE HREF="mailto:info@elf.org">
+    <meta name="GENERATOR" content="Roger E Critchlow Jr">
+    <meta name="DESCRIPTION" content="Geometric Desk Calculator">
+    <meta name="KEYWORDS" content="Clifford Number, Clifford Algebra, Geometric Algebra, Vector, Bivector, Quaternion, Spinor">
+    <title>Geometric Calculator - Introduction</title>
+  </head>
+  <body text="#000" bgcolor="#ffffff" background="../images/el_bg.gif" link="#993333" vlink="#333399" alink="#cc3333">
+    <img src="../images/cloud-banner.jpg" width="500" height="50" vspace="25" hspace="25" alt="clouds">
+    <br>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr><td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<td width="125" valign="top"><img height="1" width="125" vspace="20" src="../images/pixel.gif" alt=""><br>
+	  <!-- left column content here -->
+	  <a href="javascript:void window.open('geocalc1.html',null,'height=280,width=435,status=yes');">
+	    Start Calculator</a><br>
+	  <p>
+	  <a href="index.html">Home</a><br>
+	  <b>Introduction</b><br>
+	  <a href="refer.html">Reference</a><br>
+	  <a href="gloss.html">Glossary</a><br>
+	  <a href="bugs.html">Bugs</a><br>
+	  <a href="biblio.html">Bibliography</a><br>
+	  <a href="links.html">Links</a><br>
+
+	</td><td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <!-- right column content here -->
+    
+	  <b>Geometric Calculator - Introduction</b>
+	  <p>
+	    This calculator differs from most you've met before in
+	    that it computes with Clifford numbers rather than the
+	    plain old numbers that you're used to seeing.  As a
+	    consequence, this calculator can compute directly what
+	    other calculators compute as an afterthought with
+	    extensive subprograms.
+	  <p>
+	    Clifford Algebras were invented by William K. Clifford in
+	    the 19th century.  While world reknowned physicists were
+	    debating whether vectors or quaternions were the more
+	    appropriate medium for expressing physics, Clifford
+	    quietly incorporated vectors and quaternions into a system
+	    of geometric algebras which worked better than either
+	    alone and generalized in ways that neither could.
+	  <p>
+	    Plain old numbers are, as it happens, part of Clifford's
+	    scheme, so as long as you stick to plain old numbers and
+	    plain old computations, then this calculator will work
+	    just like the other <a
+	      href="http://www.hpmuseum.org/rpn.htm">RPN desk
+	      calculators</a> that you already know.  Plain old
+	    numbers are called scalars.
+	  <p>
+	    Vectors are, as it happens, also part of Clifford's
+	    scheme, so you can use the <b>x</b>, <b>y</b>, and
+	    <b>z</b> keys on this calculator to enter the unit basis
+	    vectors in the <i>x</i>, <i>y</i>, and <i>z</i> directions
+	    and implicitly multiply them by the plain old number
+	    you've entered.  You can add and subtract vectors and
+	    multiply them by scalars. 
+	  <p>
+	    In Clifford's geometric scheme of things, scalars
+	    represent pure magnitudes and vectors represent oriented
+	    lengths.  To continue the geometric scheme we need
+	    <i>things</i> which represent oriented areas and oriented
+	    volumes.  These are called bivectors, because two vectors
+	    define an area, and trivectors, because three vectors (or
+	    a vector and a bivector) define a volume.
+	  <p>
+	    The unit basis bivectors are <b>xy</b>, <b>yz</b>, and
+	    <b>zx</b> each representing a unit area in the plane named
+	    by the basis. The unit trivector basis is <b>xyz</b>
+	    representing a unit volume.  All of which you can enter by
+	    simply typing the appropriate keys or by multiplying
+	    together the unit basis vectors.
+	  <p>
+	    Adding all this up, our numbers are multivectors
+	    consisting of a scalar part, a vector part, a bivector
+	    part, and a trivector part.  This may strike you as a bit
+	    awkward at first, somewhat like adding apples and oranges
+	    and bananas and pomegranates.  We have 8 different kinds
+	    of fruit to keep straight, each of which is labelled by
+	    its unit basis when it appears in a number: <b>x</b>,
+	    <b>y</b>, <b>z</b>, <b>xy</b>, <b>yz</b>, <b>zx</b>, and
+	    <b>xyz</b>.  The eighth basis would be <b>1</b>, the
+	    scalar unit basis, which we don't actually write.
+	  <p>
+	    There are many interesting consequences of calculating
+	    with geometrically defined numbers, which David Hestenes
+	    develops in depth.
+	  <ul>
+	    <li>Calculations with the plain old numbers embedded in
+	      the geometric numbers work just as they always have. 
+	    <li>Calculations with the plain old two- and
+	      three-dimensional vectors embedded in the geometric
+	      numbers work just as they always have.
+	    <li>Calculations with numbers of the form <i>a</i> +
+	      <i>b</i><b>xy</b> work very much like complex numbers
+	      with <b>xy</b> serving as the imaginary unit.  The same
+	      is true if <b>yz</b> or <b>zx</b> is used as an
+	      imaginary unit.
+	    <li>Calculations with numbers of the form <i>s</i> +
+	      <i>i</i><b>xy</b> + <i>j</i><b>yz</b> +
+	      <i>k</i><b>zx</b> work very much like Hamilton's
+	      quaternions.
+	    <li>Calculations of areas and volumes are simple and
+	      direct, even for complex figures.
+	    <li>If <b>a</b> is a unit vector and <b>B</b> is any
+	      Clifford number, then <b>-aBa</b> is the Clifford number
+	      with all its parts reflected in the plane orthogonal to
+	      <b>a</b>.
+	    <li>If <b>a</b> and <b>b</b> are unit vectors and <b>C</b>
+	      is any Clifford number, then <b>abCba</b> is the
+	      Clifford number with all its parts rotated in the
+	      <b>ab</b> plane by twice the angle between <b>a</b> and
+	      <b>b</b>.  If we write <b>q</b> = <b>ab</b>, then the
+	      rotation formula becomes <b>qCq*</b>.
+	    <li>The plane geometry included within the geometric
+	      numbers allows for solution of problems of plane
+	      geometry, including terrestrial surveying and navigation
+	      problems.
+	    <li>The quaternion algebra included within the geometric
+	      numbers allows for solution of spherical geometry
+	      problems, including spherical trigonometry, celestial
+	      navigation, spacecraft attitude, and robot pose
+	      problems.
+	  </ul>
+	  <p>
+	    In time, this introduction will grow into a more detailed
+	    introduction and explanation of why you want to take a
+	    <b>Geometric Calculator</b> with you when you leave Earth.
+	    Whether you're bound for a life in deep space or a colony
+	    on another planet, don't leave home without it.
+	  <p>
+	</td></tr></table>
+    <img src="../images/pixel.gif" height="10" width="500" alt="">
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tr><td width="5"><img height="1" width="5" src="../images/pixel.gif" alt=""></td>
+	<td width="125" valign="top"><img height="1" width="125" src="../images/pixel.gif" alt=""><br>
+	  <!-- left column content here -->
+	</td><td width="25"><img height="1" width="25" src="../images/pixel.gif" alt=""></td>
+	<td width="365" valign="top"><img height="1" width="365" src="../images/pixel.gif" alt=""><br>
+	  <!-- right column content here -->
+	  <center>
+	    <address><a href="mailto:info@elf.org">Roger E Critchlow Jr</a></address>
+	    <!-- Created: Sun Mar 14 22:54:17 MST 1999 -->
+	    <!-- hhmts start -->
+Last modified: Fri May 16 19:38:36 MDT 2003
+<!-- hhmts end -->
+	    <address><a href="http://www.elf.org">elf.org</a></address>
+	  </center>
+	</td>
+      </tr>
+    </table>
+  </body>
+</html>

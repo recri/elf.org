@@ -1,0 +1,279 @@
+#!/usr/local/bin/wish
+
+package require Img
+
+set bg \#663333
+set fg \#fff
+
+# Make key images for the geomtric desk calculator
+
+# -adobe-symbol font characters
+#
+# exchange		171	\253
+# leftarrow		172	\254
+# uparrow		173	\255
+# rightarrow		174	\256
+# downarrow		175	\257
+# times			180	\264
+# middledotbig		183	\267
+# divide		184	\270
+# radical		214	\326
+# middledotlittle	215	\327
+# wedge			217	\331
+# 
+# 
+# key specifiers:
+#	 row column columnspan text-or-menu font name
+# three fonts:
+#	1 normal
+#	2 italic
+#	3 symbol
+#
+# -adobe-helvetica-bold-o-normal--10-100-75-75-p-60-iso8859-1
+# -adobe-helvetica-bold-o-normal--11-80-100-100-p-60-iso8859-1
+# -adobe-helvetica-bold-o-normal--12-120-75-75-p-69-iso8859-1
+# -adobe-helvetica-bold-o-normal--14-100-100-100-p-82-iso8859-1
+# -adobe-helvetica-bold-o-normal--14-140-75-75-p-82-iso8859-1
+# -adobe-helvetica-bold-o-normal--17-120-100-100-p-92-iso8859-1
+# -adobe-helvetica-bold-o-normal--18-180-75-75-p-104-iso8859-1
+# -adobe-helvetica-bold-o-normal--20-140-100-100-p-103-iso8859-1
+# -adobe-helvetica-bold-o-normal--24-240-75-75-p-138-iso8859-1
+# -adobe-helvetica-bold-o-normal--25-180-100-100-p-138-iso8859-1
+# -adobe-helvetica-bold-o-normal--34-240-100-100-p-182-iso8859-1
+# -adobe-helvetica-bold-o-normal--8-80-75-75-p-50-iso8859-1
+# 
+# -adobe-helvetica-bold-r-normal--10-100-75-75-p-60-iso8859-1
+# -adobe-helvetica-bold-r-normal--11-80-100-100-p-60-iso8859-1
+# -adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1
+# -adobe-helvetica-bold-r-normal--14-100-100-100-p-82-iso8859-1
+# -adobe-helvetica-bold-r-normal--14-140-75-75-p-82-iso8859-1
+# -adobe-helvetica-bold-r-normal--17-120-100-100-p-92-iso8859-1
+# -adobe-helvetica-bold-r-normal--18-180-75-75-p-103-iso8859-1
+# -adobe-helvetica-bold-r-normal--20-140-100-100-p-105-iso8859-1
+# -adobe-helvetica-bold-r-normal--24-240-75-75-p-138-iso8859-1
+# -adobe-helvetica-bold-r-normal--25-180-100-100-p-138-iso8859-1
+# -adobe-helvetica-bold-r-normal--34-240-100-100-p-182-iso8859-1
+# -adobe-helvetica-bold-r-normal--8-80-75-75-p-50-iso8859-1
+# 
+# -adobe-helvetica-medium-o-normal--10-100-75-75-p-57-iso8859-1
+# -adobe-helvetica-medium-o-normal--11-80-100-100-p-57-iso8859-1
+# -adobe-helvetica-medium-o-normal--12-120-75-75-p-67-iso8859-1
+# -adobe-helvetica-medium-o-normal--14-100-100-100-p-78-iso8859-1
+# -adobe-helvetica-medium-o-normal--14-140-75-75-p-78-iso8859-1
+# -adobe-helvetica-medium-o-normal--17-120-100-100-p-88-iso8859-1
+# -adobe-helvetica-medium-o-normal--18-180-75-75-p-98-iso8859-1
+# -adobe-helvetica-medium-o-normal--20-140-100-100-p-98-iso8859-1
+# -adobe-helvetica-medium-o-normal--24-240-75-75-p-130-iso8859-1
+# -adobe-helvetica-medium-o-normal--25-180-100-100-p-130-iso8859-1
+# -adobe-helvetica-medium-o-normal--34-240-100-100-p-176-iso8859-1
+# -adobe-helvetica-medium-o-normal--8-80-75-75-p-47-iso8859-1
+# 
+# -adobe-helvetica-medium-r-normal--10-100-75-75-p-56-iso8859-1
+# -adobe-helvetica-medium-r-normal--11-80-100-100-p-56-iso8859-1
+# -adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1
+# -adobe-helvetica-medium-r-normal--14-100-100-100-p-76-iso8859-1
+# -adobe-helvetica-medium-r-normal--14-140-75-75-p-77-iso8859-1
+# -adobe-helvetica-medium-r-normal--17-120-100-100-p-88-iso8859-1
+# -adobe-helvetica-medium-r-normal--18-180-75-75-p-98-iso8859-1
+# -adobe-helvetica-medium-r-normal--20-140-100-100-p-100-iso8859-1
+# -adobe-helvetica-medium-r-normal--24-240-75-75-p-130-iso8859-1
+# -adobe-helvetica-medium-r-normal--25-180-100-100-p-130-iso8859-1
+# -adobe-helvetica-medium-r-normal--34-240-100-100-p-176-iso8859-1
+# -adobe-helvetica-medium-r-normal--8-80-75-75-p-46-iso8859-1
+#
+# -adobe-symbol-medium-r-normal--10-100-75-75-p-61-adobe-fontspecific
+# -adobe-symbol-medium-r-normal--11-80-100-100-p-61-adobe-fontspecific
+# -adobe-symbol-medium-r-normal--12-120-75-75-p-74-adobe-fontspecific
+# -adobe-symbol-medium-r-normal--14-100-100-100-p-85-adobe-fontspecific
+# -adobe-symbol-medium-r-normal--14-140-75-75-p-85-adobe-fontspecific
+# -adobe-symbol-medium-r-normal--17-120-100-100-p-95-adobe-fontspecific
+# -adobe-symbol-medium-r-normal--18-180-75-75-p-107-adobe-fontspecific
+# -adobe-symbol-medium-r-normal--20-140-100-100-p-107-adobe-fontspecific
+# -adobe-symbol-medium-r-normal--24-240-75-75-p-142-adobe-fontspecific
+# -adobe-symbol-medium-r-normal--25-180-100-100-p-142-adobe-fontspecific
+# -adobe-symbol-medium-r-normal--34-240-100-100-p-191-adobe-fontspecific
+# -adobe-symbol-medium-r-normal--8-80-75-75-p-51-adobe-fontspecific
+#
+
+#set font(1) -adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1
+#set font(2) -adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1
+set font(1) -adobe-helvetica-bold-r-normal--12-120-75-75-p-67-iso8859-1
+set font(2) -adobe-helvetica-bold-r-normal--12-120-75-75-p-67-iso8859-1
+#set font(2) -adobe-helvetica-medium-o-normal--12-120-75-75-p-67-iso8859-1
+#set font(3) -adobe-symbol-medium-r-normal--12-120-75-75-p-74-adobe-fontspecific
+#set font(3) -adobe-symbol-medium-r-normal--14-140-75-75-p-85-adobe-fontspecific
+
+set font(1) -adobe-helvetica-medium-r-normal--18-180-75-75-p-98-iso8859-1
+set font(2) -adobe-helvetica-medium-r-normal--18-180-75-75-p-98-iso8859-1
+set font(3) -adobe-symbol-medium-r-normal--18-180-75-75-p-107-adobe-fontspecific
+set target(w) 48
+set target(h) 24
+
+proc decode {text} {
+    set result {}
+    foreach c [split $text {}] {
+	scan $c %c char
+	lappend result [format %03o $char]
+    }
+    return $result;
+}
+
+proc photohist {img} {
+    set ih [image height $img]
+    set iw [image width $img]
+    for {set j 0} {$j < $iw} {incr j} {
+	for {set i 0} {$i < $ih} {incr i} {
+	    set c [eval format \#%02x%02x%02x [$img get $j $i]]
+	    if {[info exists hist($c)]} { incr hist($c) } else { set hist($c) 1 }
+	}
+    }
+    array get hist
+}
+
+foreach spec {
+    {0 0 1 sto 111 sto}
+    {0 1 1 rcl 111 rcl}
+    {0 2 1 log 111 log}
+    {0 3 1 exp 111 exp}
+    {0 4 1 \326a 32 sqrt}
+    {0 5 1 sin 111 sin}
+    {0 6 1 cos 111 cos}
+    {0 7 1 tan 111 tan}
+    {1 0 2 enter 11111 enter}
+    {1 2 1 a\253b 232 xchg}
+    {1 3 1 r\257 13 down}
+    {1 4 1 \254 3 bsp}
+    {1 5 1 1/a 112 inv}
+    {1 6 1 a/|a| 21121 norm}
+    {1 7 1 clr 111 clr}
+    {2 0 1 x 1 x}
+    {2 1 1 7 1 seven}
+    {2 2 1 8 1 eight}
+    {2 3 1 9 1 nine}
+    {2 4 1 \270 3 divide}
+    {2 5 1 \327 3 inner}
+    {2 6 1 <0> 111 g0}
+    {2 7 1 <1> 111 g1}
+    {3 0 1 y 1 y}
+    {3 1 1 4 1 four}
+    {3 2 1 5 1 five}
+    {3 3 1 6 1 six}
+    {3 4 1 \264 3 times}
+    {3 5 1 \331 3 outer}
+    {3 6 1 <2> 111 g2}
+    {3 7 1 <3> 111 g3}
+    {4 0 1 z 1 z}
+    {4 1 1 1 1 one}
+    {4 2 1 2 1 two}
+    {4 3 1 3 1 three}
+    {4 4 1 - 1 minus}
+    {4 5 1 * 1 star}
+    {4 6 1 <e> 111 geven}
+    {4 7 1 <o> 111 godd}
+    {5 0 1 +/- 111 neg}
+    {5 1 1 0 1 zero}
+    {5 2 1 . 1 dec}
+    {5 3 1 E 1 exp}
+    {5 4 1 + 1 plus}
+    {5 5 1 |a| 121 mag}
+    {5 6 1 -bab 1222 ref}
+    {5 7 1 bab* 2221 rot}
+    {6 0 1 cosh 1111 cosh}
+    {6 1 1 sinh 1111 sinh}
+    {6 2 1 tanh 1111 tanh}
+    {6 3 1 rev 111 rev}
+    {6 4 1 cnj 111 conj}
+    {6 5 1 inv 111 invo}
+    {6 6 1 {} {} blank}
+    {6 7 1 {} {} blank}
+} {
+    # build a label and a text containing the string
+    foreach {row col span text fonts name} $spec break
+    if {[string length $fonts] != [string length $text]} {
+	error "font/text mismatch at $spec"
+    }
+    set l .l$row$col
+    set t .t$row$col
+    grid [label $l -bg $bg -fg $fg -border 2 -relief raised] -row $row -column $col -columnspan $span 
+    pack [text $t -height 1 -width 8 -bd 0 -bg \#663333 -fg white -font $font(3)] -in $l
+    foreach x {-highlightbackground -insertbackground -selectbackground} { $t configure $x $bg }
+    foreach c [split $text {}] f [split $fonts {}] {
+	$t insert end $c font$f
+	$t tag configure font$f -font $font($f)
+    }
+    update
+    # copy the text into an image, crop and center the image
+    image create photo tmp -data $t
+    set n 0
+    set iw [image width tmp]
+    set ih [image height tmp]
+    catch {unset colbg}
+    for {set j 0} {$j < $iw} {incr j} {
+	set nbg 0
+	for {set i 0} {$i < $ih} {incr i} {
+	    if {"[tmp get $j $i]" == {97 97 97}} {
+		tmp put [list [list $bg]] -to $j $i
+		incr n
+	    }
+	    if {"[tmp get $j $i]" == {102 51 51}} {
+		incr nbg
+	    }
+	}
+	if {$nbg == $ih} {
+	    set colbg($j) 1
+	} else {
+	    set colbg($j) 0
+	}
+    }
+    set lf 0
+    set rf 0
+    for {set j 0} {$j < $iw && $colbg($j) == 1} {incr j} {
+	incr lf
+    }
+    for {set j $iw} {[incr j -1] >= 0 && $colbg($j) == 1} {} {
+	incr rf
+    }
+	    
+    set h $target(h)
+    if {$ih > $h} {
+	error "cannot rewrite $name into $h height image"
+    }
+
+    if {"$name" == {enter}} {
+	set w [expr 2*$target(w)+4]
+    } else {
+	set w $target(w)
+    }
+    if {$iw - $lf - $rf > $w} {
+	puts "cannot rewrite $name (width [expr $iw-$lf-$rf]) into $w width image"
+    }
+    
+    image create photo $name -height $h -width $w
+    $name put [list [list $bg]] -to 0 0 [expr $w-1] [expr $h-1]
+    $name copy tmp -from $lf 0 [expr $iw-$rf] $ih -to [expr ($w-($iw-$lf-$rf))/2] 0
+
+    # rewrite the text with the adjusted image
+    pack forget $t
+    $l configure -image $name
+
+    # get the unpressed button image
+    update
+    image create photo u$name -data $l
+
+    # get the pressed button image
+    $l configure -relief sunken
+    update
+    image create photo p$name -data $l
+
+    puts "u$name: [photohist u$name]"
+    puts "p$name: [photohist p$name]"
+
+    # write the button images
+    u$name write u$name.gif -format gif
+    p$name write p$name.gif -format gif
+
+    # undo the press
+    $l configure -relief raised
+    update
+}
+

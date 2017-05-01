@@ -1,0 +1,20 @@
+Missing buttons, some of which should be shifts:
+
+	exp	10^a	2^a
+	log	log10	log2
+		acos
+		asin
+		atan	atan2
+	cosh	acosh
+	sinh	asinh
+	tanh	atanh
+	conjugation involution
+	registers
+	trace
+	graphics
+	precision
+	format
+	a^2
+	b^a
+	pi
+	shift
