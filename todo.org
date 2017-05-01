@@ -16,7 +16,12 @@
 [x] etc/swindle.html no left list of swindle synonyms
 [ ] processing/mudcrack.html processing applet is dead
 [ ] puzzle.html puzzle applet is dead
-[ ] clock is calling weird urls
+[x] clock is calling weird urls
 	some were rewritten weird and are fixed
-	but there are still some issues in the svg code
+[ ] clock svg code is throwing an error	
 [x] make oindex.html a collapsed menu item everywhere
+[x] restore dates of blog entries from index
+[x] restore breadcrumbs in blog entries
+[ ] make all href="" and src="" use same urls for caching
+[ ] eliminate all cufon/Rustic font access
+ 
