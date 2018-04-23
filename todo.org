@@ -23,5 +23,5 @@
 [x] restore dates of blog entries from index
 [x] restore breadcrumbs in blog entries
 [ ] make all href="" and src="" use same urls for caching
-[ ] eliminate all cufon/Rustic font access
- 
+[x] eliminate all cufon/Rustic font access
+[ ] colorcube is broken, giflets don't work and no images in source.
