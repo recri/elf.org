@@ -25,3 +25,15 @@
 [ ] make all href="" and src="" use same urls for caching
 [x] eliminate all cufon/Rustic font access
 [ ] colorcube is broken, giflets don't work and no images in source.
+* Stages of grief
+[x] receive website deactivation notice from pair.com 2018-04-16
+	some script in sites/... was being sploited,
+	$(sudo chmod 0 sites) performed by support
+[x] rsync source to pair.com 2018-04-23
+	the pages didn't render correct style
+[x] try $(python -m SimpleHTTPServer 8000) on source 2018-04-24
+	pages render correct style
+[x] rsync source to pair.com after support deletes unwritable sites directory 2018-04-24
+	some files still in sites/... from drupal
+[x] push source git repo to github 2018-04-24
+[x] annotate stages of grief
