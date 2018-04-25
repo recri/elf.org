@@ -151,13 +151,13 @@ div.indentation {
   float: left; /* LTR */
 }
 div.tree-child {
-  background: url(../../misc/tree.png) no-repeat 11px center; /* LTR */
+  background: url(misc/tree.png) no-repeat 11px center; /* LTR */
 }
 div.tree-child-last {
-  background: url(../../misc/tree-bottom.png) no-repeat 11px center; /* LTR */
+  background: url(misc/tree-bottom.png) no-repeat 11px center; /* LTR */
 }
 div.tree-child-horizontal {
-  background: url(../../misc/tree.png) no-repeat -11px center;
+  background: url(misc/tree.png) no-repeat -11px center;
 }
 .error {
   color: #e55;
@@ -389,7 +389,7 @@ ul.secondary a.active {
 }
 /* Animated throbber */
 html.js input.form-autocomplete {
-  background-image: url(../../misc/throbber.gif);
+  background-image: url(misc/throbber.gif);
   background-repeat: no-repeat;
   background-position: 100% 2px; /* LTR */
 }
@@ -415,10 +415,10 @@ html.js fieldset.collapsed legend {
 }
 html.js fieldset.collapsible legend a {
   padding-left: 15px; /* LTR */
-  background: url(../../misc/menu-expanded.png) 5px 75% no-repeat; /* LTR */
+  background: url(misc/menu-expanded.png) 5px 75% no-repeat; /* LTR */
 }
 html.js fieldset.collapsed legend a {
-  background-image: url(../../misc/menu-collapsed.png); /* LTR */
+  background-image: url(misc/menu-collapsed.png); /* LTR */
   background-position: 5px 50%; /* LTR */
 }
 /* Note: IE-only fix due to '* html' (breaks Konqueror otherwise). */
@@ -448,7 +448,7 @@ html.js fieldset.collapsible .fieldset-wrapper {
 .resizable-textarea .grippie {
   height: 9px;
   overflow: hidden;
-  background: #eee url(../../misc/grippie.png) no-repeat center 2px;
+  background: #eee url(misc/grippie.png) no-repeat center 2px;
   border: 1px solid #ddd;
   border-top-width: 0;
   cursor: s-resize;
@@ -477,7 +477,7 @@ a.tabledrag-handle .handle {
   margin-top: 4px;
   height: 13px;
   width: 13px;
-  background: url(../../misc/draggable.png) no-repeat 0 0;
+  background: url(misc/draggable.png) no-repeat 0 0;
 }
 a.tabledrag-handle-hover .handle {
   background-position: 0 -20px;
@@ -519,7 +519,7 @@ html.js .no-js {
   font-weight: bold;
 }
 .progress .bar {
-  background: #fff url(../../misc/progress.gif);
+  background: #fff url(misc/progress.gif);
   border: 1px solid #00375a;
   height: 1.5em;
   margin: 0 0.2em;
@@ -543,7 +543,7 @@ html.js .no-js {
   width: 15px;
   height: 15px;
   margin: 2px;
-  background: transparent url(../../misc/throbber.gif) no-repeat 0px -18px;
+  background: transparent url(misc/throbber.gif) no-repeat 0px -18px;
   float: left; /* LTR */
 }
 tr .ahah-progress .throbber {
@@ -654,19 +654,19 @@ ul.menu li {
 }
 li.expanded {
   list-style-type: circle;
-  list-style-image: url(../../misc/menu-expanded.png);
+  list-style-image: url(misc/menu-expanded.png);
   padding: 0.2em 0.5em 0 0; /* LTR */
   margin: 0;
 }
 li.collapsed {
   list-style-type: disc;
-  list-style-image: url(../../misc/menu-collapsed.png); /* LTR */
+  list-style-image: url(misc/menu-collapsed.png); /* LTR */
   padding: 0.2em 0.5em 0 0; /* LTR */
   margin: 0;
 }
 li.leaf {
   list-style-type: square;
-  list-style-image: url(../../misc/menu-leaf.png);
+  list-style-image: url(misc/menu-leaf.png);
   padding: 0.2em 0.5em 0 0; /* LTR */
   margin: 0;
 }
@@ -1025,7 +1025,7 @@ ol.task-list li.active {
 }
 ol.task-list li.done {
   color: #393;
-  background: transparent url(../../misc/watchdog-ok.png) no-repeat 0px 50%; /* LTR */
+  background: transparent url(misc/watchdog-ok.png) no-repeat 0px 50%; /* LTR */
 }
 ol.task-list li.active {
   margin-right: 1em; /* LTR */
@@ -1998,7 +1998,7 @@ body.sidebars {
 #wrapper #container {
   max-width: 988px;
   padding-top: 32px;
-  background: #fff url(../../../../elf/elf/bg230.png) repeat-y left;
+  background: #fff url(../../elf/elf/bg230.png) repeat-y left;
 }
 
 #wrapper #container #center #squeeze {

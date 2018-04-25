@@ -1,4 +1,25 @@
 #!/bin/bash
+# eliminate reference to drupal.js and jquery.js
+find . -name '*.html' -exec grep -q -s 'jQuery.extend.Drupal.settings, . .basePath.: "." ..' \{} \; -print | while read file; do echo $file; ed $file <<EOF
+g;jQuery.extend.Drupal.settings, . .basePath.: "." ..;.-2,.+2d
+g;misc/jquery.js;d
+w
+q
+EOF
+done
+exit
+
+# eliminate drupal.js and jquery.js, oops typo on jquery.js
+find . -name '*.html' -exec grep -q -s 'script.*misc/drupal.js' \{} \; -print | while read file; do echo $file; ed $file <<EOF
+g;misc/drupal.js;d
+g;mist/jquery.js;d
+w
+q
+EOF
+done
+exit
+
+# eliminate modules, sites, and themes
 find . -name '*.html' -exec grep -q -s 'link type="text/css"' \{} \; -print | while read file; do echo $file; ed $file <<EOF
 g;modules/node/node.css;d
 g;modules/system/defaults.css;d

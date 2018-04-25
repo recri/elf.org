@@ -11,8 +11,9 @@ org.elf.banner = org.elf.banner || {
  dx: 1,							// x velocity
  dy: 1,							// y velocity
  position: function() {
-	var my = org.elf.banner;
-	$('#header').css('background-position', Math.floor(my.x)+'px '+Math.floor(my.y)+'px');
+     var my = org.elf.banner;
+     var header = document.getElementById("header")
+     header.style['background-position'] = Math.floor(my.x)+'px '+Math.floor(my.y)+'px';
   },
  scroll: function() {
 	var my = org.elf.banner;
@@ -30,4 +31,4 @@ org.elf.banner = org.elf.banner || {
 	setInterval(my.scroll, my.dt);
   }
 };
-$(document).ready(org.elf.banner.init);
+document.addEventListener('DOMContentLoaded', org.elf.banner.init);
