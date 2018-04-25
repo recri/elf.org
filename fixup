@@ -1,4 +1,22 @@
 #!/bin/bash
+find . -name '*.html' -exec grep -q -s 'link type="text/css"' \{} \; -print | while read file; do echo $file; ed $file <<EOF
+g;modules/node/node.css;d
+g;modules/system/defaults.css;d
+g;modules/system/system.css;d
+g;modules/system/system-menus.css;d
+g;modules/user/user.css;d
+g;sites/all/modules/cck/theme/content-module.css;d
+g;sites/all/modules/tagadelic/tagadelic.css;d
+g;sites/all/modules/cck/modules/fieldgroup/fieldgroup.css;d
+g;themes/garland/style.css;d
+g;sites/all/themes/elf/elf.css;s;;style/style.css;
+g;themes/garland/print.css;s;;style/print.css;
+g;sites/all/themes/elf/js/banner.js;s;;js/banner.js;
+w
+q
+EOF
+done
+exit
 find . -name '*.html' -exec grep -q -s 'link type="text\.css"' \{} \; -print | while read file; do echo $file; ed $file <<EOF
 g;type="text\.css";s;;type="text/css";
 w
