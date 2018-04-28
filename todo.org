@@ -25,6 +25,10 @@
 [ ] make all href="" and src="" use same urls for caching
 [x] eliminate all cufon/Rustic font access
 [ ] colorcube is broken, giflets don't work and no images in source.
+[x] pnglet missing sources
+[x] ephemerides needs jquery.ready emulation
+[x] banner needs jquery.ready emulation
+[x] banner needs jquery.css emulation
 * Stages of grief
 [x] receive website deactivation notice from pair.com 2018-04-16
 	some script in sites/... was being sploited,
@@ -37,3 +41,4 @@
 	some files still in sites/... from drupal
 [x] push source git repo to github 2018-04-24
 [x] annotate stages of grief
+[x] migrate to new hosting plan at pair.com, much more data, same bandwidth, much less money
