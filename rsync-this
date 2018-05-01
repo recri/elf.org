@@ -1,0 +1,2 @@
+#!/bin/sh
+rsync -av --delete --delete-excluded --exclude '*~' ~/Web/elf/ elf021@elf021.pairserver.com:public_html/elf/

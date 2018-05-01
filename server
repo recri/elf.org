@@ -1,2 +1,0 @@
-#!/bin/sh
-cd ~/Projects/elf.org/html && python -m SimpleHTTPServer 8000

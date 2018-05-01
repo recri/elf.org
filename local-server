@@ -1,0 +1,2 @@
+#!/bin/sh
+(cd ~/Web/elf/html && python -m SimpleHTTPServer 8000) > /tmp/python-server.log 2>&1
