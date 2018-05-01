@@ -1,0 +1,14 @@
+#!/usr/local/bin/tclsh
+#
+# the browser palette - 6 steps of 51 in r, g, and b
+# this uses the pbm programs of libgr-progs-2.0.13-12
+# with tcl as the scripting program under RedHat 5.1++
+#
+for {set r 0} {$r <= 255} {incr r 51} {
+    for {set g 0} {$g <= 255} {incr g 51} {
+	for {set b 0} {$b <= 255} {incr b 51} {
+	    set c [format {%02x%02x%02x} $r $g $b]
+	    exec ppmmake \#$c 1 1 | ppmtogif 2>/dev/null > i$c.gif
+	}
+    }
+}
