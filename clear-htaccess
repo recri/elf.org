@@ -1,0 +1,5 @@
+#!/bin/sh
+# start with empty .htaccess fies
+for f in html; do
+    cat > $f/.htaccess < /dev/null
+done
