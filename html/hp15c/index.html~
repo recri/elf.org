@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Change</title>
+    <title>HP15C</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="shortcut icon" href="favicon.ico" />
     <link type="text/css" rel="stylesheet" media="all" href="../style/style.css" />
@@ -37,29 +37,25 @@
 	<div id="center">
 	  <div id="squeeze"><div class="right-corner"><div class="left-corner">
 		<div class="breadcrumb"><a href="index.html">Home</a></div>
-		<h2>Change</h2>
+		<h2>HP15C</h2>
                 <div class="clear-block"><div id="node-29" class="node sticky">
 		    <div class="content clear-block">
 		      <p>
-			<a href="https://change.elf.org">Change</a> is a web application for
-			consulting the book of changes in a browser.  It's self contained and
+			<a href="https://hp15c.elf.org">HP15c</a> is a web application for
+			consulting the classic HP15C desk calculator in a browser.  It's self contained and
 			can be installed as persistent web app and will run with no network
 			connection.
 		      </p><p>
-			The book of changes is described in detail on 
-			<a href="https://en.wikipedia.org/wiki/I_Ching">Wikipedia</a>.  It is a very
-			old book which has attracted a great deal of scholarly attention over its life
-			and accumulated a great deal of scholarly commentary in the process.  This app
-			does not provide any of this commentary, it has only the names and judgments
-			of the 64 hexagrams, and the six or seven moving line judgments for each hexagram.
-			This app provides the original Chinese, the Legge translation, the Wilhelm/Baynes
-			translation, a Wilhelm/Google translation, and the Wilhelm translation in German.
+			This app is a new front end for Greg Hewgill's <a src="https://hp15c.com/">HP15C simulator</a>.
+			It is built as a Progressive Web App using tools from Google's Polymer Project. 
+			The source is available at github. 
+			The manual for the hp 15c is available from Hewlitt Packard, but be aware that it is a 288 page pdf.
 		      </p><p>
 			This app was developed using 
 			<a href="https://github.com/Polymer/lit-element/blob/master/README.md">LitElement</a> 
 			and the <a href="https://github.com/Polymer/pwa-starter-kit/blob/master/README.md">PWA starter kit</a>
 			developed by the <a href="https://www.polymer-project.org/">Polymer Project</a> at Google.
-			The sources for Change can be found at <a href="https://github.com/recri/change">Github</a>.
+			The sources for Change can be found at <a href="https://github.com/recri/hp15c">Github</a>.
 		      </p>
 		    </div>
 		    <div class="clear-block">
